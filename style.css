@@ -1,9 +1,4 @@
-/* General Reset */
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
+/* Add to style.css */
 
 body {
   font-family: 'Inter', sans-serif;
@@ -11,13 +6,20 @@ body {
   background-color: #fff;
   color: #222;
   line-height: 1.75;
+  margin: 0;
   padding: 0;
+  display: flex;
+  justify-content: center;
 }
 
-/* Header */
+.container {
+  max-width: 800px;
+  padding: 2rem 1rem;
+}
+
 header {
   text-align: center;
-  padding: 3rem 1rem 2rem;
+  padding-bottom: 2rem;
   border-bottom: 1px solid #e0e0e0;
 }
 
@@ -40,15 +42,8 @@ h1 {
   font-weight: 400;
 }
 
-/* Main Sections */
-main {
-  padding: 2rem 1rem;
-  max-width: 800px;
-  margin: auto;
-}
-
 section {
-  margin-bottom: 3rem;
+  margin-top: 3rem;
 }
 
 h2 {
@@ -58,36 +53,27 @@ h2 {
   font-weight: 600;
 }
 
-.bio p {
-  margin-bottom: 1.2rem;
-}
-
 ul {
-  list-style: none;
-  padding-left: 1rem;
+  list-style: disc;
+  padding-left: 1.5rem;
 }
 
 ul li {
   margin-bottom: 0.75rem;
-  padding-left: 1rem;
-  position: relative;
 }
 
-ul li::before {
-  content: '';
-  position: absolute;
-  left: 0;
-  top: 0.3rem;
-  width: 6px;
-  height: 6px;
-  background-color: #1a73e8;
-  border-radius: 50%;
+.contact a {
+  color: #1a73e8;
+  text-decoration: none;
 }
 
-/* Footer */
+.contact a:hover {
+  text-decoration: underline;
+}
+
 footer {
   text-align: center;
-  padding: 2rem 1rem;
+  padding-top: 2rem;
   font-size: 0.85rem;
   color: #888;
   border-top: 1px solid #e0e0e0;
