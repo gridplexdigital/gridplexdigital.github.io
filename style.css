@@ -120,3 +120,47 @@ footer {
 header h1 {
   margin-bottom: 0; /* reduce space below heading */
 }
+
+/* === Logo wall (esteemed clients) === */
+.esteemed-clients {
+  margin: 60px 0;
+}
+.esteemed-clients h2 {
+  /* Inherit existing typography; only adjust spacing */
+  margin-bottom: 16px;
+}
+.logo-grid {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  gap: 20px 24px;
+  align-items: center;
+}
+.logo-grid li {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 64px; /* stabilizes layout while images load */
+}
+.logo-grid img {
+  max-width: 100%;
+  height: auto;
+  max-height: 64px; /* unifies row height on mixed aspect ratios */
+  object-fit: contain;
+  transition: filter 0.2s ease, opacity 0.2s ease, transform 0.2s ease;
+  background-color: #fff;       /* white backdrop behind transparent pixels */
+  display: inline-block; 
+}
+.logo-grid img:hover,
+.logo-grid img:focus {
+  filter: none;
+  opacity: 1;
+  transform: translateY(-1px);
+}
+@media (prefers-reduced-motion: reduce) {
+  .logo-grid img {
+    transition: none;
+  }
+}
