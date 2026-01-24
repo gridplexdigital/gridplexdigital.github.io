@@ -1,0 +1,2477 @@
+<h1 id="hui-year-long-implementation-roadmap">HUI Year-Long
+Implementation Roadmap</h1>
+<h2 id="executive-summary">Executive Summary</h2>
+<p>This roadmap outlines a pragmatic 12-month implementation plan for
+building a domain-agnostic knowledge graph infrastructure with semantic
+search capabilities. The plan is designed for a 2-person part-time team
+(~40 hours/week total) and prioritizes real AI/ML capabilities over UI
+polish.</p>
+<p><strong>Key Milestones:</strong></p>
+<ul>
+<li><strong>Month 3</strong>: MVP with basic semantic search and
+ontology explorer</li>
+<li><strong>Month 6</strong>: Enhanced search and multi-modal content
+support</li>
+<li><strong>Month 9</strong>: API layer, authentication, and
+analytics</li>
+<li><strong>Month 12</strong>: Production-ready system with monitoring
+and documentation</li>
+</ul>
+<p><strong>Strategic Approach:</strong></p>
+<ul>
+<li>Build generic knowledge graph infrastructure (domain-agnostic)</li>
+<li>Leverage existing hui-prototype (React) and hui-backend
+(FastAPI)</li>
+<li>Focus on working AI/ML over polished UI</li>
+<li>Prioritize low-hanging fruits and incremental value delivery</li>
+</ul>
+<hr />
+<h2 id="phase-1-mvp-foundation-months-1-3">Phase 1: MVP Foundation
+(Months 1-3)</h2>
+<h3 id="goal">Goal</h3>
+<p>Deliver a working knowledge graph system with semantic search and
+basic ontology exploration capabilities.</p>
+<h3 id="sprint-1-weeks-1-2-infrastructure-setup">Sprint 1 (Weeks 1-2):
+Infrastructure Setup</h3>
+<p><strong>Objectives:</strong></p>
+<ul>
+<li>Set up cloud infrastructure and development environments</li>
+<li>Configure databases (Neo4j for graph, Qdrant/Weaviate for
+vectors)</li>
+<li>Establish CI/CD pipeline</li>
+</ul>
+<p><strong>Deliverables:</strong></p>
+<ul>
+<li>Cloud infrastructure provisioned (AWS/GCP/Azure)</li>
+<li>Neo4j graph database deployed</li>
+<li>Vector database (Qdrant or Weaviate) deployed</li>
+<li>Redis cache configured</li>
+<li>Development and staging environments ready</li>
+<li>GitHub Actions CI/CD pipeline</li>
+</ul>
+<p><strong>Technical Decisions:</strong></p>
+<ul>
+<li><strong>Graph Database</strong>: Neo4j (mature, good Python support,
+Cypher query language)</li>
+<li><strong>Vector Database</strong>: Qdrant (open-source,
+self-hostable, good performance)</li>
+<li><strong>Cloud Provider</strong>: AWS (comprehensive services, good
+documentation)</li>
+<li><strong>Primary LLM</strong>: Ollama (self-hosted Llama 3, Mistral,
+Mixtral for 70-80% of tasks)</li>
+<li><strong>Secondary LLM</strong>: OpenAI (GPT-4 for complex/critical
+tasks, 20-30% of requests)</li>
+<li><strong>Embeddings</strong>: Sentence-Transformers (free, fast) +
+OpenAI (high quality when needed)</li>
+<li><strong>GPU</strong>: NVIDIA T4 (dev) → A10G (production)</li>
+</ul>
+<p><strong>Estimated Effort:</strong> 80 hours (2 weeks × 40 hours)</p>
+<h3
+id="sprint-2-weeks-3-4-domain-agnostic-knowledge-graph-schema">Sprint 2
+(Weeks 3-4): Domain-Agnostic Knowledge Graph Schema</h3>
+<p><strong>Objectives:</strong></p>
+<ul>
+<li>Design and implement generic knowledge graph schema</li>
+<li>Create ontology loading mechanism</li>
+<li>Build basic entity and relationship models</li>
+</ul>
+<p><strong>Deliverables:</strong></p>
+<ul>
+<li>Generic entity and relationship schema in Neo4j</li>
+<li>Ontology definition format (JSON/YAML)</li>
+<li>Ontology loader service</li>
+<li>Sample ontology for testing (generic concepts)</li>
+<li>Database migration scripts</li>
+</ul>
+<p><strong>Schema Design:</strong></p>
+<pre><code>Entity Node:
+- id: UUID
+- type: string (from ontology)
+- name: string
+- properties: JSON (flexible, ontology-defined)
+- ontology_namespace: string
+- created_at: timestamp
+- source_document_id: UUID
+
+Relationship Edge:
+- id: UUID
+- type: string (from ontology)
+- source_entity_id: UUID
+- target_entity_id: UUID
+- properties: JSON
+- ontology_namespace: string
+- created_at: timestamp</code></pre>
+<p><strong>Estimated Effort:</strong> 80 hours</p>
+<h3 id="sprint-3-weeks-5-6-data-ingestion-pipeline">Sprint 3 (Weeks
+5-6): Data Ingestion Pipeline</h3>
+<p><strong>Objectives:</strong></p>
+<ul>
+<li>Build text document ingestion system</li>
+<li>Implement chunking and embedding generation</li>
+<li>Create entity extraction logic</li>
+</ul>
+<p><strong>Deliverables:</strong></p>
+<ul>
+<li>Document upload API endpoint</li>
+<li>Text chunking service (semantic chunking)</li>
+<li>Embedding generation service (OpenAI API integration)</li>
+<li>Entity extraction service (NER + ontology matching)</li>
+<li>Vector storage in Qdrant</li>
+<li>Entity storage in Neo4j</li>
+<li>Provenance tracking</li>
+</ul>
+<p><strong>Technical Implementation:</strong></p>
+<ul>
+<li>Use LangChain for document processing and chunking</li>
+<li>Implement semantic chunking (not fixed-size)</li>
+<li>Generate embeddings using OpenAI text-embedding-3-large</li>
+<li>Store embeddings with metadata in Qdrant</li>
+<li>Extract entities using spaCy + custom ontology matching</li>
+<li>Create entity nodes and relationships in Neo4j</li>
+</ul>
+<p><strong>Estimated Effort:</strong> 80 hours</p>
+<h3 id="sprint-4-weeks-7-8-semantic-search-with-rag">Sprint 4 (Weeks
+7-8): Semantic Search with RAG</h3>
+<p><strong>Objectives:</strong></p>
+<ul>
+<li>Implement semantic search endpoint</li>
+<li>Build RAG pipeline for answer generation</li>
+<li>Add citation tracking</li>
+</ul>
+<p><strong>Deliverables:</strong></p>
+<ul>
+<li>Semantic search API endpoint</li>
+<li>Vector similarity search in Qdrant</li>
+<li>RAG pipeline with OpenAI GPT-4</li>
+<li>Citation extraction and linking</li>
+<li>Search result ranking</li>
+<li>Response streaming support</li>
+</ul>
+<p><strong>RAG Pipeline:</strong></p>
+<ol type="1">
+<li>Convert query to embedding</li>
+<li>Retrieve top-k similar chunks from Qdrant</li>
+<li>Fetch related entities from Neo4j</li>
+<li>Construct context with citations</li>
+<li>Generate response with GPT-4</li>
+<li>Extract and return citations</li>
+</ol>
+<p><strong>Estimated Effort:</strong> 80 hours</p>
+<h3 id="sprint-5-weeks-9-10-ontology-explorer-backend">Sprint 5 (Weeks
+9-10): Ontology Explorer Backend</h3>
+<p><strong>Objectives:</strong></p>
+<ul>
+<li>Build graph query endpoints</li>
+<li>Implement entity detail retrieval</li>
+<li>Create relationship traversal APIs</li>
+</ul>
+<p><strong>Deliverables:</strong></p>
+<ul>
+<li>Entity search endpoint</li>
+<li>Entity detail endpoint</li>
+<li>Relationship query endpoint</li>
+<li>Graph neighborhood endpoint (get connected entities)</li>
+<li>Ontology metadata endpoint</li>
+<li>Cypher query builder for complex graph queries</li>
+</ul>
+<p><strong>Estimated Effort:</strong> 80 hours</p>
+<h3 id="sprint-6-weeks-11-12-frontend-integration-mvp-polish">Sprint 6
+(Weeks 11-12): Frontend Integration &amp; MVP Polish</h3>
+<p><strong>Objectives:</strong></p>
+<ul>
+<li>Integrate backend APIs with React frontend</li>
+<li>Build search interface</li>
+<li>Create basic ontology visualization</li>
+<li>MVP testing and bug fixes</li>
+</ul>
+<p><strong>Deliverables:</strong></p>
+<ul>
+<li>Search interface with natural language input</li>
+<li>Search results display with citations</li>
+<li>Ontology explorer with D3.js graph visualization</li>
+<li>Entity detail view</li>
+<li>Loading states and error handling</li>
+<li>Basic responsive design</li>
+<li>MVP documentation</li>
+</ul>
+<p><strong>Frontend Components:</strong></p>
+<ul>
+<li>SearchBar component (natural language input)</li>
+<li>SearchResults component (with citations)</li>
+<li>OntologyGraph component (D3.js force-directed graph)</li>
+<li>EntityDetail component (modal or side panel)</li>
+<li>LoadingSpinner and ErrorBoundary components</li>
+</ul>
+<p><strong>Estimated Effort:</strong> 80 hours</p>
+<h3 id="mvp-deliverables-summary">MVP Deliverables Summary</h3>
+<p><strong>Functional Capabilities:</strong></p>
+<ul>
+<li>✅ Upload text documents</li>
+<li>✅ Automatic entity extraction and knowledge graph population</li>
+<li>✅ Natural language semantic search</li>
+<li>✅ RAG-powered answer generation with citations</li>
+<li>✅ Visual ontology exploration</li>
+<li>✅ Entity detail viewing</li>
+</ul>
+<p><strong>Technical Stack:</strong></p>
+<ul>
+<li>Backend: FastAPI + Python 3.11</li>
+<li>Graph DB: Neo4j</li>
+<li>Vector DB: Qdrant</li>
+<li>Cache: Redis</li>
+<li>LLM: OpenAI (GPT-4 + embeddings)</li>
+<li>Frontend: React + TypeScript + D3.js</li>
+<li>Deployment: Docker + AWS</li>
+</ul>
+<p><strong>MVP Budget Estimate (3 months):</strong></p>
+<ul>
+<li>Cloud Infrastructure: ₹30,000-50,000/month</li>
+<li>Neo4j Aura (or self-hosted): ₹20,000-40,000/month</li>
+<li>Qdrant (self-hosted): ₹10,000-20,000/month</li>
+<li>OpenAI API: ₹50,000-100,000/month (depends on usage)</li>
+<li>Ollama LLM Hosting (GPU instance): ₹40,000-80,000/month</li>
+<li>Redis: ₹5,000-10,000/month</li>
+<li>Monitoring: ₹5,000-10,000/month</li>
+<li><strong>Total: ₹1,60,000-3,10,000/month</strong> or
+<strong>₹4,80,000-9,30,000 for MVP</strong></li>
+</ul>
+<hr />
+<h2 id="phase-2-enhanced-capabilities-months-4-6">Phase 2: Enhanced
+Capabilities (Months 4-6)</h2>
+<h3 id="goal-1">Goal</h3>
+<p>Expand search capabilities, support multiple content types, and build
+external API layer.</p>
+<h3 id="sprint-7-8-weeks-13-16-enhanced-semantic-search">Sprint 7-8
+(Weeks 13-16): Enhanced Semantic Search</h3>
+<p><strong>Objectives:</strong></p>
+<ul>
+<li>Add advanced query parsing</li>
+<li>Implement hybrid search (semantic + keyword)</li>
+<li>Add filters and facets</li>
+<li>Query expansion using ontology</li>
+</ul>
+<p><strong>Deliverables:</strong></p>
+<ul>
+<li>Query parser for complex queries</li>
+<li>Hybrid search combining vector and keyword search</li>
+<li>Filter support (entity type, date range, source)</li>
+<li>Faceted search results</li>
+<li>Query expansion using ontology relationships</li>
+<li>Search history and saved queries</li>
+<li>Relevance tuning and ranking improvements</li>
+</ul>
+<p><strong>Technical Enhancements:</strong></p>
+<ul>
+<li>Implement BM25 for keyword search</li>
+<li>Combine BM25 and vector scores with weighted ranking</li>
+<li>Add Elasticsearch for full-text search (optional)</li>
+<li>Use ontology to expand queries (synonyms, related concepts)</li>
+</ul>
+<p><strong>Estimated Effort:</strong> 160 hours</p>
+<h3 id="sprint-9-10-weeks-17-20-multi-modal-content-support">Sprint 9-10
+(Weeks 17-20): Multi-Modal Content Support</h3>
+<p><strong>Objectives:</strong></p>
+<ul>
+<li>Support PDF document ingestion</li>
+<li>Handle structured data (JSON, CSV)</li>
+<li>Batch upload capability</li>
+<li>Background job processing</li>
+</ul>
+<p><strong>Deliverables:</strong></p>
+<ul>
+<li>PDF text extraction (PyPDF2 or pdfplumber)</li>
+<li>Structured data ingestion (JSON, CSV, XML)</li>
+<li>Field mapping to ontology properties</li>
+<li>Batch upload API endpoint</li>
+<li>Background job queue (Celery + Redis)</li>
+<li>Job status tracking endpoint</li>
+<li>Progress notifications</li>
+</ul>
+<p><strong>Technical Implementation:</strong></p>
+<ul>
+<li>Use Celery for async task processing</li>
+<li>Implement job queue with Redis backend</li>
+<li>Add progress tracking with WebSocket or polling</li>
+<li>Support large file uploads with chunked transfer</li>
+</ul>
+<p><strong>Estimated Effort:</strong> 160 hours</p>
+<h3
+id="sprint-11-12-weeks-21-24-api-layer-for-external-integrations">Sprint
+11-12 (Weeks 21-24): API Layer for External Integrations</h3>
+<p><strong>Objectives:</strong></p>
+<ul>
+<li>Build comprehensive REST API</li>
+<li>Add API key authentication</li>
+<li>Implement rate limiting</li>
+<li>Create API documentation</li>
+</ul>
+<p><strong>Deliverables:</strong></p>
+<ul>
+<li>CRUD endpoints for entities and relationships</li>
+<li>API key generation and management</li>
+<li>Rate limiting per API key</li>
+<li>API versioning (v1 prefix)</li>
+<li>OpenAPI/Swagger documentation</li>
+<li>Webhook support for notifications</li>
+<li>Python SDK for API access</li>
+</ul>
+<p><strong>API Endpoints:</strong></p>
+<ul>
+<li><code>POST /api/v1/entities</code> - Create entity</li>
+<li><code>GET /api/v1/entities/{id}</code> - Get entity</li>
+<li><code>PUT /api/v1/entities/{id}</code> - Update entity</li>
+<li><code>DELETE /api/v1/entities/{id}</code> - Delete entity</li>
+<li><code>POST /api/v1/relationships</code> - Create relationship</li>
+<li><code>GET /api/v1/search</code> - Semantic search</li>
+<li><code>POST /api/v1/ingest</code> - Ingest document</li>
+<li><code>GET /api/v1/jobs/{id}</code> - Get job status</li>
+</ul>
+<p><strong>Estimated Effort:</strong> 160 hours</p>
+<h3 id="phase-2-budget-estimate-months-4-6">Phase 2 Budget Estimate
+(Months 4-6):**</h3>
+<ul>
+<li>Cloud Infrastructure: ₹40,000-60,000/month (increased compute)</li>
+<li>Databases: ₹30,000-50,000/month</li>
+<li>OpenAI API: ₹80,000-1,50,000/month (increased usage)</li>
+<li>Ollama LLM Hosting: ₹50,000-1,00,000/month (scaled GPU)</li>
+<li>Additional services: ₹20,000-30,000/month</li>
+<li><strong>Total: ₹2,20,000-3,90,000/month</strong> or
+<strong>₹6,60,000-11,70,000 for Phase 2</strong></li>
+</ul>
+<hr />
+<h2 id="phase-3-production-features-months-7-9">Phase 3: Production
+Features (Months 7-9)</h2>
+<h3 id="goal-2">Goal</h3>
+<p>Add authentication, analytics, and production-grade reliability
+features.</p>
+<h3
+id="sprint-13-14-weeks-25-28-user-authentication-authorization">Sprint
+13-14 (Weeks 25-28): User Authentication &amp; Authorization</h3>
+<p><strong>Objectives:</strong></p>
+<ul>
+<li>Implement JWT-based authentication</li>
+<li>Add role-based access control</li>
+<li>User registration and management</li>
+</ul>
+<p><strong>Deliverables:</strong></p>
+<ul>
+<li>User registration with email verification</li>
+<li>Login/logout endpoints</li>
+<li>JWT token generation and validation</li>
+<li>Password reset functionality</li>
+<li>Role-based access control (Admin, Editor, Viewer)</li>
+<li>User management UI in frontend</li>
+<li>Protected routes in frontend</li>
+</ul>
+<p><strong>Roles:</strong></p>
+<ul>
+<li><strong>Admin</strong>: Full access, user management, system
+configuration</li>
+<li><strong>Editor</strong>: Create/edit entities, ingest documents,
+search</li>
+<li><strong>Viewer</strong>: Search and view only</li>
+</ul>
+<p><strong>Estimated Effort:</strong> 160 hours</p>
+<h3 id="sprint-15-16-weeks-29-32-analytics-insights-dashboard">Sprint
+15-16 (Weeks 29-32): Analytics &amp; Insights Dashboard</h3>
+<p><strong>Objectives:</strong></p>
+<ul>
+<li>Track usage metrics</li>
+<li>Monitor system performance</li>
+<li>Cost tracking and projections</li>
+</ul>
+<p><strong>Deliverables:</strong></p>
+<ul>
+<li>Usage tracking (searches, views, ingestions)</li>
+<li>Analytics dashboard in frontend</li>
+<li>Search trend visualization</li>
+<li>Popular entities and relationships</li>
+<li>LLM token usage tracking</li>
+<li>Cost breakdown by service</li>
+<li>Cost projection based on trends</li>
+<li>Export analytics data</li>
+</ul>
+<p><strong>Metrics Tracked:</strong></p>
+<ul>
+<li>Search queries per day/week/month</li>
+<li>Click-through rates on search results</li>
+<li>Entity view counts</li>
+<li>Document ingestion volume</li>
+<li>LLM API token usage and costs</li>
+<li>Database query performance</li>
+<li>API response times</li>
+</ul>
+<p><strong>Estimated Effort:</strong> 160 hours</p>
+<h3 id="sprint-17-18-weeks-33-36-background-jobs-performance">Sprint
+17-18 (Weeks 33-36): Background Jobs &amp; Performance</h3>
+<p><strong>Objectives:</strong></p>
+<ul>
+<li>Optimize database queries</li>
+<li>Implement caching strategies</li>
+<li>Improve search performance</li>
+</ul>
+<p><strong>Deliverables:</strong></p>
+<ul>
+<li>Redis caching for frequent queries</li>
+<li>Database query optimization</li>
+<li>Connection pooling</li>
+<li>Approximate nearest neighbor search for vectors</li>
+<li>Pagination for large result sets</li>
+<li>Infinite scrolling in frontend</li>
+<li>Query result caching with TTL</li>
+<li>Database indexing optimization</li>
+</ul>
+<p><strong>Performance Targets:</strong></p>
+<ul>
+<li>Search response time: &lt;2 seconds (p95)</li>
+<li>Entity detail retrieval: &lt;500ms (p95)</li>
+<li>Graph query: &lt;1 second (p95)</li>
+<li>Document ingestion: &lt;30 seconds per document</li>
+</ul>
+<p><strong>Estimated Effort:</strong> 160 hours</p>
+<h3 id="phase-3-budget-estimate-months-7-9">Phase 3 Budget Estimate
+(Months 7-9):**</h3>
+<ul>
+<li>Cloud Infrastructure: ₹50,000-80,000/month</li>
+<li>Databases: ₹40,000-60,000/month</li>
+<li>OpenAI API: ₹1,00,000-2,00,000/month</li>
+<li>Ollama LLM Hosting: ₹60,000-1,20,000/month</li>
+<li>Monitoring &amp; logging: ₹15,000-25,000/month</li>
+<li><strong>Total: ₹2,65,000-4,85,000/month</strong> or
+<strong>₹7,95,000-14,55,000 for Phase 3</strong></li>
+</ul>
+<hr />
+<h2 id="phase-4-production-readiness-months-10-12">Phase 4: Production
+Readiness (Months 10-12)</h2>
+<h3 id="goal-3">Goal</h3>
+<p>Finalize documentation, deployment automation, and monitoring for
+production launch.</p>
+<h3
+id="sprint-19-20-weeks-37-40-documentation-developer-experience">Sprint
+19-20 (Weeks 37-40): Documentation &amp; Developer Experience</h3>
+<p><strong>Objectives:</strong></p>
+<ul>
+<li>Comprehensive API documentation</li>
+<li>Deployment guides</li>
+<li>Architecture documentation</li>
+</ul>
+<p><strong>Deliverables:</strong></p>
+<ul>
+<li>Interactive API documentation (Swagger UI)</li>
+<li>Architecture diagrams (system, data flow, deployment)</li>
+<li>Deployment guide for different environments</li>
+<li>Developer onboarding guide</li>
+<li>Code examples and tutorials</li>
+<li>Ontology creation guide</li>
+<li>API changelog and versioning docs</li>
+<li>Troubleshooting guide</li>
+</ul>
+<p><strong>Documentation Sections:</strong></p>
+<ul>
+<li>Getting Started</li>
+<li>Architecture Overview</li>
+<li>API Reference</li>
+<li>Ontology Design Guide</li>
+<li>Deployment Guide</li>
+<li>Performance Tuning</li>
+<li>Security Best Practices</li>
+<li>FAQ and Troubleshooting</li>
+</ul>
+<p><strong>Estimated Effort:</strong> 160 hours</p>
+<h3
+id="sprint-21-22-weeks-41-44-deployment-automation-monitoring">Sprint
+21-22 (Weeks 41-44): Deployment Automation &amp; Monitoring</h3>
+<p><strong>Objectives:</strong></p>
+<ul>
+<li>Infrastructure as code</li>
+<li>Automated deployments</li>
+<li>Comprehensive monitoring</li>
+</ul>
+<p><strong>Deliverables:</strong></p>
+<ul>
+<li>Terraform scripts for infrastructure</li>
+<li>Docker Compose for local development</li>
+<li>Kubernetes manifests for production</li>
+<li>CI/CD pipeline for automated deployments</li>
+<li>Blue-green deployment support</li>
+<li>Monitoring dashboards (Grafana)</li>
+<li>Alerting rules (PagerDuty/Slack)</li>
+<li>Log aggregation (ELK stack or CloudWatch)</li>
+<li>Health check endpoints</li>
+<li>Automated backups</li>
+</ul>
+<p><strong>Monitoring Metrics:</strong></p>
+<ul>
+<li>API response times and error rates</li>
+<li>Database performance (query times, connection pool)</li>
+<li>LLM API latency and failure rates</li>
+<li>Vector search performance</li>
+<li>Background job queue length</li>
+<li>System resource usage (CPU, memory, disk)</li>
+<li>Cost metrics per service</li>
+</ul>
+<p><strong>Estimated Effort:</strong> 160 hours</p>
+<h3 id="sprint-23-24-weeks-45-48-production-launch-optimization">Sprint
+23-24 (Weeks 45-48): Production Launch &amp; Optimization</h3>
+<p><strong>Objectives:</strong></p>
+<ul>
+<li>Final testing and bug fixes</li>
+<li>Performance optimization</li>
+<li>Production launch preparation</li>
+</ul>
+<p><strong>Deliverables:</strong></p>
+<ul>
+<li>Load testing and performance benchmarking</li>
+<li>Security audit and penetration testing</li>
+<li>Bug fixes and stability improvements</li>
+<li>Production deployment</li>
+<li>User training materials</li>
+<li>Launch announcement and marketing materials</li>
+<li>Post-launch monitoring and support plan</li>
+</ul>
+<p><strong>Launch Checklist:</strong></p>
+<ul>
+<li>✅ All features tested and working</li>
+<li>✅ Performance meets targets</li>
+<li>✅ Security audit passed</li>
+<li>✅ Documentation complete</li>
+<li>✅ Monitoring and alerting configured</li>
+<li>✅ Backup and disaster recovery tested</li>
+<li>✅ User training completed</li>
+<li>✅ Support process established</li>
+</ul>
+<p><strong>Estimated Effort:</strong> 160 hours</p>
+<h3 id="phase-4-budget-estimate-months-10-12">Phase 4 Budget Estimate
+(Months 10-12):**</h3>
+<ul>
+<li>Cloud Infrastructure: ₹60,000-1,00,000/month</li>
+<li>Databases: ₹50,000-70,000/month</li>
+<li>OpenAI API: ₹1,20,000-2,50,000/month</li>
+<li>Ollama LLM Hosting: ₹70,000-1,50,000/month</li>
+<li>Monitoring &amp; logging: ₹20,000-30,000/month</li>
+<li>Security &amp; compliance: ₹10,000-20,000/month</li>
+<li><strong>Total: ₹3,30,000-6,20,000/month</strong> or
+<strong>₹9,90,000-18,60,000 for Phase 4</strong></li>
+</ul>
+<hr />
+<h2 id="total-budget-summary-12-months">Total Budget Summary (12
+Months)</h2>
+<h3 id="infrastructure-costs">Infrastructure Costs</h3>
+<table>
+<colgroup>
+<col style="width: 17%" />
+<col style="width: 40%" />
+<col style="width: 42%" />
+</colgroup>
+<thead>
+<tr>
+<th>Service</th>
+<th>Monthly Range (INR)</th>
+<th>12-Month Total (INR)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Cloud Compute &amp; Storage</td>
+<td>₹30,000-1,00,000</td>
+<td>₹3,60,000-12,00,000</td>
+</tr>
+<tr>
+<td>Neo4j Graph Database</td>
+<td>₹20,000-60,000</td>
+<td>₹2,40,000-7,20,000</td>
+</tr>
+<tr>
+<td>Qdrant Vector Database</td>
+<td>₹10,000-30,000</td>
+<td>₹1,20,000-3,60,000</td>
+</tr>
+<tr>
+<td>Redis Cache</td>
+<td>₹5,000-15,000</td>
+<td>₹60,000-1,80,000</td>
+</tr>
+<tr>
+<td>OpenAI API (LLM + Embeddings)</td>
+<td>₹50,000-2,50,000</td>
+<td>₹6,00,000-30,00,000</td>
+</tr>
+<tr>
+<td>Ollama LLM Hosting (GPU)</td>
+<td>₹40,000-1,50,000</td>
+<td>₹4,80,000-18,00,000</td>
+</tr>
+<tr>
+<td>Monitoring &amp; Logging</td>
+<td>₹5,000-30,000</td>
+<td>₹60,000-3,60,000</td>
+</tr>
+<tr>
+<td>Security &amp; Compliance</td>
+<td>₹0-20,000</td>
+<td>₹0-2,40,000</td>
+</tr>
+<tr>
+<td>Domain &amp; SSL</td>
+<td>₹1,000-5,000</td>
+<td>₹12,000-60,000</td>
+</tr>
+<tr>
+<td><strong>TOTAL</strong></td>
+<td><strong>₹1,61,000-6,60,000</strong></td>
+<td><strong>₹19,32,000-79,20,000</strong></td>
+</tr>
+</tbody>
+</table>
+<h3 id="budget-scenarios">Budget Scenarios</h3>
+<p><strong>Conservative Scenario (Low Usage):</strong></p>
+<ul>
+<li>Small dataset (&lt;100K documents)</li>
+<li>Limited users (&lt;100 active users)</li>
+<li>Moderate LLM usage (mix of Ollama + OpenAI)</li>
+<li><strong>Estimated: ₹20,00,000-25,00,000/year</strong></li>
+</ul>
+<p><strong>Moderate Scenario (Medium Usage):</strong></p>
+<ul>
+<li>Medium dataset (100K-500K documents)</li>
+<li>Growing user base (100-1000 users)</li>
+<li>Regular LLM usage (balanced Ollama + OpenAI)</li>
+<li><strong>Estimated: ₹35,00,000-45,00,000/year</strong></li>
+</ul>
+<p><strong>Aggressive Scenario (High Usage):</strong></p>
+<ul>
+<li>Large dataset (&gt;500K documents)</li>
+<li>Large user base (&gt;1000 users)</li>
+<li>Heavy LLM usage (primarily OpenAI for quality)</li>
+<li><strong>Estimated: ₹55,00,000-80,00,000/year</strong></li>
+</ul>
+<h3 id="cost-optimization-strategies">Cost Optimization Strategies</h3>
+<ol type="1">
+<li><strong>LLM Costs</strong> (largest variable):
+<ul>
+<li><strong>Use Ollama for routine tasks</strong>: Deploy Llama 3,
+Mistral, or Mixtral models on GPU instances for:
+<ul>
+<li>Entity extraction and classification</li>
+<li>Basic question answering</li>
+<li>Text summarization</li>
+<li>Embedding generation (using sentence-transformers)</li>
+</ul></li>
+<li><strong>Reserve OpenAI for complex tasks</strong>: Use GPT-4 only
+for:
+<ul>
+<li>Complex reasoning and analysis</li>
+<li>High-quality content generation</li>
+<li>Critical user-facing responses</li>
+</ul></li>
+<li><strong>Hybrid approach savings</strong>: Can reduce OpenAI costs by
+60-80%</li>
+<li>Cache frequent queries and responses</li>
+<li>Implement query result caching</li>
+<li>Batch embedding generation</li>
+</ul></li>
+<li><strong>Ollama Infrastructure</strong>:
+<ul>
+<li><strong>GPU Requirements</strong>:
+<ul>
+<li>Development/Testing: 1x NVIDIA T4 (16GB VRAM) -
+₹30,000-40,000/month</li>
+<li>Production: 1x NVIDIA A10G (24GB VRAM) - ₹60,000-80,000/month</li>
+<li>High Load: 2x NVIDIA A10G or 1x A100 - ₹1,20,000-2,00,000/month</li>
+</ul></li>
+<li><strong>Models to deploy</strong>:
+<ul>
+<li>Llama 3 8B (fast, general purpose)</li>
+<li>Mistral 7B (efficient, good quality)</li>
+<li>Mixtral 8x7B (high quality, slower)</li>
+<li>Sentence-transformers for embeddings (free, fast)</li>
+</ul></li>
+<li><strong>Cost comparison</strong>:
+<ul>
+<li>OpenAI GPT-4: ₹3,000 per 1M tokens</li>
+<li>Ollama (self-hosted): ₹0 per token (fixed GPU cost)</li>
+<li>Break-even: ~20M tokens/month</li>
+</ul></li>
+</ul></li>
+<li><strong>Database Costs</strong>:
+<ul>
+<li>Self-host Neo4j and Qdrant instead of managed services</li>
+<li>Optimize queries to reduce compute</li>
+<li>Implement data archival for old content</li>
+<li>Use read replicas for scaling reads</li>
+</ul></li>
+<li><strong>Cloud Infrastructure</strong>:
+<ul>
+<li>Use spot instances for non-critical workloads (50-70% savings)</li>
+<li>Implement auto-scaling to match demand</li>
+<li>Optimize storage with lifecycle policies</li>
+<li>Use CDN for static assets</li>
+</ul></li>
+<li><strong>Monitoring</strong>:
+<ul>
+<li>Use open-source tools (Prometheus, Grafana)</li>
+<li>Implement sampling for high-volume metrics</li>
+<li>Aggregate logs before storage</li>
+</ul></li>
+</ol>
+<hr />
+<h2 id="detailed-cost-breakdown-by-phase">Detailed Cost Breakdown by
+Phase</h2>
+<h3 id="development-phase-costs-months-1-12">Development Phase Costs
+(Months 1-12)</h3>
+<h4 id="infrastructure-costs-during-development">Infrastructure Costs
+During Development</h4>
+<p><strong>Month 1-3 (MVP Development):</strong></p>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Component</th>
+<th style="text-align: left;">Specification</th>
+<th style="text-align: right;">Monthly Cost (INR)</th>
+<th style="text-align: right;">3-Month Total</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">Development Server</td>
+<td style="text-align: left;">2x vCPU, 8GB RAM</td>
+<td style="text-align: right;">₹8,000</td>
+<td style="text-align: right;">₹24,000</td>
+</tr>
+<tr>
+<td style="text-align: left;">Staging Server</td>
+<td style="text-align: left;">2x vCPU, 8GB RAM</td>
+<td style="text-align: right;">₹8,000</td>
+<td style="text-align: right;">₹24,000</td>
+</tr>
+<tr>
+<td style="text-align: left;">Neo4j Development</td>
+<td style="text-align: left;">Self-hosted, 4GB RAM</td>
+<td style="text-align: right;">₹5,000</td>
+<td style="text-align: right;">₹15,000</td>
+</tr>
+<tr>
+<td style="text-align: left;">Qdrant Development</td>
+<td style="text-align: left;">Self-hosted, 4GB RAM</td>
+<td style="text-align: right;">₹3,000</td>
+<td style="text-align: right;">₹9,000</td>
+</tr>
+<tr>
+<td style="text-align: left;">Redis Development</td>
+<td style="text-align: left;">1GB RAM</td>
+<td style="text-align: right;">₹2,000</td>
+<td style="text-align: right;">₹6,000</td>
+</tr>
+<tr>
+<td style="text-align: left;">Ollama GPU (T4)</td>
+<td style="text-align: left;">16GB VRAM, development</td>
+<td style="text-align: right;">₹35,000</td>
+<td style="text-align: right;">₹1,05,000</td>
+</tr>
+<tr>
+<td style="text-align: left;">OpenAI API</td>
+<td style="text-align: left;">Limited usage, testing</td>
+<td style="text-align: right;">₹20,000</td>
+<td style="text-align: right;">₹60,000</td>
+</tr>
+<tr>
+<td style="text-align: left;">Storage</td>
+<td style="text-align: left;">100GB SSD</td>
+<td style="text-align: right;">₹2,000</td>
+<td style="text-align: right;">₹6,000</td>
+</tr>
+<tr>
+<td style="text-align: left;">Bandwidth</td>
+<td style="text-align: left;">500GB/month</td>
+<td style="text-align: right;">₹3,000</td>
+<td style="text-align: right;">₹9,000</td>
+</tr>
+<tr>
+<td style="text-align: left;">Development Tools</td>
+<td style="text-align: left;">GitHub, monitoring</td>
+<td style="text-align: right;">₹5,000</td>
+<td style="text-align: right;">₹15,000</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Subtotal</strong></td>
+<td style="text-align: left;"></td>
+<td style="text-align: right;"><strong>₹91,000</strong></td>
+<td style="text-align: right;"><strong>₹2,73,000</strong></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Month 4-6 (Enhanced Features):</strong></p>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Component</th>
+<th style="text-align: left;">Specification</th>
+<th style="text-align: right;">Monthly Cost (INR)</th>
+<th style="text-align: right;">3-Month Total</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">Development Server</td>
+<td style="text-align: left;">4x vCPU, 16GB RAM</td>
+<td style="text-align: right;">₹15,000</td>
+<td style="text-align: right;">₹45,000</td>
+</tr>
+<tr>
+<td style="text-align: left;">Staging Server</td>
+<td style="text-align: left;">4x vCPU, 16GB RAM</td>
+<td style="text-align: right;">₹15,000</td>
+<td style="text-align: right;">₹45,000</td>
+</tr>
+<tr>
+<td style="text-align: left;">Neo4j Staging</td>
+<td style="text-align: left;">Self-hosted, 8GB RAM</td>
+<td style="text-align: right;">₹10,000</td>
+<td style="text-align: right;">₹30,000</td>
+</tr>
+<tr>
+<td style="text-align: left;">Qdrant Staging</td>
+<td style="text-align: left;">Self-hosted, 8GB RAM</td>
+<td style="text-align: right;">₹6,000</td>
+<td style="text-align: right;">₹18,000</td>
+</tr>
+<tr>
+<td style="text-align: left;">Redis Staging</td>
+<td style="text-align: left;">2GB RAM</td>
+<td style="text-align: right;">₹3,000</td>
+<td style="text-align: right;">₹9,000</td>
+</tr>
+<tr>
+<td style="text-align: left;">Ollama GPU (T4)</td>
+<td style="text-align: left;">16GB VRAM</td>
+<td style="text-align: right;">₹35,000</td>
+<td style="text-align: right;">₹1,05,000</td>
+</tr>
+<tr>
+<td style="text-align: left;">OpenAI API</td>
+<td style="text-align: left;">Moderate usage</td>
+<td style="text-align: right;">₹40,000</td>
+<td style="text-align: right;">₹1,20,000</td>
+</tr>
+<tr>
+<td style="text-align: left;">Storage</td>
+<td style="text-align: left;">250GB SSD</td>
+<td style="text-align: right;">₹5,000</td>
+<td style="text-align: right;">₹15,000</td>
+</tr>
+<tr>
+<td style="text-align: left;">Bandwidth</td>
+<td style="text-align: left;">1TB/month</td>
+<td style="text-align: right;">₹5,000</td>
+<td style="text-align: right;">₹15,000</td>
+</tr>
+<tr>
+<td style="text-align: left;">Development Tools</td>
+<td style="text-align: left;">Enhanced monitoring</td>
+<td style="text-align: right;">₹8,000</td>
+<td style="text-align: right;">₹24,000</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Subtotal</strong></td>
+<td style="text-align: left;"></td>
+<td style="text-align: right;"><strong>₹1,42,000</strong></td>
+<td style="text-align: right;"><strong>₹4,26,000</strong></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Month 7-9 (Production Features):</strong></p>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Component</th>
+<th style="text-align: left;">Specification</th>
+<th style="text-align: right;">Monthly Cost (INR)</th>
+<th style="text-align: right;">3-Month Total</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">Development Server</td>
+<td style="text-align: left;">4x vCPU, 16GB RAM</td>
+<td style="text-align: right;">₹15,000</td>
+<td style="text-align: right;">₹45,000</td>
+</tr>
+<tr>
+<td style="text-align: left;">Staging Server</td>
+<td style="text-align: left;">8x vCPU, 32GB RAM</td>
+<td style="text-align: right;">₹25,000</td>
+<td style="text-align: right;">₹75,000</td>
+</tr>
+<tr>
+<td style="text-align: left;">Neo4j Staging</td>
+<td style="text-align: left;">Self-hosted, 16GB RAM</td>
+<td style="text-align: right;">₹18,000</td>
+<td style="text-align: right;">₹54,000</td>
+</tr>
+<tr>
+<td style="text-align: left;">Qdrant Staging</td>
+<td style="text-align: left;">Self-hosted, 16GB RAM</td>
+<td style="text-align: right;">₹12,000</td>
+<td style="text-align: right;">₹36,000</td>
+</tr>
+<tr>
+<td style="text-align: left;">Redis Staging</td>
+<td style="text-align: left;">4GB RAM</td>
+<td style="text-align: right;">₹5,000</td>
+<td style="text-align: right;">₹15,000</td>
+</tr>
+<tr>
+<td style="text-align: left;">Ollama GPU (A10G)</td>
+<td style="text-align: left;">24GB VRAM, pre-prod</td>
+<td style="text-align: right;">₹60,000</td>
+<td style="text-align: right;">₹1,80,000</td>
+</tr>
+<tr>
+<td style="text-align: left;">OpenAI API</td>
+<td style="text-align: left;">Higher usage</td>
+<td style="text-align: right;">₹60,000</td>
+<td style="text-align: right;">₹1,80,000</td>
+</tr>
+<tr>
+<td style="text-align: left;">Storage</td>
+<td style="text-align: left;">500GB SSD</td>
+<td style="text-align: right;">₹10,000</td>
+<td style="text-align: right;">₹30,000</td>
+</tr>
+<tr>
+<td style="text-align: left;">Bandwidth</td>
+<td style="text-align: left;">2TB/month</td>
+<td style="text-align: right;">₹8,000</td>
+<td style="text-align: right;">₹24,000</td>
+</tr>
+<tr>
+<td style="text-align: left;">Development Tools</td>
+<td style="text-align: left;">Full monitoring suite</td>
+<td style="text-align: right;">₹12,000</td>
+<td style="text-align: right;">₹36,000</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Subtotal</strong></td>
+<td style="text-align: left;"></td>
+<td style="text-align: right;"><strong>₹2,25,000</strong></td>
+<td style="text-align: right;"><strong>₹6,75,000</strong></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Month 10-12 (Production Readiness):</strong></p>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Component</th>
+<th style="text-align: left;">Specification</th>
+<th style="text-align: right;">Monthly Cost (INR)</th>
+<th style="text-align: right;">3-Month Total</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">Development Server</td>
+<td style="text-align: left;">4x vCPU, 16GB RAM</td>
+<td style="text-align: right;">₹15,000</td>
+<td style="text-align: right;">₹45,000</td>
+</tr>
+<tr>
+<td style="text-align: left;">Staging Server</td>
+<td style="text-align: left;">8x vCPU, 32GB RAM</td>
+<td style="text-align: right;">₹25,000</td>
+<td style="text-align: right;">₹75,000</td>
+</tr>
+<tr>
+<td style="text-align: left;">Production Server</td>
+<td style="text-align: left;">16x vCPU, 64GB RAM</td>
+<td style="text-align: right;">₹50,000</td>
+<td style="text-align: right;">₹1,50,000</td>
+</tr>
+<tr>
+<td style="text-align: left;">Neo4j Production</td>
+<td style="text-align: left;">Self-hosted, 32GB RAM</td>
+<td style="text-align: right;">₹35,000</td>
+<td style="text-align: right;">₹1,05,000</td>
+</tr>
+<tr>
+<td style="text-align: left;">Qdrant Production</td>
+<td style="text-align: left;">Self-hosted, 32GB RAM</td>
+<td style="text-align: right;">₹25,000</td>
+<td style="text-align: right;">₹75,000</td>
+</tr>
+<tr>
+<td style="text-align: left;">Redis Production</td>
+<td style="text-align: left;">8GB RAM</td>
+<td style="text-align: right;">₹10,000</td>
+<td style="text-align: right;">₹30,000</td>
+</tr>
+<tr>
+<td style="text-align: left;">Ollama GPU (A10G)</td>
+<td style="text-align: left;">24GB VRAM, production</td>
+<td style="text-align: right;">₹70,000</td>
+<td style="text-align: right;">₹2,10,000</td>
+</tr>
+<tr>
+<td style="text-align: left;">OpenAI API</td>
+<td style="text-align: left;">Production usage</td>
+<td style="text-align: right;">₹80,000</td>
+<td style="text-align: right;">₹2,40,000</td>
+</tr>
+<tr>
+<td style="text-align: left;">Storage</td>
+<td style="text-align: left;">1TB SSD</td>
+<td style="text-align: right;">₹20,000</td>
+<td style="text-align: right;">₹60,000</td>
+</tr>
+<tr>
+<td style="text-align: left;">Bandwidth</td>
+<td style="text-align: left;">5TB/month</td>
+<td style="text-align: right;">₹15,000</td>
+<td style="text-align: right;">₹45,000</td>
+</tr>
+<tr>
+<td style="text-align: left;">Monitoring &amp; Security</td>
+<td style="text-align: left;">Full production suite</td>
+<td style="text-align: right;">₹20,000</td>
+<td style="text-align: right;">₹60,000</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Subtotal</strong></td>
+<td style="text-align: left;"></td>
+<td style="text-align: right;"><strong>₹3,65,000</strong></td>
+<td style="text-align: right;"><strong>₹10,95,000</strong></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Total Development Infrastructure Cost (12 months):
+₹24,69,000</strong></p>
+<hr />
+<h3 id="testing-costs">Testing Costs</h3>
+<h4 id="automated-testing-infrastructure">Automated Testing
+Infrastructure</h4>
+<p><strong>Continuous Integration/Testing (Months 1-12):</strong></p>
+<table>
+<colgroup>
+<col style="width: 19%" />
+<col style="width: 16%" />
+<col style="width: 35%" />
+<col style="width: 28%" />
+</colgroup>
+<thead>
+<tr>
+<th style="text-align: left;">Component</th>
+<th style="text-align: left;">Purpose</th>
+<th style="text-align: right;">Monthly Cost (INR)</th>
+<th style="text-align: right;">12-Month Total</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">GitHub Actions</td>
+<td style="text-align: left;">CI/CD pipeline, 3000 minutes/month</td>
+<td style="text-align: right;">₹2,000</td>
+<td style="text-align: right;">₹24,000</td>
+</tr>
+<tr>
+<td style="text-align: left;">Test Database Instances</td>
+<td style="text-align: left;">Ephemeral test environments</td>
+<td style="text-align: right;">₹5,000</td>
+<td style="text-align: right;">₹60,000</td>
+</tr>
+<tr>
+<td style="text-align: left;">Test Data Storage</td>
+<td style="text-align: left;">Test datasets and fixtures</td>
+<td style="text-align: right;">₹2,000</td>
+<td style="text-align: right;">₹24,000</td>
+</tr>
+<tr>
+<td style="text-align: left;">Load Testing Tools</td>
+<td style="text-align: left;">k6, Locust, JMeter</td>
+<td style="text-align: right;">₹3,000</td>
+<td style="text-align: right;">₹36,000</td>
+</tr>
+<tr>
+<td style="text-align: left;">Security Scanning</td>
+<td style="text-align: left;">SAST/DAST tools</td>
+<td style="text-align: right;">₹5,000</td>
+<td style="text-align: right;">₹60,000</td>
+</tr>
+<tr>
+<td style="text-align: left;">Code Quality Tools</td>
+<td style="text-align: left;">SonarQube, CodeClimate</td>
+<td style="text-align: right;">₹4,000</td>
+<td style="text-align: right;">₹48,000</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Subtotal</strong></td>
+<td style="text-align: left;"></td>
+<td style="text-align: right;"><strong>₹21,000</strong></td>
+<td style="text-align: right;"><strong>₹2,52,000</strong></td>
+</tr>
+</tbody>
+</table>
+<h4 id="automated-testing-effort-built-into-development">Automated
+Testing Effort (Built into Development)</h4>
+<p><strong>Testing Activities by Phase:</strong></p>
+<p><strong>Phase 1 (MVP - Months 1-3):</strong></p>
+<ul>
+<li>Unit testing: 15% of development time (72 hours)</li>
+<li>Integration testing: 10% of development time (48 hours)</li>
+<li>Manual testing: 5% of development time (24 hours)</li>
+<li><strong>Total Testing Effort: 144 hours</strong> (included in
+development)</li>
+</ul>
+<p><strong>Phase 2 (Months 4-6):</strong></p>
+<ul>
+<li>Unit testing: 15% (72 hours)</li>
+<li>Integration testing: 12% (58 hours)</li>
+<li>API testing: 8% (38 hours)</li>
+<li>Manual testing: 5% (24 hours)</li>
+<li><strong>Total Testing Effort: 192 hours</strong></li>
+</ul>
+<p><strong>Phase 3 (Months 7-9):</strong></p>
+<ul>
+<li>Unit testing: 15% (72 hours)</li>
+<li>Integration testing: 12% (58 hours)</li>
+<li>Performance testing: 10% (48 hours)</li>
+<li>Security testing: 8% (38 hours)</li>
+<li>Manual testing: 5% (24 hours)</li>
+<li><strong>Total Testing Effort: 240 hours</strong></li>
+</ul>
+<p><strong>Phase 4 (Months 10-12):</strong></p>
+<ul>
+<li>Unit testing: 15% (72 hours)</li>
+<li>Integration testing: 12% (58 hours)</li>
+<li>End-to-end testing: 10% (48 hours)</li>
+<li>Load testing: 10% (48 hours)</li>
+<li>Security audit: 8% (38 hours)</li>
+<li>Manual testing: 5% (24 hours)</li>
+<li><strong>Total Testing Effort: 288 hours</strong></li>
+</ul>
+<p><strong>Total Automated Testing Effort: 864 hours</strong> (15% of
+total 5,760 hours)</p>
+<hr />
+<h3 id="beta-testing-costs-month-11-12">Beta Testing Costs (Month
+11-12)</h3>
+<h4 id="beta-testing-infrastructure">Beta Testing Infrastructure</h4>
+<p><strong>Beta Environment (2 months):</strong></p>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Component</th>
+<th style="text-align: left;">Specification</th>
+<th style="text-align: right;">Monthly Cost (INR)</th>
+<th style="text-align: right;">2-Month Total</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">Beta Server</td>
+<td style="text-align: left;">8x vCPU, 32GB RAM</td>
+<td style="text-align: right;">₹25,000</td>
+<td style="text-align: right;">₹50,000</td>
+</tr>
+<tr>
+<td style="text-align: left;">Neo4j Beta</td>
+<td style="text-align: left;">Self-hosted, 16GB RAM</td>
+<td style="text-align: right;">₹18,000</td>
+<td style="text-align: right;">₹36,000</td>
+</tr>
+<tr>
+<td style="text-align: left;">Qdrant Beta</td>
+<td style="text-align: left;">Self-hosted, 16GB RAM</td>
+<td style="text-align: right;">₹12,000</td>
+<td style="text-align: right;">₹24,000</td>
+</tr>
+<tr>
+<td style="text-align: left;">Redis Beta</td>
+<td style="text-align: left;">4GB RAM</td>
+<td style="text-align: right;">₹5,000</td>
+<td style="text-align: right;">₹10,000</td>
+</tr>
+<tr>
+<td style="text-align: left;">Ollama GPU (A10G)</td>
+<td style="text-align: left;">24GB VRAM</td>
+<td style="text-align: right;">₹60,000</td>
+<td style="text-align: right;">₹1,20,000</td>
+</tr>
+<tr>
+<td style="text-align: left;">OpenAI API</td>
+<td style="text-align: left;">Beta user testing</td>
+<td style="text-align: right;">₹40,000</td>
+<td style="text-align: right;">₹80,000</td>
+</tr>
+<tr>
+<td style="text-align: left;">Storage</td>
+<td style="text-align: left;">500GB SSD</td>
+<td style="text-align: right;">₹10,000</td>
+<td style="text-align: right;">₹20,000</td>
+</tr>
+<tr>
+<td style="text-align: left;">Bandwidth</td>
+<td style="text-align: left;">3TB/month</td>
+<td style="text-align: right;">₹10,000</td>
+<td style="text-align: right;">₹20,000</td>
+</tr>
+<tr>
+<td style="text-align: left;">Monitoring</td>
+<td style="text-align: left;">Beta analytics</td>
+<td style="text-align: right;">₹8,000</td>
+<td style="text-align: right;">₹16,000</td>
+</tr>
+<tr>
+<td style="text-align: left;">User Feedback Tools</td>
+<td style="text-align: left;">Surveys, analytics</td>
+<td style="text-align: right;">₹5,000</td>
+<td style="text-align: right;">₹10,000</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Subtotal</strong></td>
+<td style="text-align: left;"></td>
+<td style="text-align: right;"><strong>₹1,93,000</strong></td>
+<td style="text-align: right;"><strong>₹3,86,000</strong></td>
+</tr>
+</tbody>
+</table>
+<h4 id="beta-testing-activities">Beta Testing Activities</h4>
+<p><strong>Beta Testing Program (Months 11-12):</strong></p>
+<table>
+<colgroup>
+<col style="width: 18%" />
+<col style="width: 24%" />
+<col style="width: 29%" />
+<col style="width: 27%" />
+</colgroup>
+<thead>
+<tr>
+<th style="text-align: left;">Activity</th>
+<th style="text-align: left;">Description</th>
+<th style="text-align: right;">Effort (Hours)</th>
+<th style="text-align: right;">Cost Estimate</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">Beta User Recruitment</td>
+<td style="text-align: left;">Identify and onboard 20-50 beta users</td>
+<td style="text-align: right;">40</td>
+<td style="text-align: right;">Included</td>
+</tr>
+<tr>
+<td style="text-align: left;">Beta Documentation</td>
+<td style="text-align: left;">User guides, FAQs, tutorials</td>
+<td style="text-align: right;">60</td>
+<td style="text-align: right;">Included</td>
+</tr>
+<tr>
+<td style="text-align: left;">Beta Support</td>
+<td style="text-align: left;">Daily support for beta users</td>
+<td style="text-align: right;">120</td>
+<td style="text-align: right;">Included</td>
+</tr>
+<tr>
+<td style="text-align: left;">Feedback Collection</td>
+<td style="text-align: left;">Surveys, interviews, analytics</td>
+<td style="text-align: right;">40</td>
+<td style="text-align: right;">₹10,000 (tools)</td>
+</tr>
+<tr>
+<td style="text-align: left;">Bug Triage &amp; Fixes</td>
+<td style="text-align: left;">Address beta feedback</td>
+<td style="text-align: right;">160</td>
+<td style="text-align: right;">Included</td>
+</tr>
+<tr>
+<td style="text-align: left;">Performance Monitoring</td>
+<td style="text-align: left;">Track usage patterns, issues</td>
+<td style="text-align: right;">40</td>
+<td style="text-align: right;">Included</td>
+</tr>
+<tr>
+<td style="text-align: left;">Beta Reporting</td>
+<td style="text-align: left;">Weekly reports to stakeholders</td>
+<td style="text-align: right;">20</td>
+<td style="text-align: right;">Included</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Total Beta Effort</strong></td>
+<td style="text-align: left;"></td>
+<td style="text-align: right;"><strong>480 hours</strong></td>
+<td style="text-align: right;"><strong>₹10,000</strong></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Beta Testing Incentives (Optional):</strong></p>
+<ul>
+<li>Beta user incentives: ₹2,000-5,000 per active tester</li>
+<li>For 20 active testers: ₹40,000-1,00,000</li>
+<li>For 50 active testers: ₹1,00,000-2,50,000</li>
+</ul>
+<p><strong>Total Beta Testing Cost: ₹3,96,000 - ₹6,46,000</strong>
+(without/with incentives)</p>
+<hr />
+<h2 id="comprehensive-cost-summary">Comprehensive Cost Summary</h2>
+<h3 id="total-project-costs-12-months">Total Project Costs (12
+Months)</h3>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Category</th>
+<th style="text-align: left;">Cost (INR)</th>
+<th style="text-align: left;">Percentage</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><strong>Development
+Infrastructure</strong></td>
+<td style="text-align: left;">₹24,69,000</td>
+<td style="text-align: left;">52%</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Automated Testing
+Infrastructure</strong></td>
+<td style="text-align: left;">₹2,52,000</td>
+<td style="text-align: left;">5%</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Beta Testing</strong></td>
+<td style="text-align: left;">₹3,96,000 - ₹6,46,000</td>
+<td style="text-align: left;">8-13%</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Contingency (15%)</strong></td>
+<td style="text-align: left;">₹4,63,000 - ₹5,05,000</td>
+<td style="text-align: left;">10%</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>TOTAL PROJECT COST</strong></td>
+<td style="text-align: left;"><strong>₹35,80,000 -
+₹42,72,000</strong></td>
+<td style="text-align: left;"><strong>100%</strong></td>
+</tr>
+</tbody>
+</table>
+<h3 id="cost-breakdown-by-quarter">Cost Breakdown by Quarter</h3>
+<table style="width:100%;">
+<colgroup>
+<col style="width: 19%" />
+<col style="width: 34%" />
+<col style="width: 19%" />
+<col style="width: 12%" />
+<col style="width: 14%" />
+</colgroup>
+<thead>
+<tr>
+<th style="text-align: left;">Quarter</th>
+<th style="text-align: left;">Infrastructure</th>
+<th style="text-align: left;">Testing</th>
+<th style="text-align: left;">Beta</th>
+<th style="text-align: left;">Total</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">Q1 (Months 1-3)</td>
+<td style="text-align: left;">₹2,73,000</td>
+<td style="text-align: left;">₹63,000</td>
+<td style="text-align: left;">₹0</td>
+<td style="text-align: left;">₹3,36,000</td>
+</tr>
+<tr>
+<td style="text-align: left;">Q2 (Months 4-6)</td>
+<td style="text-align: left;">₹4,26,000</td>
+<td style="text-align: left;">₹63,000</td>
+<td style="text-align: left;">₹0</td>
+<td style="text-align: left;">₹4,89,000</td>
+</tr>
+<tr>
+<td style="text-align: left;">Q3 (Months 7-9)</td>
+<td style="text-align: left;">₹6,75,000</td>
+<td style="text-align: left;">₹63,000</td>
+<td style="text-align: left;">₹0</td>
+<td style="text-align: left;">₹7,38,000</td>
+</tr>
+<tr>
+<td style="text-align: left;">Q4 (Months 10-12)</td>
+<td style="text-align: left;">₹10,95,000</td>
+<td style="text-align: left;">₹63,000</td>
+<td style="text-align: left;">₹3,96,000</td>
+<td style="text-align: left;">₹15,54,000</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>TOTAL</strong></td>
+<td style="text-align: left;"><strong>₹24,69,000</strong></td>
+<td style="text-align: left;"><strong>₹2,52,000</strong></td>
+<td style="text-align: left;"><strong>₹3,96,000</strong></td>
+<td style="text-align: left;"><strong>₹31,17,000</strong></td>
+</tr>
+</tbody>
+</table>
+<p><strong>With Contingency: ₹35,80,000 - ₹42,72,000</strong></p>
+<hr />
+<h2 id="ollama-llm-infrastructure-details">Ollama LLM Infrastructure
+Details</h2>
+<h3 id="ollama-deployment-architecture">Ollama Deployment
+Architecture</h3>
+<p><strong>Development Environment (Months 1-6):</strong></p>
+<ul>
+<li><strong>GPU</strong>: 1x NVIDIA T4 (16GB VRAM)</li>
+<li><strong>Instance</strong>: AWS g4dn.xlarge or equivalent</li>
+<li><strong>Cost</strong>: ₹35,000-40,000/month</li>
+<li><strong>Models</strong>: Llama 3 8B, Mistral 7B</li>
+<li><strong>Use Cases</strong>: Development, testing,
+experimentation</li>
+</ul>
+<p><strong>Staging Environment (Months 7-9):</strong></p>
+<ul>
+<li><strong>GPU</strong>: 1x NVIDIA A10G (24GB VRAM)</li>
+<li><strong>Instance</strong>: AWS g5.xlarge or equivalent</li>
+<li><strong>Cost</strong>: ₹60,000-70,000/month</li>
+<li><strong>Models</strong>: Llama 3 8B, Mistral 7B, Mixtral 8x7B</li>
+<li><strong>Use Cases</strong>: Pre-production testing, load
+testing</li>
+</ul>
+<p><strong>Production Environment (Months 10-12):</strong></p>
+<ul>
+<li><strong>GPU</strong>: 1-2x NVIDIA A10G (24GB VRAM each)</li>
+<li><strong>Instance</strong>: AWS g5.2xlarge or equivalent</li>
+<li><strong>Cost</strong>: ₹70,000-1,50,000/month (depending on
+scale)</li>
+<li><strong>Models</strong>: Multiple models for different tasks</li>
+<li><strong>Use Cases</strong>: Production workloads, high
+availability</li>
+</ul>
+<h3 id="ollama-model-selection-strategy">Ollama Model Selection
+Strategy</h3>
+<p><strong>Primary Models:</strong></p>
+<ol type="1">
+<li><strong>Llama 3 8B</strong> (Fast, General Purpose)
+<ul>
+<li>Use for: Entity extraction, classification, basic Q&amp;A</li>
+<li>Speed: ~50 tokens/second on A10G</li>
+<li>VRAM: 8GB</li>
+<li>Quality: Good for most tasks</li>
+</ul></li>
+<li><strong>Mistral 7B</strong> (Efficient, Balanced)
+<ul>
+<li>Use for: Summarization, content generation</li>
+<li>Speed: ~60 tokens/second on A10G</li>
+<li>VRAM: 7GB</li>
+<li>Quality: Excellent efficiency/quality ratio</li>
+</ul></li>
+<li><strong>Mixtral 8x7B</strong> (High Quality, Slower)
+<ul>
+<li>Use for: Complex reasoning, critical responses</li>
+<li>Speed: ~20 tokens/second on A10G</li>
+<li>VRAM: 24GB (requires full GPU)</li>
+<li>Quality: Near GPT-3.5 level</li>
+</ul></li>
+<li><strong>Sentence-Transformers</strong> (Embeddings)
+<ul>
+<li>Use for: Document embeddings, semantic search</li>
+<li>Speed: Very fast (CPU-based)</li>
+<li>VRAM: 0GB (runs on CPU)</li>
+<li>Cost: Free, no API costs</li>
+</ul></li>
+</ol>
+<h3 id="hybrid-llm-strategy-ollama-openai">Hybrid LLM Strategy (Ollama +
+OpenAI)</h3>
+<p><strong>Task Distribution:</strong></p>
+<table>
+<colgroup>
+<col style="width: 30%" />
+<col style="width: 38%" />
+<col style="width: 30%" />
+</colgroup>
+<thead>
+<tr>
+<th style="text-align: left;">Task Type</th>
+<th style="text-align: left;">Model Choice</th>
+<th style="text-align: left;">Reasoning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">Entity Extraction</td>
+<td style="text-align: left;">Ollama (Llama 3 8B)</td>
+<td style="text-align: left;">High volume, simple task</td>
+</tr>
+<tr>
+<td style="text-align: left;">Text Classification</td>
+<td style="text-align: left;">Ollama (Mistral 7B)</td>
+<td style="text-align: left;">Fast, accurate enough</td>
+</tr>
+<tr>
+<td style="text-align: left;">Document Summarization</td>
+<td style="text-align: left;">Ollama (Mistral 7B)</td>
+<td style="text-align: left;">Good quality, cost-effective</td>
+</tr>
+<tr>
+<td style="text-align: left;">Embeddings</td>
+<td style="text-align: left;">Sentence-Transformers</td>
+<td style="text-align: left;">Free, fast, good quality</td>
+</tr>
+<tr>
+<td style="text-align: left;">Basic Q&amp;A</td>
+<td style="text-align: left;">Ollama (Llama 3 8B)</td>
+<td style="text-align: left;">Fast response, acceptable quality</td>
+</tr>
+<tr>
+<td style="text-align: left;">Complex Reasoning</td>
+<td style="text-align: left;">OpenAI GPT-4</td>
+<td style="text-align: left;">Best quality for critical tasks</td>
+</tr>
+<tr>
+<td style="text-align: left;">User-Facing Generation</td>
+<td style="text-align: left;">OpenAI GPT-4</td>
+<td style="text-align: left;">Professional quality needed</td>
+</tr>
+<tr>
+<td style="text-align: left;">Content Refinement</td>
+<td style="text-align: left;">OpenAI GPT-3.5-turbo</td>
+<td style="text-align: left;">Good balance of cost/quality</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Cost Savings:</strong></p>
+<ul>
+<li>Ollama handles 70-80% of requests (fixed GPU cost)</li>
+<li>OpenAI handles 20-30% of requests (variable cost)</li>
+<li><strong>Estimated savings: 60-70% on LLM costs</strong></li>
+</ul>
+<h3 id="ollama-performance-benchmarks">Ollama Performance
+Benchmarks</h3>
+<p><strong>Expected Throughput (A10G GPU):</strong></p>
+<ul>
+<li>Llama 3 8B: 50-60 tokens/second</li>
+<li>Mistral 7B: 60-70 tokens/second</li>
+<li>Mixtral 8x7B: 20-25 tokens/second</li>
+</ul>
+<p><strong>Concurrent Requests:</strong></p>
+<ul>
+<li>Small models (7-8B): 4-6 concurrent requests</li>
+<li>Large models (Mixtral): 1-2 concurrent requests</li>
+<li>With request queuing: Handle 100+ requests/minute</li>
+</ul>
+<p><strong>Latency Targets:</strong></p>
+<ul>
+<li>First token: &lt;500ms</li>
+<li>Full response (100 tokens): 2-3 seconds</li>
+<li>Acceptable for most use cases</li>
+</ul>
+<hr />
+<h2 id="cost-optimization-recommendations">Cost Optimization
+Recommendations</h2>
+<h3 id="immediate-savings-months-1-3">Immediate Savings (Months
+1-3)</h3>
+<ol type="1">
+<li><strong>Use Spot Instances</strong>: Save 50-70% on GPU costs
+<ul>
+<li>Development GPU: ₹35,000 → ₹15,000/month</li>
+<li><strong>Savings: ₹20,000/month</strong></li>
+</ul></li>
+<li><strong>Self-Host Databases</strong>: Avoid managed service premiums
+<ul>
+<li>Neo4j Aura: ₹40,000 → Self-hosted: ₹10,000</li>
+<li><strong>Savings: ₹30,000/month</strong></li>
+</ul></li>
+<li><strong>Optimize OpenAI Usage</strong>: Use GPT-3.5-turbo instead of
+GPT-4 where possible
+<ul>
+<li>GPT-4: ₹3,000/1M tokens → GPT-3.5: ₹500/1M tokens</li>
+<li><strong>Savings: 80% on OpenAI costs</strong></li>
+</ul></li>
+</ol>
+<p><strong>Total Immediate Savings: ₹50,000-70,000/month</strong></p>
+<h3 id="medium-term-savings-months-4-9">Medium-Term Savings (Months
+4-9)</h3>
+<ol type="1">
+<li><strong>Deploy Ollama for Routine Tasks</strong>: Replace 70% of
+OpenAI calls
+<ul>
+<li>OpenAI: ₹1,00,000/month → ₹30,000/month</li>
+<li>Ollama GPU: +₹60,000/month</li>
+<li><strong>Net Savings: ₹10,000/month</strong></li>
+</ul></li>
+<li><strong>Implement Aggressive Caching</strong>: Reduce duplicate LLM
+calls
+<ul>
+<li>Cache hit rate: 40-50%</li>
+<li><strong>Savings: ₹20,000-30,000/month</strong></li>
+</ul></li>
+<li><strong>Use Reserved Instances</strong>: Commit to 1-year for
+predictable workloads
+<ul>
+<li>Compute: 30-40% discount</li>
+<li><strong>Savings: ₹15,000-25,000/month</strong></li>
+</ul></li>
+</ol>
+<p><strong>Total Medium-Term Savings: ₹45,000-65,000/month</strong></p>
+<h3 id="long-term-savings-months-10-12">Long-Term Savings (Months
+10-12)</h3>
+<ol type="1">
+<li><strong>Optimize Model Selection</strong>: Use smallest effective
+model
+<ul>
+<li>Llama 3 8B instead of Mixtral for 80% of tasks</li>
+<li><strong>Savings: Faster inference, lower GPU
+requirements</strong></li>
+</ul></li>
+<li><strong>Batch Processing</strong>: Group similar requests
+<ul>
+<li>Reduce GPU idle time</li>
+<li><strong>Savings: 20-30% better GPU utilization</strong></li>
+</ul></li>
+<li><strong>Multi-Tenancy</strong>: Share GPU across multiple services
+<ul>
+<li>Run multiple small models on one GPU</li>
+<li><strong>Savings: ₹30,000-50,000/month</strong></li>
+</ul></li>
+</ol>
+<p><strong>Total Long-Term Savings: ₹50,000-80,000/month</strong></p>
+<hr />
+<h2 id="revised-budget-with-optimizations">Revised Budget with
+Optimizations</h2>
+<h3 id="optimized-12-month-budget">Optimized 12-Month Budget</h3>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Phase</th>
+<th style="text-align: left;">Original Budget</th>
+<th style="text-align: left;">Optimized Budget</th>
+<th style="text-align: left;">Savings</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">Q1 (Months 1-3)</td>
+<td style="text-align: left;">₹3,36,000</td>
+<td style="text-align: left;">₹2,50,000</td>
+<td style="text-align: left;">₹86,000 (26%)</td>
+</tr>
+<tr>
+<td style="text-align: left;">Q2 (Months 4-6)</td>
+<td style="text-align: left;">₹4,89,000</td>
+<td style="text-align: left;">₹3,60,000</td>
+<td style="text-align: left;">₹1,29,000 (26%)</td>
+</tr>
+<tr>
+<td style="text-align: left;">Q3 (Months 7-9)</td>
+<td style="text-align: left;">₹7,38,000</td>
+<td style="text-align: left;">₹5,40,000</td>
+<td style="text-align: left;">₹1,98,000 (27%)</td>
+</tr>
+<tr>
+<td style="text-align: left;">Q4 (Months 10-12)</td>
+<td style="text-align: left;">₹15,54,000</td>
+<td style="text-align: left;">₹11,50,000</td>
+<td style="text-align: left;">₹4,04,000 (26%)</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>TOTAL</strong></td>
+<td style="text-align: left;"><strong>₹31,17,000</strong></td>
+<td style="text-align: left;"><strong>₹23,00,000</strong></td>
+<td style="text-align: left;"><strong>₹8,17,000 (26%)</strong></td>
+</tr>
+</tbody>
+</table>
+<p><strong>With Contingency (15%):</strong></p>
+<ul>
+<li>Original: ₹35,80,000 - ₹42,72,000</li>
+<li>Optimized: <strong>₹26,45,000 - ₹32,00,000</strong></li>
+<li><strong>Total Savings: ₹9,35,000 - ₹10,72,000</strong></li>
+</ul>
+<hr />
+<h2 id="technical-architecture">Technical Architecture</h2>
+<h3 id="system-architecture-diagram">System Architecture Diagram</h3>
+<pre><code>┌─────────────────────────────────────────────────────────────┐
+│                         Frontend Layer                       │
+│  ┌──────────────┐  ┌──────────────┐  ┌──────────────┐      │
+│  │    Search    │  │   Ontology   │  │   Analytics  │      │
+│  │  Interface   │  │   Explorer   │  │  Dashboard   │      │
+│  └──────────────┘  └──────────────┘  └──────────────┘      │
+│                    React + TypeScript                        │
+└─────────────────────────────────────────────────────────────┘
+                              │
+                              │ REST API
+                              ▼
+┌─────────────────────────────────────────────────────────────┐
+│                      Backend API Layer                       │
+│  ┌──────────────┐  ┌──────────────┐  ┌──────────────┐      │
+│  │    Search    │  │   Ontology   │  │   Ingestion  │      │
+│  │   Service    │  │   Service    │  │   Service    │      │
+│  └──────────────┘  └──────────────┘  └──────────────┘      │
+│                    FastAPI + Python                          │
+└─────────────────────────────────────────────────────────────┘
+                              │
+                 ┌────────────┼────────────┐
+                 │            │            │
+                 ▼            ▼            ▼
+┌──────────────────┐  ┌──────────────┐  ┌──────────────┐
+│   Neo4j Graph    │  │    Qdrant    │  │    Redis     │
+│    Database      │  │   Vector DB  │  │    Cache     │
+│                  │  │              │  │              │
+│  Entities &amp;      │  │  Embeddings  │  │  Query Cache │
+│  Relationships   │  │  &amp; Metadata  │  │  &amp; Sessions  │
+└──────────────────┘  └──────────────┘  └──────────────┘
+                              │
+                 ┌────────────┴────────────┐
+                 │                         │
+                 ▼                         ▼
+        ┌──────────────────┐    ┌──────────────────┐
+        │   Ollama LLM     │    │   OpenAI API     │
+        │   (Self-Hosted)  │    │   (Cloud)        │
+        │                  │    │                  │
+        │  • Llama 3 8B    │    │  • GPT-4         │
+        │  • Mistral 7B    │    │  • GPT-3.5-turbo │
+        │  • Mixtral 8x7B  │    │  • Embeddings    │
+        │  • Embeddings    │    │                  │
+        │                  │    │                  │
+        │  GPU: A10G/T4    │    │  Pay-per-use     │
+        └──────────────────┘    └──────────────────┘
+             70-80% tasks           20-30% tasks</code></pre>
+<h3 id="llm-router-logic">LLM Router Logic</h3>
+<pre><code>┌─────────────────────────────────────────────────────────────┐
+│                      LLM Router Service                      │
+│                                                              │
+│  ┌────────────────────────────────────────────────────┐    │
+│  │  Request Analysis                                   │    │
+│  │  • Task complexity assessment                       │    │
+│  │  • Quality requirements                             │    │
+│  │  • Response time constraints                        │    │
+│  │  • Cost considerations                              │    │
+│  └────────────────────────────────────────────────────┘    │
+│                          │                                   │
+│                          ▼                                   │
+│  ┌────────────────────────────────────────────────────┐    │
+│  │  Routing Decision                                   │    │
+│  │                                                      │    │
+│  │  Simple/Fast/High-Volume → Ollama (Llama 3 8B)     │    │
+│  │  Medium Complexity      → Ollama (Mistral 7B)      │    │
+│  │  High Quality Needed    → Ollama (Mixtral 8x7B)    │    │
+│  │  Critical/Complex       → OpenAI (GPT-4)           │    │
+│  │  User-Facing Content    → OpenAI (GPT-4)           │    │
+│  │  Embeddings             → Sentence-Transformers     │    │
+│  └────────────────────────────────────────────────────┘    │
+│                                                              │
+└─────────────────────────────────────────────────────────────┘</code></pre>
+<h3 id="data-flow">Data Flow</h3>
+<p><strong>Document Ingestion Flow:</strong> 1. User uploads document
+via API 2. Document is queued for background processing 3. Text is
+extracted and chunked semantically 4. Chunks are embedded using OpenAI
+API 5. Embeddings stored in Qdrant with metadata 6. Entities extracted
+using NER + ontology matching 7. Entities and relationships stored in
+Neo4j 8. Provenance links created from entities to source</p>
+<p><strong>Semantic Search Flow:</strong> 1. User submits natural
+language query 2. Query is embedded using OpenAI API 3. Vector
+similarity search in Qdrant retrieves top-k chunks 4. Related entities
+fetched from Neo4j 5. Context constructed with chunks + entities 6.
+GPT-4 generates response with citations 7. Response returned to user
+with source links</p>
+<p><strong>Ontology Exploration Flow:</strong> 1. User requests entity
+or graph view 2. Cypher query executed against Neo4j 3. Graph data
+returned with entities and relationships 4. Frontend renders interactive
+visualization 5. User clicks entity for details 6. Entity properties and
+connections displayed</p>
+<hr />
+<h2 id="risk-management">Risk Management</h2>
+<h3 id="technical-risks">Technical Risks</h3>
+<table>
+<colgroup>
+<col style="width: 15%" />
+<col style="width: 20%" />
+<col style="width: 33%" />
+<col style="width: 30%" />
+</colgroup>
+<thead>
+<tr>
+<th style="text-align: left;">Risk</th>
+<th style="text-align: left;">Impact</th>
+<th style="text-align: left;">Probability</th>
+<th style="text-align: left;">Mitigation</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">LLM API costs exceed budget</td>
+<td style="text-align: left;">High</td>
+<td style="text-align: left;">Medium</td>
+<td style="text-align: left;">Implement caching, use smaller models, set
+usage quotas</td>
+</tr>
+<tr>
+<td style="text-align: left;">Vector search performance degrades</td>
+<td style="text-align: left;">Medium</td>
+<td style="text-align: left;">Medium</td>
+<td style="text-align: left;">Use approximate NN, implement pagination,
+optimize indexing</td>
+</tr>
+<tr>
+<td style="text-align: left;">Graph database scaling issues</td>
+<td style="text-align: left;">High</td>
+<td style="text-align: left;">Low</td>
+<td style="text-align: left;">Design for horizontal scaling, implement
+sharding strategy</td>
+</tr>
+<tr>
+<td style="text-align: left;">LLM API downtime</td>
+<td style="text-align: left;">Medium</td>
+<td style="text-align: left;">Low</td>
+<td style="text-align: left;">Implement fallback providers, cache
+responses, graceful degradation</td>
+</tr>
+<tr>
+<td style="text-align: left;">Data quality issues</td>
+<td style="text-align: left;">Medium</td>
+<td style="text-align: left;">Medium</td>
+<td style="text-align: left;">Implement validation, human review,
+quality metrics</td>
+</tr>
+</tbody>
+</table>
+<h3 id="resource-risks">Resource Risks</h3>
+<table>
+<colgroup>
+<col style="width: 15%" />
+<col style="width: 20%" />
+<col style="width: 33%" />
+<col style="width: 30%" />
+</colgroup>
+<thead>
+<tr>
+<th style="text-align: left;">Risk</th>
+<th style="text-align: left;">Impact</th>
+<th style="text-align: left;">Probability</th>
+<th style="text-align: left;">Mitigation</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">Team capacity constraints</td>
+<td style="text-align: left;">High</td>
+<td style="text-align: left;">High</td>
+<td style="text-align: left;">Prioritize ruthlessly, reduce scope if
+needed, consider contractors</td>
+</tr>
+<tr>
+<td style="text-align: left;">Knowledge gaps in team</td>
+<td style="text-align: left;">Medium</td>
+<td style="text-align: left;">Medium</td>
+<td style="text-align: left;">Allocate learning time, use managed
+services, seek expert consultation</td>
+</tr>
+<tr>
+<td style="text-align: left;">Burnout from sustained effort</td>
+<td style="text-align: left;">High</td>
+<td style="text-align: left;">Medium</td>
+<td style="text-align: left;">Maintain sustainable pace, take breaks,
+celebrate milestones</td>
+</tr>
+</tbody>
+</table>
+<h3 id="project-risks">Project Risks</h3>
+<table>
+<colgroup>
+<col style="width: 15%" />
+<col style="width: 20%" />
+<col style="width: 33%" />
+<col style="width: 30%" />
+</colgroup>
+<thead>
+<tr>
+<th style="text-align: left;">Risk</th>
+<th style="text-align: left;">Impact</th>
+<th style="text-align: left;">Probability</th>
+<th style="text-align: left;">Mitigation</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">Scope creep</td>
+<td style="text-align: left;">High</td>
+<td style="text-align: left;">High</td>
+<td style="text-align: left;">Strict prioritization, defer non-essential
+features, regular reviews</td>
+</tr>
+<tr>
+<td style="text-align: left;">Unclear requirements</td>
+<td style="text-align: left;">Medium</td>
+<td style="text-align: left;">Medium</td>
+<td style="text-align: left;">Iterative development, frequent demos,
+stakeholder feedback</td>
+</tr>
+<tr>
+<td style="text-align: left;">Technical debt accumulation</td>
+<td style="text-align: left;">Medium</td>
+<td style="text-align: left;">High</td>
+<td style="text-align: left;">Code reviews, refactoring sprints,
+maintain test coverage</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="success-metrics">Success Metrics</h2>
+<h3 id="mvp-success-criteria-month-3">MVP Success Criteria (Month
+3)</h3>
+<ul>
+<li>✅ System can ingest 100+ documents</li>
+<li>✅ Knowledge graph contains 1000+ entities</li>
+<li>✅ Semantic search returns relevant results (&gt;70% user
+satisfaction)</li>
+<li>✅ RAG responses include accurate citations</li>
+<li>✅ Ontology explorer displays graph with &lt;3 second load time</li>
+<li>✅ System uptime &gt;95%</li>
+<li>✅ API response time &lt;2 seconds (p95)</li>
+</ul>
+<h3 id="phase-2-success-criteria-month-6">Phase 2 Success Criteria
+(Month 6)</h3>
+<ul>
+<li>✅ System supports PDF and structured data ingestion</li>
+<li>✅ Advanced search with filters operational</li>
+<li>✅ External API with authentication functional</li>
+<li>✅ 500+ documents ingested</li>
+<li>✅ 5000+ entities in knowledge graph</li>
+<li>✅ API documentation complete</li>
+</ul>
+<h3 id="phase-3-success-criteria-month-9">Phase 3 Success Criteria
+(Month 9)</h3>
+<ul>
+<li>✅ User authentication and RBAC implemented</li>
+<li>✅ Analytics dashboard tracking key metrics</li>
+<li>✅ Performance optimizations reduce response times by 30%</li>
+<li>✅ Background job processing handles 100+ concurrent jobs</li>
+<li>✅ System uptime &gt;99%</li>
+</ul>
+<h3 id="phase-4-success-criteria-month-12">Phase 4 Success Criteria
+(Month 12)</h3>
+<ul>
+<li>✅ Comprehensive documentation published</li>
+<li>✅ Automated deployment pipeline operational</li>
+<li>✅ Monitoring and alerting configured</li>
+<li>✅ Production launch successful</li>
+<li>✅ 1000+ documents ingested</li>
+<li>✅ 10,000+ entities in knowledge graph</li>
+<li>✅ 10+ active users</li>
+<li>✅ System ready for scaling</li>
+</ul>
+<hr />
+<h2 id="team-capacity-planning">Team Capacity Planning</h2>
+<h3
+id="effort-distribution-480-hours-per-month-2-part-time-experts">Effort
+Distribution (480 hours per month, 2 part-time experts)</h3>
+<table style="width:100%;">
+<colgroup>
+<col style="width: 12%" />
+<col style="width: 18%" />
+<col style="width: 23%" />
+<col style="width: 21%" />
+<col style="width: 23%" />
+</colgroup>
+<thead>
+<tr>
+<th style="text-align: left;">Phase</th>
+<th style="text-align: left;">Duration</th>
+<th style="text-align: left;">Total Hours</th>
+<th style="text-align: left;">Hours/Week</th>
+<th style="text-align: left;">Focus Areas</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">Phase 1 (MVP)</td>
+<td style="text-align: left;">3 months</td>
+<td style="text-align: left;">1,440</td>
+<td style="text-align: left;">40</td>
+<td style="text-align: left;">Backend infrastructure, core features</td>
+</tr>
+<tr>
+<td style="text-align: left;">Phase 2</td>
+<td style="text-align: left;">3 months</td>
+<td style="text-align: left;">1,440</td>
+<td style="text-align: left;">40</td>
+<td style="text-align: left;">Enhanced features, API layer</td>
+</tr>
+<tr>
+<td style="text-align: left;">Phase 3</td>
+<td style="text-align: left;">3 months</td>
+<td style="text-align: left;">1,440</td>
+<td style="text-align: left;">40</td>
+<td style="text-align: left;">Production features, optimization</td>
+</tr>
+<tr>
+<td style="text-align: left;">Phase 4</td>
+<td style="text-align: left;">3 months</td>
+<td style="text-align: left;">1,440</td>
+<td style="text-align: left;">40</td>
+<td style="text-align: left;">Documentation, deployment, launch</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Total</strong></td>
+<td style="text-align: left;"><strong>12 months</strong></td>
+<td style="text-align: left;"><strong>5,760</strong></td>
+<td style="text-align: left;"><strong>40</strong></td>
+<td style="text-align: left;"></td>
+</tr>
+</tbody>
+</table>
+<h3 id="skill-requirements">Skill Requirements</h3>
+<p><strong>Backend Developer (60% of time):</strong></p>
+<ul>
+<li>Python, FastAPI, async programming</li>
+<li>Neo4j, Cypher query language</li>
+<li>Vector databases (Qdrant/Weaviate)</li>
+<li>LLM APIs (OpenAI, Anthropic)</li>
+<li>Docker, cloud deployment</li>
+</ul>
+<p><strong>Full-Stack Developer (40% of time):</strong></p>
+<ul>
+<li>React, TypeScript, modern frontend</li>
+<li>D3.js for graph visualization</li>
+<li>REST API integration</li>
+<li>UI/UX design basics</li>
+<li>Testing and debugging</li>
+</ul>
+<p><strong>Shared Responsibilities:</strong></p>
+<ul>
+<li>Architecture decisions</li>
+<li>Code reviews</li>
+<li>Documentation</li>
+<li>DevOps and deployment</li>
+<li>Performance optimization</li>
+</ul>
+<hr />
+<h2 id="appendix-technology-stack-details">Appendix: Technology Stack
+Details</h2>
+<h3 id="backend-stack">Backend Stack</h3>
+<ul>
+<li><strong>Language</strong>: Python 3.11+</li>
+<li><strong>Framework</strong>: FastAPI 0.104+</li>
+<li><strong>ORM</strong>: Neo4j Python Driver, Pydantic</li>
+<li><strong>Task Queue</strong>: Celery + Redis</li>
+<li><strong>Testing</strong>: pytest, pytest-asyncio</li>
+<li><strong>Linting</strong>: ruff, mypy</li>
+</ul>
+<h3 id="frontend-stack">Frontend Stack</h3>
+<ul>
+<li><strong>Language</strong>: TypeScript 5.0+</li>
+<li><strong>Framework</strong>: React 18+</li>
+<li><strong>Build Tool</strong>: Vite</li>
+<li><strong>Visualization</strong>: D3.js, Recharts</li>
+<li><strong>State Management</strong>: React Query, Zustand</li>
+<li><strong>Testing</strong>: Vitest, Testing Library</li>
+</ul>
+<h3 id="databases">Databases</h3>
+<ul>
+<li><strong>Graph</strong>: Neo4j 5.x (Community or Enterprise)</li>
+<li><strong>Vector</strong>: Qdrant 1.7+ (self-hosted)</li>
+<li><strong>Cache</strong>: Redis 7.x</li>
+<li><strong>Search</strong>: (Optional) Elasticsearch 8.x</li>
+</ul>
+<h3 id="aiml-services">AI/ML Services</h3>
+<ul>
+<li><strong>Primary LLM</strong>: Ollama (self-hosted)
+<ul>
+<li>Llama 3 8B (fast, general purpose)</li>
+<li>Mistral 7B (efficient, balanced)</li>
+<li>Mixtral 8x7B (high quality)</li>
+</ul></li>
+<li><strong>Secondary LLM</strong>: OpenAI (cloud)
+<ul>
+<li>GPT-4 (complex reasoning, critical tasks)</li>
+<li>GPT-3.5-turbo (cost-effective alternative)</li>
+</ul></li>
+<li><strong>Embeddings</strong>:
+<ul>
+<li>Sentence-Transformers (primary, free)</li>
+<li>OpenAI text-embedding-3-large (high quality)</li>
+</ul></li>
+<li><strong>Frameworks</strong>: LangChain, LlamaIndex</li>
+<li><strong>GPU</strong>: NVIDIA T4, A10G, A100</li>
+</ul>
+<h3 id="devops-infrastructure">DevOps &amp; Infrastructure</h3>
+<ul>
+<li><strong>Cloud</strong>: AWS (EC2, S3, RDS, ECS)</li>
+<li><strong>Containers</strong>: Docker, Docker Compose</li>
+<li><strong>Orchestration</strong>: Kubernetes (optional)</li>
+<li><strong>CI/CD</strong>: GitHub Actions</li>
+<li><strong>IaC</strong>: Terraform</li>
+<li><strong>Monitoring</strong>: Prometheus, Grafana</li>
+<li><strong>Logging</strong>: ELK Stack or CloudWatch</li>
+</ul>
+<h3 id="development-tools">Development Tools</h3>
+<ul>
+<li><strong>Version Control</strong>: Git, GitHub</li>
+<li><strong>API Testing</strong>: Postman, HTTPie</li>
+<li><strong>Documentation</strong>: Swagger/OpenAPI, MkDocs</li>
+<li><strong>Project Management</strong>: GitHub Projects, Linear</li>
+</ul>
+<hr />
+<h2 id="next-steps">Next Steps</h2>
+<ol type="1">
+<li><strong>Review and Approve Roadmap</strong>: Stakeholder review and
+sign-off</li>
+<li><strong>Provision Infrastructure</strong>: Set up cloud accounts and
+initial resources</li>
+<li><strong>Team Onboarding</strong>: Ensure team has access to all
+tools and documentation</li>
+<li><strong>Sprint 1 Kickoff</strong>: Begin infrastructure setup (Week
+1)</li>
+<li><strong>Weekly Standups</strong>: Establish regular sync
+meetings</li>
+<li><strong>Monthly Reviews</strong>: Demo progress and adjust plan as
+needed</li>
+</ol>
+<hr />
+<p><strong>Document Version</strong>: 1.0<br />
+<strong>Last Updated</strong>: January 24, 2026<br />
+<strong>Authors</strong>: HUI Technical Team<br />
+<strong>Status</strong>: Draft for Review</p>
+<hr />
+<h2 id="quick-reference-key-numbers">Quick Reference: Key Numbers</h2>
+<h3 id="mvp-3-months">MVP (3 Months)</h3>
+<ul>
+<li><strong>Timeline</strong>: Months 1-3</li>
+<li><strong>Budget</strong>: ₹2,50,000 - ₹4,80,000</li>
+<li><strong>Team</strong>: 2 part-time experts (40 hours/week)</li>
+<li><strong>Deliverables</strong>: Semantic search, ontology explorer,
+basic ingestion</li>
+</ul>
+<h3 id="full-year-12-months">Full Year (12 Months)</h3>
+<ul>
+<li><strong>Timeline</strong>: Months 1-12</li>
+<li><strong>Budget</strong>: ₹26,45,000 - ₹32,00,000 (optimized)</li>
+<li><strong>Original Budget</strong>: ₹35,80,000 - ₹42,72,000</li>
+<li><strong>Savings</strong>: ₹9,35,000 - ₹10,72,000 (26%
+reduction)</li>
+</ul>
+<h3 id="cost-breakdown">Cost Breakdown</h3>
+<ul>
+<li><strong>Development Infrastructure</strong>: ₹24,69,000 (52%)</li>
+<li><strong>Automated Testing</strong>: ₹2,52,000 (5%)</li>
+<li><strong>Beta Testing</strong>: ₹3,96,000 - ₹6,46,000 (8-13%)</li>
+<li><strong>Contingency</strong>: ₹4,63,000 - ₹5,05,000 (10%)</li>
+</ul>
+<h3 id="llm-strategy">LLM Strategy</h3>
+<ul>
+<li><strong>Ollama (Self-Hosted)</strong>: 70-80% of requests
+<ul>
+<li>Cost: ₹40,000-1,50,000/month (fixed GPU)</li>
+<li>Models: Llama 3, Mistral, Mixtral</li>
+</ul></li>
+<li><strong>OpenAI (Cloud)</strong>: 20-30% of requests
+<ul>
+<li>Cost: ₹50,000-2,50,000/month (variable)</li>
+<li>Models: GPT-4, GPT-3.5-turbo</li>
+</ul></li>
+<li><strong>Savings</strong>: 60-70% reduction in LLM costs</li>
+</ul>
+<h3 id="infrastructure-highlights">Infrastructure Highlights</h3>
+<ul>
+<li><strong>Graph DB</strong>: Neo4j (self-hosted)</li>
+<li><strong>Vector DB</strong>: Qdrant (self-hosted)</li>
+<li><strong>Cache</strong>: Redis</li>
+<li><strong>GPU</strong>: NVIDIA T4 (dev) → A10G (prod)</li>
+<li><strong>Cloud</strong>: AWS with spot instances</li>
+</ul>
+<h3 id="testing-coverage">Testing Coverage</h3>
+<ul>
+<li><strong>Automated Testing</strong>: 864 hours (15% of
+development)</li>
+<li><strong>Beta Testing</strong>: 480 hours over 2 months</li>
+<li><strong>Beta Users</strong>: 20-50 active testers</li>
+<li><strong>Testing Infrastructure</strong>: ₹2,52,000/year</li>
+</ul>
+<h3 id="success-metrics-1">Success Metrics</h3>
+<ul>
+<li><strong>MVP</strong>: 100+ documents, 1000+ entities, &gt;70% user
+satisfaction</li>
+<li><strong>Month 6</strong>: 500+ documents, 5000+ entities, API
+operational</li>
+<li><strong>Month 9</strong>: User auth, analytics, &gt;99% uptime</li>
+<li><strong>Month 12</strong>: 1000+ documents, 10,000+ entities,
+production ready</li>
+</ul>
+<hr />
+<h2 id="appendix-cost-comparison-tables">Appendix: Cost Comparison
+Tables</h2>
+<h3 id="llm-cost-comparison-per-1m-tokens">LLM Cost Comparison (Per 1M
+Tokens)</h3>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Provider</th>
+<th style="text-align: left;">Model</th>
+<th style="text-align: left;">Cost (INR)</th>
+<th style="text-align: left;">Use Case</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">OpenAI</td>
+<td style="text-align: left;">GPT-4</td>
+<td style="text-align: left;">₹3,000</td>
+<td style="text-align: left;">Complex reasoning, critical</td>
+</tr>
+<tr>
+<td style="text-align: left;">OpenAI</td>
+<td style="text-align: left;">GPT-3.5-turbo</td>
+<td style="text-align: left;">₹500</td>
+<td style="text-align: left;">General purpose</td>
+</tr>
+<tr>
+<td style="text-align: left;">OpenAI</td>
+<td style="text-align: left;">text-embedding-3-large</td>
+<td style="text-align: left;">₹130</td>
+<td style="text-align: left;">High-quality embeddings</td>
+</tr>
+<tr>
+<td style="text-align: left;">Ollama</td>
+<td style="text-align: left;">Llama 3 8B</td>
+<td style="text-align: left;">₹0*</td>
+<td style="text-align: left;">Fast, general purpose</td>
+</tr>
+<tr>
+<td style="text-align: left;">Ollama</td>
+<td style="text-align: left;">Mistral 7B</td>
+<td style="text-align: left;">₹0*</td>
+<td style="text-align: left;">Efficient, balanced</td>
+</tr>
+<tr>
+<td style="text-align: left;">Ollama</td>
+<td style="text-align: left;">Mixtral 8x7B</td>
+<td style="text-align: left;">₹0*</td>
+<td style="text-align: left;">High quality</td>
+</tr>
+<tr>
+<td style="text-align: left;">Sentence-Transformers</td>
+<td style="text-align: left;">all-MiniLM-L6-v2</td>
+<td style="text-align: left;">₹0</td>
+<td style="text-align: left;">Fast embeddings</td>
+</tr>
+</tbody>
+</table>
+<p>*Fixed GPU cost, no per-token charges</p>
+<h3 id="gpu-instance-comparison-aws">GPU Instance Comparison (AWS)</h3>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Instance</th>
+<th style="text-align: left;">GPU</th>
+<th style="text-align: left;">VRAM</th>
+<th style="text-align: left;">vCPU</th>
+<th style="text-align: left;">RAM</th>
+<th style="text-align: left;">Cost/Month (INR)</th>
+<th style="text-align: left;">Use Case</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">g4dn.xlarge</td>
+<td style="text-align: left;">T4</td>
+<td style="text-align: left;">16GB</td>
+<td style="text-align: left;">4</td>
+<td style="text-align: left;">16GB</td>
+<td style="text-align: left;">₹35,000</td>
+<td style="text-align: left;">Development</td>
+</tr>
+<tr>
+<td style="text-align: left;">g5.xlarge</td>
+<td style="text-align: left;">A10G</td>
+<td style="text-align: left;">24GB</td>
+<td style="text-align: left;">4</td>
+<td style="text-align: left;">16GB</td>
+<td style="text-align: left;">₹60,000</td>
+<td style="text-align: left;">Staging</td>
+</tr>
+<tr>
+<td style="text-align: left;">g5.2xlarge</td>
+<td style="text-align: left;">A10G</td>
+<td style="text-align: left;">24GB</td>
+<td style="text-align: left;">8</td>
+<td style="text-align: left;">32GB</td>
+<td style="text-align: left;">₹90,000</td>
+<td style="text-align: left;">Production</td>
+</tr>
+<tr>
+<td style="text-align: left;">g5.4xlarge</td>
+<td style="text-align: left;">A10G</td>
+<td style="text-align: left;">24GB</td>
+<td style="text-align: left;">16</td>
+<td style="text-align: left;">64GB</td>
+<td style="text-align: left;">₹1,50,000</td>
+<td style="text-align: left;">High load</td>
+</tr>
+<tr>
+<td style="text-align: left;">p3.2xlarge</td>
+<td style="text-align: left;">V100</td>
+<td style="text-align: left;">16GB</td>
+<td style="text-align: left;">8</td>
+<td style="text-align: left;">61GB</td>
+<td style="text-align: left;">₹2,00,000</td>
+<td style="text-align: left;">Training</td>
+</tr>
+</tbody>
+</table>
+<h3 id="database-hosting-comparison">Database Hosting Comparison</h3>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Service</th>
+<th style="text-align: left;">Managed</th>
+<th style="text-align: left;">Self-Hosted</th>
+<th style="text-align: left;">Savings</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">Neo4j</td>
+<td style="text-align: left;">₹40,000/month</td>
+<td style="text-align: left;">₹10,000/month</td>
+<td style="text-align: left;">75%</td>
+</tr>
+<tr>
+<td style="text-align: left;">Qdrant</td>
+<td style="text-align: left;">₹30,000/month</td>
+<td style="text-align: left;">₹8,000/month</td>
+<td style="text-align: left;">73%</td>
+</tr>
+<tr>
+<td style="text-align: left;">Redis</td>
+<td style="text-align: left;">₹10,000/month</td>
+<td style="text-align: left;">₹3,000/month</td>
+<td style="text-align: left;">70%</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Total</strong></td>
+<td style="text-align: left;"><strong>₹80,000/month</strong></td>
+<td style="text-align: left;"><strong>₹21,000/month</strong></td>
+<td style="text-align: left;"><strong>74%</strong></td>
+</tr>
+</tbody>
+</table>
+<h3 id="monthly-cost-progression">Monthly Cost Progression</h3>
+<table>
+<colgroup>
+<col style="width: 15%" />
+<col style="width: 36%" />
+<col style="width: 11%" />
+<col style="width: 20%" />
+<col style="width: 15%" />
+</colgroup>
+<thead>
+<tr>
+<th style="text-align: left;">Month</th>
+<th style="text-align: left;">Infrastructure</th>
+<th style="text-align: left;">LLM</th>
+<th style="text-align: left;">Testing</th>
+<th style="text-align: left;">Total</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">1</td>
+<td style="text-align: left;">₹91,000</td>
+<td style="text-align: left;">₹55,000</td>
+<td style="text-align: left;">₹21,000</td>
+<td style="text-align: left;">₹1,67,000</td>
+</tr>
+<tr>
+<td style="text-align: left;">2</td>
+<td style="text-align: left;">₹91,000</td>
+<td style="text-align: left;">₹55,000</td>
+<td style="text-align: left;">₹21,000</td>
+<td style="text-align: left;">₹1,67,000</td>
+</tr>
+<tr>
+<td style="text-align: left;">3</td>
+<td style="text-align: left;">₹91,000</td>
+<td style="text-align: left;">₹55,000</td>
+<td style="text-align: left;">₹21,000</td>
+<td style="text-align: left;">₹1,67,000</td>
+</tr>
+<tr>
+<td style="text-align: left;">4</td>
+<td style="text-align: left;">₹1,42,000</td>
+<td style="text-align: left;">₹75,000</td>
+<td style="text-align: left;">₹21,000</td>
+<td style="text-align: left;">₹2,38,000</td>
+</tr>
+<tr>
+<td style="text-align: left;">5</td>
+<td style="text-align: left;">₹1,42,000</td>
+<td style="text-align: left;">₹75,000</td>
+<td style="text-align: left;">₹21,000</td>
+<td style="text-align: left;">₹2,38,000</td>
+</tr>
+<tr>
+<td style="text-align: left;">6</td>
+<td style="text-align: left;">₹1,42,000</td>
+<td style="text-align: left;">₹75,000</td>
+<td style="text-align: left;">₹21,000</td>
+<td style="text-align: left;">₹2,38,000</td>
+</tr>
+<tr>
+<td style="text-align: left;">7</td>
+<td style="text-align: left;">₹2,25,000</td>
+<td style="text-align: left;">₹1,20,000</td>
+<td style="text-align: left;">₹21,000</td>
+<td style="text-align: left;">₹3,66,000</td>
+</tr>
+<tr>
+<td style="text-align: left;">8</td>
+<td style="text-align: left;">₹2,25,000</td>
+<td style="text-align: left;">₹1,20,000</td>
+<td style="text-align: left;">₹21,000</td>
+<td style="text-align: left;">₹3,66,000</td>
+</tr>
+<tr>
+<td style="text-align: left;">9</td>
+<td style="text-align: left;">₹2,25,000</td>
+<td style="text-align: left;">₹1,20,000</td>
+<td style="text-align: left;">₹21,000</td>
+<td style="text-align: left;">₹3,66,000</td>
+</tr>
+<tr>
+<td style="text-align: left;">10</td>
+<td style="text-align: left;">₹3,65,000</td>
+<td style="text-align: left;">₹1,50,000</td>
+<td style="text-align: left;">₹21,000</td>
+<td style="text-align: left;">₹5,36,000</td>
+</tr>
+<tr>
+<td style="text-align: left;">11</td>
+<td style="text-align: left;">₹3,65,000</td>
+<td style="text-align: left;">₹1,50,000</td>
+<td style="text-align: left;">₹2,14,500</td>
+<td style="text-align: left;">₹7,29,500</td>
+</tr>
+<tr>
+<td style="text-align: left;">12</td>
+<td style="text-align: left;">₹3,65,000</td>
+<td style="text-align: left;">₹1,50,000</td>
+<td style="text-align: left;">₹2,14,500</td>
+<td style="text-align: left;">₹7,29,500</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Total</strong></td>
+<td style="text-align: left;"><strong>₹24,69,000</strong></td>
+<td style="text-align: left;"><strong>₹12,00,000</strong></td>
+<td style="text-align: left;"><strong>₹6,48,000</strong></td>
+<td style="text-align: left;"><strong>₹43,17,000</strong></td>
+</tr>
+</tbody>
+</table>
+<p><strong>With Optimizations: ₹26,45,000 - ₹32,00,000</strong></p>
+<hr />
+<h2 id="contact-support">Contact &amp; Support</h2>
+<p>For questions about this roadmap: - <strong>Technical
+Questions</strong>: Review architecture and technology stack sections -
+<strong>Budget Questions</strong>: See detailed cost breakdown tables -
+<strong>Timeline Questions</strong>: Refer to sprint-by-sprint breakdown
+- <strong>Ollama Setup</strong>: See Ollama infrastructure details
+section</p>
+<p><strong>Next Steps:</strong> 1. Review and approve this roadmap 2.
+Provision AWS account and initial infrastructure 3. Set up development
+environment 4. Begin Sprint 1 (Infrastructure Setup)</p>
+<hr />
