@@ -307,7 +307,7 @@ a:hover { text-decoration: underline; }
    ============================================ */
 .about-grid {
   display: grid;
-  grid-template-columns: 1.4fr 1fr;
+  grid-template-columns: 1.26fr 1.1fr;
   gap: 3rem;
   align-items: start;
 }
@@ -510,12 +510,107 @@ a:hover { text-decoration: underline; }
 }
 
 /* ============================================
+   Why Gridplex / differentiators
+   ============================================ */
+.differentiators {
+  list-style: none;
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 1.8rem;
+}
+.differentiators li {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  border-top: 2px solid var(--mint);
+  padding-top: 1rem;
+}
+.diff-num {
+  color: var(--mint-soft);
+  font-size: 0.85rem;
+}
+.differentiators p { font-size: 0.92rem; }
+
+/* ============================================
+   Engagement flow indicator
+   ============================================ */
+.engagement-flow {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+  margin-bottom: 1.5rem;
+}
+.flow-step {
+  font-size: 0.82rem;
+  color: var(--mint-soft);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+.flow-arrow {
+  color: var(--mint-soft);
+  font-size: 0.9rem;
+  opacity: 0.6;
+}
+.engagement-duration {
+  color: var(--mint-soft);
+  font-size: 0.82rem;
+  margin-bottom: 0.5rem;
+}
+.engagement-purpose {
+  color: var(--white);
+  font-weight: 600;
+  font-size: 0.95rem;
+  margin-bottom: 0.5rem;
+}
+.engagement-outcome {
+  margin-top: 0.75rem;
+  font-size: 0.88rem;
+}
+.engagement-outcome strong { color: var(--mint-soft); }
+
+/* ============================================
+   Where Are You Today? / decision list
+   ============================================ */
+.decision-list {
+  list-style: none;
+  max-width: 800px;
+}
+.decision-list li {
+  display: grid;
+  grid-template-columns: 1fr auto auto;
+  align-items: center;
+  gap: 1.5rem;
+  padding: 1.2rem 0;
+  border-bottom: 1px solid var(--navy-border);
+}
+.decision-list li:first-child { border-top: 1px solid var(--navy-border); }
+.decision-situation {
+  color: var(--white-soft);
+  font-size: 0.97rem;
+  font-style: italic;
+}
+.decision-arrow {
+  color: var(--mint-soft);
+  font-size: 1.1rem;
+  font-family: var(--font-mono);
+}
+.decision-link {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 0.95rem;
+  color: var(--mint);
+  white-space: nowrap;
+}
+.decision-link:hover { text-decoration: underline; }
+
+/* ============================================
    Responsive
    ============================================ */
 @media (max-width: 860px) {
   .about-grid { grid-template-columns: 1fr; }
   .card-grid { grid-template-columns: repeat(2, 1fr); }
-  .process { grid-template-columns: repeat(2, 1fr); }
+  .differentiators { grid-template-columns: repeat(3, 1fr); }
 }
 
 @media (max-width: 640px) {
@@ -538,7 +633,12 @@ a:hover { text-decoration: underline; }
   .nav-cta { margin-top: 0.5rem; }
 
   .card-grid { grid-template-columns: 1fr; }
-  .process { grid-template-columns: 1fr; }
+  .differentiators { grid-template-columns: 1fr; }
+  .decision-list li {
+    grid-template-columns: 1fr;
+    gap: 0.5rem;
+  }
+  .decision-arrow { display: none; }
   .credibility-strip li { padding: 0 0.6rem; font-size: 0.78rem; }
   .hero { padding: 4rem 0 3.5rem; }
   .section { padding: 3.5rem 0; }
