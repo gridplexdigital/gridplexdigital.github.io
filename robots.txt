@@ -2,3 +2,4 @@ User-agent: *
 Allow: /
 
 Sitemap: https://gridplexdigital.github.io/sitemap.xml
+Sitemap: https://gridplexdigital.github.io/123lenses/sitemap.xml
