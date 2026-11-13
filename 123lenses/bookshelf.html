@@ -1,0 +1,1327 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Explore the foundational books, classical treatises, and empirical literature behind the 123 Lenses framework, curated with analytical reading notes and foundational quotes.">
+  <meta name="theme-color" content="#243665">
+  <title>The 123 Bookshelf: The Literature Behind the Lenses | Dr. Aniket Pingley</title>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/styles.css">
+  <link rel="canonical" href="https://gridplexdigital.github.io/123lenses/bookshelf.html">
+  <link rel="icon" href="https://gridplexdigital.github.io/logo.png" type="image/png">
+  <link rel="apple-touch-icon" href="https://gridplexdigital.github.io/logo.png">
+  
+  <!-- Open Graph -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://gridplexdigital.github.io/123lenses/bookshelf.html">
+  <meta property="og:title" content="The 123 Bookshelf: The Literature Behind the Lenses">
+  <meta property="og:description" content="Explore the foundational books, classical treatises, and empirical literature behind the 123 Lenses framework, curated with analytical reading notes and foundational quotes.">
+  <meta property="og:image" content="https://gridplexdigital.github.io/logo.png">
+  <meta property="og:site_name" content="123 Lenses">
+
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="The 123 Bookshelf: The Literature Behind the Lenses">
+  <meta name="twitter:description" content="Explore the foundational books, classical treatises, and empirical literature behind the 123 Lenses framework, curated with analytical reading notes and foundational quotes.">
+
+  <!-- Schema.org CollectionPage -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "CollectionPage",
+    "name": "The 123 Bookshelf: The Literature Behind the Lenses",
+    "description": "Curated reading canon indexing the seminal literature behind the 123 Lenses framework.",
+    "author": {
+      "@type": "Person",
+      "name": "Dr. Aniket Pingley"
+    },
+    "publisher": {
+      "@type": "Organization",
+      "name": "Gridplex Digital",
+      "url": "https://gridplexdigital.github.io/"
+    }
+  }
+  </script>
+
+  <style>
+    .bookshelf-hero {
+      max-width: var(--max);
+      margin: 0 auto;
+      padding: 64px 24px 32px;
+    }
+    .bookshelf-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+      gap: 22px;
+      margin-top: 24px;
+    }
+    @media (max-width: 640px) {
+      .bookshelf-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+    .book-card {
+      background: var(--navy-surface);
+      border: 1px solid var(--navy-border);
+      border-radius: 12px;
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      transition: all 0.2s ease;
+      position: relative;
+    }
+    .book-card:hover {
+      transform: translateY(-3px);
+      border-color: var(--mint);
+      box-shadow: 0 12px 30px -8px rgba(11, 19, 43, 0.45);
+    }
+    .book-card.domain-mind { border-top: 3px solid var(--sage); }
+    .book-card.domain-systems { border-top: 3px solid var(--slate); }
+    .book-card.domain-philosophy { border-top: 3px solid var(--clay); }
+    .book-card.domain-society { border-top: 3px solid var(--sand); }
+    .book-card.domain-science { border-top: 3px solid var(--heather); }
+
+    .book-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      gap: 12px;
+      margin-bottom: 8px;
+    }
+    .book-era {
+      font-family: var(--font-mono);
+      font-size: 0.76rem;
+      color: var(--white-muted);
+      font-weight: 600;
+    }
+    .book-title {
+      font-family: var(--font-display);
+      font-size: 1.3rem;
+      font-weight: 700;
+      line-height: 1.25;
+      color: var(--white);
+      margin: 6px 0 4px;
+    }
+    .book-author {
+      font-size: 0.95rem;
+      color: var(--mint);
+      font-weight: 500;
+      margin-bottom: 14px;
+    }
+    .book-quote {
+      font-style: italic;
+      color: var(--white-soft);
+      font-size: 0.88rem;
+      line-height: 1.6;
+      border-left: 2px solid var(--navy-border-hover);
+      padding-left: 12px;
+      margin: 0 0 16px;
+    }
+    .book-insight {
+      background: rgba(0, 0, 0, 0.2);
+      border-radius: 8px;
+      padding: 12px 14px;
+      margin: 0 0 16px;
+      font-size: 0.86rem;
+      line-height: 1.6;
+      color: var(--white-soft);
+    }
+    .book-insight strong {
+      color: var(--white);
+      font-family: var(--font-mono);
+      font-size: 0.76rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      display: block;
+      margin-bottom: 4px;
+      color: var(--clay);
+    }
+    .connected-lenses-wrap {
+      margin-top: auto;
+      padding-top: 14px;
+      border-top: 1px solid var(--navy-border);
+    }
+    .connected-label {
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      color: var(--white-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      margin-bottom: 8px;
+      display: block;
+    }
+    .lens-pill-cloud {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+    .lens-pill {
+      font-family: var(--font-mono);
+      font-size: 0.74rem;
+      padding: 3px 8px;
+      border-radius: 4px;
+      background: var(--navy-deep);
+      border: 1px solid var(--navy-border);
+      color: var(--white-soft);
+      text-decoration: none;
+      transition: all 0.15s ease;
+    }
+    .lens-pill:hover {
+      background: var(--mint-faint);
+      border-color: var(--mint);
+      color: var(--mint);
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Site Header -->
+  <header class="site-header">
+    <a class="brand" href="index.html">123 <span>Lenses</span></a>
+    <div class="header-right">
+      <a class="header-link" href="index.html">All 123 Lenses</a>
+      <a class="header-link" href="graph.html" style="color:var(--slate);">Knowledge Graph ✦</a>
+      <a class="header-link" href="bookshelf.html" style="border-color:var(--mint);color:var(--mint);">The Bookshelf</a>
+      <a class="header-link" href="orakl.html" style="color:var(--clay);">Orakl AI ↗</a>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="bookshelf-hero">
+    <p class="eyebrow">THE FOUNDATIONAL CANON</p>
+    <h1>The 123 Bookshelf: The Literature Behind the Lenses</h1>
+    <p class="hero-copy">
+      Cross-disciplinary mental models do not emerge in a vacuum. Explore the seminal treatises, empirical studies, and classical philosophies from which the 123 Lenses are distilled—curated with analytical reading notes and foundational quotes.
+    </p>
+
+    <!-- Hero Metrics Strip -->
+    <div class="hero-metrics">
+      <div class="metric-item">
+        <span class="metric-num">36</span>
+        <span class="metric-label">Seminal Texts</span>
+      </div>
+      <div class="metric-divider" aria-hidden="true"></div>
+      <div class="metric-item">
+        <span class="metric-num">10</span>
+        <span class="metric-label">Curated Domains</span>
+      </div>
+      <div class="metric-divider" aria-hidden="true"></div>
+      <div class="metric-item">
+        <span class="metric-num">2,500+</span>
+        <span class="metric-label">Years of Strategic Inquiry</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- Main Content & Filter Toolbar -->
+  <main class="content">
+    <div class="toolbar" role="search">
+      <div class="search-box">
+        <span class="search-icon" aria-hidden="true">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+        </span>
+        <input id="bookshelf-search" type="search" placeholder="Search by book title, author, concept, or lens #..." autocomplete="off">
+        <span class="search-kbd" aria-hidden="true">/</span>
+      </div>
+    </div>
+
+    <!-- Domain Chips Filter -->
+    <div class="topic-scroll" id="topic-scroll" role="region" aria-label="Topic filters">
+      <div class="topic-chips" id="topic-chips" role="radiogroup" aria-label="Filter by Topic">
+        <button class="chip active" data-topic="All" role="radio" aria-checked="true">All Books (<span id="book-total">36</span>)</button>
+        <button class="chip" data-topic="Hindu Philosophy & Classical Strategy" role="radio" aria-checked="false">Hindu Philosophy &amp; Strategy (7)</button>
+        <button class="chip" data-topic="Systems Thinking & Complexity" role="radio" aria-checked="false">Systems &amp; Complexity (4)</button>
+        <button class="chip" data-topic="Decision Science & Cognitive Biases" role="radio" aria-checked="false">Decision Science (5)</button>
+        <button class="chip" data-topic="Social Psychology & Human Nature" role="radio" aria-checked="false">Social Psychology (5)</button>
+        <button class="chip" data-topic="Game Theory & Cooperation" role="radio" aria-checked="false">Game Theory (4)</button>
+        <button class="chip" data-topic="Economics, Markets & Incentives" role="radio" aria-checked="false">Economics &amp; Markets (4)</button>
+        <button class="chip" data-topic="Scientific Reasoning & Epistemology" role="radio" aria-checked="false">Scientific Epistemology (4)</button>
+        <button class="chip" data-topic="Philosophy, Ethics & Mind" role="radio" aria-checked="false">Philosophy &amp; Mind (5)</button>
+        <button class="chip" data-topic="Institutions, History & Anthropology" role="radio" aria-checked="false">Institutions &amp; History (5)</button>
+        <button class="chip" data-topic="Technology, AI & Media Ecology" role="radio" aria-checked="false">Technology &amp; Media (5)</button>
+      </div>
+    </div>
+
+    <!-- Bookshelf Grid -->
+    <div class="bookshelf-grid" id="books-grid">
+
+      <!-- ================= 1. HINDU PHILOSOPHY & STRATEGY ================= -->
+      <article class="book-card domain-philosophy" data-domain="Hindu Philosophy & Classical Strategy">
+        <div class="book-header">
+          <span class="card-topic-tag tag-philosophy">Hindu Philosophy</span>
+          <span class="book-era">c. 2nd C. BCE</span>
+        </div>
+        <h2 class="book-title">The Bhagavad Gita</h2>
+        <div class="book-author">Vyasa (Translation by Eknath Easwaran)</div>
+        <blockquote class="book-quote">"You have a right to your actions, but never to your actions' fruits." (2.47)</blockquote>
+        <div class="book-insight">
+          The ultimate antidote to performative modern anxiety. The Gita clarifies that suffering arises from mistaking the domain of action (which is entirely yours) for the domain of outcome (which belongs to a complex system). Striving authentically in one's own nature (*Swadharma*) protects against existential dislocation.
+        </div>
+        <div class="connected-lenses-wrap">
+          <span class="connected-label">Anchors 6 Lenses:</span>
+          <div class="lens-pill-cloud">
+            <a class="lens-pill" href="lessons/001-swadharma-vs-paradharma.html">001. Swadharma</a>
+            <a class="lens-pill" href="lessons/006-abhyasa-and-vairagya-practice-and-dispassion.html">006. Abhyasa &amp; Vairagya</a>
+            <a class="lens-pill" href="lessons/040-the-inner-battlefield-kshetra-kshetrajna.html">040. Inner Battlefield</a>
+            <a class="lens-pill" href="lessons/095-vishada-as-the-gateway-to-clarity.html">095. Vishada</a>
+            <a class="lens-pill" href="lessons/103-sthitaprajna-the-steady-mind.html">103. Sthitaprajna</a>
+            <a class="lens-pill" href="lessons/105-nishkama-karma-detached-action.html">105. Nishkama Karma</a>
+            <a class="lens-pill" href="lessons/115-the-three-gunas-sattva-rajas-tamas.html">115. Three Gunas</a>
+          </div>
+        </div>
+      </article>
+
+      <article class="book-card domain-philosophy" data-domain="Hindu Philosophy & Classical Strategy">
+        <div class="book-header">
+          <span class="card-topic-tag tag-philosophy">Classical Strategy</span>
+          <span class="book-era">c. 5th C. BCE</span>
+        </div>
+        <h2 class="book-title">The Art of War</h2>
+        <div class="book-author">Sun Tzu (Translation by Roger Ames)</div>
+        <blockquote class="book-quote">"To fight and conquer in all our battles is not supreme excellence; supreme excellence consists in breaking the enemy's resistance without fighting."</blockquote>
+        <div class="book-insight">
+          Supreme strategy is informational and positional, not kinetic. The highest commander creates structural conditions where friction is minimized and success is locked in before the first step is taken. Like water, strategic leverage has no fixed shape.
+        </div>
+        <div class="connected-lenses-wrap">
+          <span class="connected-label">Anchors 2 Lenses:</span>
+          <div class="lens-pill-cloud">
+            <a class="lens-pill" href="lessons/097-winning-without-fighting-supreme-strategy.html">097. Winning Without Fighting</a>
+            <a class="lens-pill" href="lessons/118-formlessness-and-adaptability.html">118. Formlessness</a>
+          </div>
+        </div>
+      </article>
+
+      <article class="book-card domain-philosophy" data-domain="Hindu Philosophy & Classical Strategy">
+        <div class="book-header">
+          <span class="card-topic-tag tag-philosophy">Hindu Philosophy</span>
+          <span class="book-era">c. 400 CE</span>
+        </div>
+        <h2 class="book-title">The Yoga Sutras</h2>
+        <div class="book-author">Patanjali (Commentaries by B.K.S. Iyengar &amp; Vivekananda)</div>
+        <blockquote class="book-quote">"Yoga is the stilling of the fluctuations of consciousness (Chitta Vritti Nirodha)."</blockquote>
+        <div class="book-insight">
+          The classical operating system for attentional calibration. Mastery is built on two interdependent disciplines: relentless, sustained iteration (*Abhyasa*) and radical emotional dispassion (*Vairagya*). One cannot soar with only one wing.
+        </div>
+        <div class="connected-lenses-wrap">
+          <span class="connected-label">Anchors 3 Lenses:</span>
+          <div class="lens-pill-cloud">
+            <a class="lens-pill" href="lessons/006-abhyasa-and-vairagya-practice-and-dispassion.html">006. Abhyasa &amp; Vairagya</a>
+            <a class="lens-pill" href="lessons/040-the-inner-battlefield-kshetra-kshetrajna.html">040. Inner Battlefield</a>
+            <a class="lens-pill" href="lessons/112-advaita-the-distinction-between-self-and-roles.html">112. Advaita</a>
+          </div>
+        </div>
+      </article>
+
+      <article class="book-card domain-philosophy" data-domain="Hindu Philosophy & Classical Strategy">
+        <div class="book-header">
+          <span class="card-topic-tag tag-philosophy">Classical Strategy</span>
+          <span class="book-era">c. 6th C. BCE</span>
+        </div>
+        <h2 class="book-title">Tao Te Ching</h2>
+        <div class="book-author">Lao Tzu (Translation by D.C. Lau)</div>
+        <blockquote class="book-quote">"The sage does nothing, yet nothing is left undone."</blockquote>
+        <div class="book-insight">
+          Wu Wei is not indolence; it is action aligned with the grain of nature. When you stop forcing square pegs into round systemic holes, immense momentum is unlocked with microscopic effort.
+        </div>
+        <div class="connected-lenses-wrap">
+          <span class="connected-label">Anchors 3 Lenses:</span>
+          <div class="lens-pill-cloud">
+            <a class="lens-pill" href="lessons/013-pu-the-uncarved-block.html">013. Pu</a>
+            <a class="lens-pill" href="lessons/055-yin-yang-and-dynamic-polarity.html">055. Yin-Yang</a>
+            <a class="lens-pill" href="lessons/090-wu-wei-effortless-action.html">090. Wu Wei</a>
+          </div>
+        </div>
+      </article>
+
+      <article class="book-card domain-philosophy" data-domain="Hindu Philosophy & Classical Strategy">
+        <div class="book-header">
+          <span class="card-topic-tag tag-philosophy">Hindu Philosophy</span>
+          <span class="book-era">c. 2nd C. CE</span>
+        </div>
+        <h2 class="book-title">The Nyaya Sutras</h2>
+        <div class="book-author">Aksapada Gautama</div>
+        <blockquote class="book-quote">"Valid knowledge is that which corresponds with its object, attained through reliable instruments (Pramanas)."</blockquote>
+        <div class="book-insight">
+          Classical Indian epistemology at its most rigorous. Nyaya teaches that an assertion is only as durable as its epistemic instrument: direct perception (*Pratyaksha*), sound inference (*Anumana*), analogy (*Upamana*), or verified testimony (*Shabda*).
+        </div>
+        <div class="connected-lenses-wrap">
+          <span class="connected-label">Anchors 1 Lens:</span>
+          <div class="lens-pill-cloud">
+            <a class="lens-pill" href="lessons/030-nyaya-knowledge-needs-reliable-means.html">030. Nyaya Epistemology</a>
+          </div>
+        </div>
+      </article>
+
+      <article class="book-card domain-philosophy" data-domain="Hindu Philosophy & Classical Strategy">
+        <div class="book-header">
+          <span class="card-topic-tag tag-philosophy">Classical Strategy</span>
+          <span class="book-era">c. 5th C. BCE</span>
+        </div>
+        <h2 class="book-title">The Analects</h2>
+        <div class="book-author">Confucius</div>
+        <blockquote class="book-quote">"To master oneself and return to ritual propriety is supreme benevolence (Ren)."</blockquote>
+        <div class="book-insight">
+          Inward moral character (*Ren*) cannot endure without outward sacred form (*Li*). Manners, rituals, and protocols are not superficial ornamentation; they are the external scaffolding that protects internal human dignity.
+        </div>
+        <div class="connected-lenses-wrap">
+          <span class="connected-label">Anchors 1 Lens:</span>
+          <div class="lens-pill-cloud">
+            <a class="lens-pill" href="lessons/093-ren-and-li-benevolence-and-ritual-propriety.html">093. Ren and Li</a>
+          </div>
+        </div>
+      </article>
+
+      <article class="book-card domain-philosophy" data-domain="Hindu Philosophy & Classical Strategy">
+        <div class="book-header">
+          <span class="card-topic-tag tag-philosophy">Hindu Philosophy</span>
+          <span class="book-era">c. 1998</span>
+        </div>
+        <h2 class="book-title">The Heart of the Buddha's Teaching</h2>
+        <div class="book-author">Thich Nhat Hanh</div>
+        <blockquote class="book-quote">"Thanks to impermanence, everything is possible. Life itself is change."</blockquote>
+        <div class="book-insight">
+          Suffering does not come from change itself, but from clinging to transient circumstances as if they were permanent. Acknowledging impermanence (*Anicca*) allows a decision-maker to pivot without mourning sunk identities.
+        </div>
+        <div class="connected-lenses-wrap">
+          <span class="connected-label">Anchors 1 Lens:</span>
+          <div class="lens-pill-cloud">
+            <a class="lens-pill" href="lessons/025-buddhist-impermanence-and-attachment.html">025. Impermanence</a>
+          </div>
+        </div>
+      </article>
+
+      <!-- ================= 2. SYSTEMS THINKING & COMPLEXITY ================= -->
+      <article class="book-card domain-systems" data-domain="Systems Thinking & Complexity">
+        <div class="book-header">
+          <span class="card-topic-tag tag-systems">Systems Thinking</span>
+          <span class="book-era">2008</span>
+        </div>
+        <h2 class="book-title">Thinking in Systems: A Primer</h2>
+        <div class="book-author">Donella H. Meadows</div>
+        <blockquote class="book-quote">"Let’s face it, the universe is messy. It is non-linear, turbulent, and dynamic."</blockquote>
+        <div class="book-insight">
+          The master text of holistic analysis. Meadows forces us to look past superficial events and isolated actors to uncover feedback loops, non-linear delays, and systemic leverage points.
+        </div>
+        <div class="connected-lenses-wrap">
+          <span class="connected-label">Anchors 5 Lenses:</span>
+          <div class="lens-pill-cloud">
+            <a class="lens-pill" href="lessons/053-the-importance-of-maintenance.html">053. Maintenance</a>
+            <a class="lens-pill" href="lessons/068-systems-thinking-look-for-feedback-loops.html">068. Feedback Loops</a>
+            <a class="lens-pill" href="lessons/079-why-measurement-changes-behaviour.html">079. Measurement &amp; Goodhart</a>
+            <a class="lens-pill" href="lessons/104-the-precautionary-principle-and-unintended-consequences.html">104. Precautionary Principle</a>
+            <a class="lens-pill" href="lessons/119-path-dependence-why-history-keeps-shaping-the-present.html">119. Path Dependence</a>
+          </div>
+        </div>
+      </article>
+
+      <article class="book-card domain-systems" data-domain="Systems Thinking & Complexity">
+        <div class="book-header">
+          <span class="card-topic-tag tag-systems">Complexity</span>
+          <span class="book-era">2012</span>
+        </div>
+        <h2 class="book-title">Antifragile</h2>
+        <div class="book-author">Nassim Nicholas Taleb</div>
+        <blockquote class="book-quote">"Some things benefit from shocks; they thrive and grow when exposed to volatility, randomness, disorder, and stressors."</blockquote>
+        <div class="book-insight">
+          Taleb demonstrates that suppressing organic stressors does not build resilience—it builds hidden, catastrophic fragility. Vital systems require bounded stressors and redundant maintenance to survive uncertainty.
+        </div>
+        <div class="connected-lenses-wrap">
+          <span class="connected-label">Anchors 3 Lenses:</span>
+          <div class="lens-pill-cloud">
+            <a class="lens-pill" href="lessons/053-the-importance-of-maintenance.html">053. Maintenance</a>
+            <a class="lens-pill" href="lessons/078-risk-is-not-the-same-as-uncertainty.html">078. Risk vs Uncertainty</a>
+            <a class="lens-pill" href="lessons/104-the-precautionary-principle-and-unintended-consequences.html">104. Precautionary Principle</a>
+          </div>
+        </div>
+      </article>
+
+      <article class="book-card domain-systems" data-domain="Systems Thinking & Complexity">
+        <div class="book-header">
+          <span class="card-topic-tag tag-systems">Systems Thinking</span>
+          <span class="book-era">1977</span>
+        </div>
+        <h2 class="book-title">The Systems Bible (Systemantics)</h2>
+        <div class="book-author">John Gall</div>
+        <blockquote class="book-quote">"A complex system that works is invariably found to have evolved from a simple system that worked."</blockquote>
+        <div class="book-insight">
+          Gall’s Law explains why massive "grand redesigns" almost always collapse. Complex functioning systems cannot be designed from scratch; they must be grown organically from working primitives.
+        </div>
+        <div class="connected-lenses-wrap">
+          <span class="connected-label">Anchors 3 Lenses:</span>
+          <div class="lens-pill-cloud">
+            <a class="lens-pill" href="lessons/016-the-hidden-curriculum-of-workplaces.html">016. Hidden Curriculum</a>
+            <a class="lens-pill" href="lessons/083-why-organisations-resist-change.html">083. Resistance to Change</a>
+            <a class="lens-pill" href="lessons/122-the-difference-between-efficiency-and-effectiveness.html">122. Efficiency vs Effectiveness</a>
+          </div>
+        </div>
+      </article>
+
+      <article class="book-card domain-systems" data-domain="Systems Thinking & Complexity">
+        <div class="book-header">
+          <span class="card-topic-tag tag-systems">Complexity</span>
+          <span class="book-era">1984</span>
+        </div>
+        <h2 class="book-title">Normal Accidents</h2>
+        <div class="book-author">Charles Perrow</div>
+        <blockquote class="book-quote">"In systems with interactive complexity and tight coupling, multiple unexpected failures are normal."</blockquote>
+        <div class="book-insight">
+          In tightly coupled, highly complex networks, failures are not aberrations caused by "human error"—they are structural inevitabilities. True safety requires modular decoupling and intentional slack.
+        </div>
+        <div class="connected-lenses-wrap">
+          <span class="connected-label">Anchors 2 Lenses:</span>
+          <div class="lens-pill-cloud">
+            <a class="lens-pill" href="lessons/058-why-saying-no-can-protect-good-work.html">058. Saying No</a>
+            <a class="lens-pill" href="lessons/068-systems-thinking-look-for-feedback-loops.html">068. Feedback Loops</a>
+          </div>
+        </div>
+      </article>
+
+      <!-- ================= 3. DECISION SCIENCE & BIASES ================= -->
+      <article class="book-card domain-mind" data-domain="Decision Science & Cognitive Biases">
+        <div class="book-header">
+          <span class="card-topic-tag tag-mind">Decision Science</span>
+          <span class="book-era">2011</span>
+        </div>
+        <h2 class="book-title">Thinking, Fast and Slow</h2>
+        <div class="book-author">Daniel Kahneman</div>
+        <blockquote class="book-quote">"We can be blind to the obvious, and we are also blind to our blindness."</blockquote>
+        <div class="book-insight">
+          The benchmark treatise on dual-process cognitive architecture (System 1 fast heuristic intuition vs. System 2 deliberate calculation). It reveals how anchoring, framing, base-rate neglect, and loss aversion systematically bias our choices.
+        </div>
+        <div class="connected-lenses-wrap">
+          <span class="connected-label">Anchors 8 Lenses:</span>
+          <div class="lens-pill-cloud">
+            <a class="lens-pill" href="lessons/022-the-planning-fallacy.html">022. Planning Fallacy</a>
+            <a class="lens-pill" href="lessons/034-how-framing-changes-decisions.html">034. Framing</a>
+            <a class="lens-pill" href="lessons/037-the-base-rate-habit.html">037. Base-Rate Habit</a>
+            <a class="lens-pill" href="lessons/039-anchoring-the-first-number-sticks.html">039. Anchoring</a>
+            <a class="lens-pill" href="lessons/050-what-is-a-cognitive-bias.html">050. Cognitive Bias</a>
+            <a class="lens-pill" href="lessons/085-the-sunk-cost-trap.html">085. Sunk-Cost Trap</a>
+            <a class="lens-pill" href="lessons/106-loss-aversion-and-the-fear-of-giving-something-up.html">106. Loss Aversion</a>
+            <a class="lens-pill" href="lessons/121-confirmation-bias-the-comfort-of-being-right.html">121. Confirmation Bias</a>
+          </div>
+        </div>
+      </article>
+
+      <article class="book-card domain-mind" data-domain="Decision Science & Cognitive Biases">
+        <div class="book-header">
+          <span class="card-topic-tag tag-mind">Decision Science</span>
+          <span class="book-era">2009</span>
+        </div>
+        <h2 class="book-title">What Intelligence Tests Miss</h2>
+        <div class="book-author">Keith E. Stanovich</div>
+        <blockquote class="book-quote">"Rationality is not synonymous with intelligence. Dysrationalia is the inability to think and behave rationally despite adequate intelligence."</blockquote>
+        <div class="book-insight">
+          High IQ represents computational horsepower, not epistemic hygiene. Smart people often construct more sophisticated, impregnable rationalizations for foolish decisions because their cognitive machinery defends their identity.
+        </div>
+        <div class="connected-lenses-wrap">
+          <span class="connected-label">Anchors 2 Lenses:</span>
+          <div class="lens-pill-cloud">
+            <a class="lens-pill" href="lessons/050-what-is-a-cognitive-bias.html">050. Cognitive Bias</a>
+            <a class="lens-pill" href="lessons/099-why-intelligent-people-make-poor-decisions.html">099. Dysrationalia</a>
+          </div>
+        </div>
+      </article>
+
+      <article class="book-card domain-mind" data-domain="Decision Science & Cognitive Biases">
+        <div class="book-header">
+          <span class="card-topic-tag tag-mind">Decision Science</span>
+          <span class="book-era">2018</span>
+        </div>
+        <h2 class="book-title">Thinking in Bets</h2>
+        <div class="book-author">Annie Duke</div>
+        <blockquote class="book-quote">"What makes a decision great is not that it has a great outcome. A great decision is the result of a good process."</blockquote>
+        <div class="book-insight">
+          Cuts through "resulting" (judging the quality of a decision purely by how it turned out). Life is poker, not chess. Thinking probabilistically decouples decision quality from random environmental noise.
+        </div>
+        <div class="connected-lenses-wrap">
+          <span class="connected-label">Anchors 3 Lenses:</span>
+          <div class="lens-pill-cloud">
+            <a class="lens-pill" href="lessons/032-how-to-think-in-probabilities.html">032. Probabilistic Thinking</a>
+            <a class="lens-pill" href="lessons/078-risk-is-not-the-same-as-uncertainty.html">078. Risk vs Uncertainty</a>
+            <a class="lens-pill" href="lessons/117-survivorship-bias-learning-only-from-winners.html">117. Survivorship Bias</a>
+          </div>
+        </div>
+      </article>
+
+      <article class="book-card domain-mind" data-domain="Decision Science & Cognitive Biases">
+        <div class="book-header">
+          <span class="card-topic-tag tag-mind">Decision Science</span>
+          <span class="book-era">2015</span>
+        </div>
+        <h2 class="book-title">Superforecasting</h2>
+        <div class="book-author">Philip E. Tetlock &amp; Dan Gardner</div>
+        <blockquote class="book-quote">"Beliefs are hypotheses to be tested, not treasures to be guarded."</blockquote>
+        <div class="book-insight">
+          Elite decision-makers behave like foxes rather than hedgehogs. They aggregate disparate base rates, calibrate confidence intervals, and update their beliefs in response to minor increments of evidence.
+        </div>
+        <div class="connected-lenses-wrap">
+          <span class="connected-label">Anchors 3 Lenses:</span>
+          <div class="lens-pill-cloud">
+            <a class="lens-pill" href="lessons/032-how-to-think-in-probabilities.html">032. Probabilities</a>
+            <a class="lens-pill" href="lessons/033-the-value-of-changing-your-mind.html">033. Changing Your Mind</a>
+            <a class="lens-pill" href="lessons/059-why-intellectual-humility-improves-judgment.html">059. Intellectual Humility</a>
+          </div>
+        </div>
+      </article>
+
+      <article class="book-card domain-mind" data-domain="Decision Science & Cognitive Biases">
+        <div class="book-header">
+          <span class="card-topic-tag tag-mind">Decision Science</span>
+          <span class="book-era">2007</span>
+        </div>
+        <h2 class="book-title">The Black Swan</h2>
+        <div class="book-author">Nassim Nicholas Taleb</div>
+        <blockquote class="book-quote">"The turkey is fed for a thousand days, every day confirming to its analysts that humans love turkeys. On day 1001, Thanksgiving arrives."</blockquote>
+        <div class="book-insight">
+          A devastating critique of Gaussian models in non-linear domains. Studying visible survivors creates catastrophic blind spots regarding extreme, high-impact tail risks.
+        </div>
+        <div class="connected-lenses-wrap">
+          <span class="connected-label">Anchors 3 Lenses:</span>
+          <div class="lens-pill-cloud">
+            <a class="lens-pill" href="lessons/014-second-order-thinking.html">014. Second-Order Thinking</a>
+            <a class="lens-pill" href="lessons/037-the-base-rate-habit.html">037. Base-Rate Habit</a>
+            <a class="lens-pill" href="lessons/117-survivorship-bias-learning-only-from-winners.html">117. Survivorship Bias</a>
+          </div>
+        </div>
+      </article>
+
+      <!-- ================= 4. SOCIAL PSYCHOLOGY & HUMAN NATURE ================= -->
+      <article class="book-card domain-mind" data-domain="Social Psychology & Human Nature">
+        <div class="book-header">
+          <span class="card-topic-tag tag-mind">Social Psychology</span>
+          <span class="book-era">1984</span>
+        </div>
+        <h2 class="book-title">Influence: The Psychology of Persuasion</h2>
+        <div class="book-author">Robert B. Cialdini</div>
+        <blockquote class="book-quote">"We all fool ourselves from time to time in order to keep our thoughts and beliefs consistent with what we have already done or decided."</blockquote>
+        <div class="book-insight">
+          The definitive study of the deep levers of compliance: reciprocity, authority, social proof, commitment, and scarcity. Essential for recognizing when you are being manipulated into a false consensus.
+        </div>
+        <div class="connected-lenses-wrap">
+          <span class="connected-label">Anchors 5 Lenses:</span>
+          <div class="lens-pill-cloud">
+            <a class="lens-pill" href="lessons/043-the-bystander-effect-and-shared-responsibility.html">043. Bystander Effect</a>
+            <a class="lens-pill" href="lessons/063-why-people-follow-authority.html">063. Authority</a>
+            <a class="lens-pill" href="lessons/084-why-trust-is-built-through-small-actions.html">084. Building Trust</a>
+            <a class="lens-pill" href="lessons/107-reciprocity-the-social-force-of-giving.html">107. Reciprocity</a>
+            <a class="lens-pill" href="lessons/109-how-to-become-someone-people-trust-with-difficult-problems.html">109. Earned Trust</a>
+          </div>
+        </div>
+      </article>
+
+      <article class="book-card domain-mind" data-domain="Social Psychology & Human Nature">
+        <div class="book-header">
+          <span class="card-topic-tag tag-mind">Social Psychology</span>
+          <span class="book-era">2012</span>
+        </div>
+        <h2 class="book-title">The Righteous Mind</h2>
+        <div class="book-author">Jonathan Haidt</div>
+        <blockquote class="book-quote">"Intuitions come first, strategic reasoning second. The rider was put there in order to serve the elephant."</blockquote>
+        <div class="book-insight">
+          Haidt demonstrates that moral reasoning is not a judge seeking truth, but a lawyer seeking to justify instinctive social tribalism. When belonging is threatened, facts become secondary.
+        </div>
+        <div class="connected-lenses-wrap">
+          <span class="connected-label">Anchors 3 Lenses:</span>
+          <div class="lens-pill-cloud">
+            <a class="lens-pill" href="lessons/029-identity-why-belonging-can-override-evidence.html">029. Identity &amp; Belonging</a>
+            <a class="lens-pill" href="lessons/086-the-fundamental-attribution-error.html">086. Attribution Error</a>
+            <a class="lens-pill" href="lessons/094-why-groups-sometimes-become-less-thoughtful.html">094. Groupthink</a>
+          </div>
+        </div>
+      </article>
+
+      <article class="book-card domain-mind" data-domain="Social Psychology & Human Nature">
+        <div class="book-header">
+          <span class="card-topic-tag tag-mind">Social Psychology</span>
+          <span class="book-era">1959</span>
+        </div>
+        <h2 class="book-title">The Presentation of Self in Everyday Life</h2>
+        <div class="book-author">Erving Goffman</div>
+        <blockquote class="book-quote">"All the world is not, of course, a stage, but the crucial ways in which it isn't are not easy to specify."</blockquote>
+        <div class="book-insight">
+          Dramaturgical sociology at its peak. Humans manage their public "front stage" personas to preserve social status and equilibrium. Decoupling someone's true incentives from their staged performance is the heart of realism.
+        </div>
+        <div class="connected-lenses-wrap">
+          <span class="connected-label">Anchors 3 Lenses:</span>
+          <div class="lens-pill-cloud">
+            <a class="lens-pill" href="lessons/015-why-status-matters.html">015. Status Dynamics</a>
+            <a class="lens-pill" href="lessons/045-the-difference-between-cynicism-and-realism.html">045. Realism vs Cynicism</a>
+            <a class="lens-pill" href="lessons/088-how-to-disagree-without-making-an-enemy.html">088. Productive Disagreement</a>
+          </div>
+        </div>
+      </article>
+
+      <article class="book-card domain-mind" data-domain="Social Psychology & Human Nature">
+        <div class="book-header">
+          <span class="card-topic-tag tag-mind">Social Psychology</span>
+          <span class="book-era">2021</span>
+        </div>
+        <h2 class="book-title">Set Boundaries, Find Peace</h2>
+        <div class="book-author">Nedra Glover Tawwab</div>
+        <blockquote class="book-quote">"Boundaries are expectations and needs that help you feel safe and comfortable in your relationships."</blockquote>
+        <div class="book-insight">
+          Boundaries are not acts of hostility or withdrawal; they are the explicit architecture that makes long-term human cooperation and authentic kindness possible without burning out.
+        </div>
+        <div class="connected-lenses-wrap">
+          <span class="connected-label">Anchors 2 Lenses:</span>
+          <div class="lens-pill-cloud">
+            <a class="lens-pill" href="lessons/082-boundaries-are-not-hostility.html">082. Boundaries</a>
+            <a class="lens-pill" href="lessons/120-the-difference-between-kindness-and-people-pleasing.html">120. Kindness vs People-Pleasing</a>
+          </div>
+        </div>
+      </article>
+
+      <article class="book-card domain-mind" data-domain="Social Psychology & Human Nature">
+        <div class="book-header">
+          <span class="card-topic-tag tag-mind">Social Psychology</span>
+          <span class="book-era">2012</span>
+        </div>
+        <h2 class="book-title">Quiet</h2>
+        <div class="book-author">Susan Cain</div>
+        <blockquote class="book-quote">"Solitude matters, and for some people, it's the air they breathe."</blockquote>
+        <div class="book-insight">
+          An essential corrective to the cult of extroverted noise and frantic busyness. Deliberate cognitive slack, silence, and unstructured time are the primary seedbeds of original thought.
+        </div>
+        <div class="connected-lenses-wrap">
+          <span class="connected-label">Anchors 3 Lenses:</span>
+          <div class="lens-pill-cloud">
+            <a class="lens-pill" href="lessons/019-why-sleep-movement-and-environment-affect-judgment.html">019. Biological Judgment</a>
+            <a class="lens-pill" href="lessons/070-the-value-of-boredom-and-unstructured-time.html">070. Unstructured Time</a>
+            <a class="lens-pill" href="lessons/080-why-loneliness-is-not-the-same-as-solitude.html">080. Solitude vs Loneliness</a>
+          </div>
+        </div>
+      </article>
+
+      <!-- ================= 5. GAME THEORY & COOPERATION ================= -->
+      <article class="book-card domain-systems" data-domain="Game Theory & Cooperation">
+        <div class="book-header">
+          <span class="card-topic-tag tag-systems">Game Theory</span>
+          <span class="book-era">1984</span>
+        </div>
+        <h2 class="book-title">The Evolution of Cooperation</h2>
+        <div class="book-author">Robert Axelrod</div>
+        <blockquote class="book-quote">"The foundation of cooperation is not really trust, but the durability of the relationship."</blockquote>
+        <div class="book-insight">
+          Axelrod’s famous computer tournament demonstrated that in repeated games, "Tit-for-Tat" (be nice, retaliate against defection immediately, but forgive quickly) outcompetes exploitative strategies. Cooperation emerges from the shadow of the future.
+        </div>
+        <div class="connected-lenses-wrap">
+          <span class="connected-label">Anchors 3 Lenses:</span>
+          <div class="lens-pill-cloud">
+            <a class="lens-pill" href="lessons/026-why-reputation-is-a-long-term-asset.html">026. Reputation Asset</a>
+            <a class="lens-pill" href="lessons/069-the-prisoner-s-dilemma-in-everyday-life.html">069. Prisoner's Dilemma</a>
+            <a class="lens-pill" href="lessons/087-open-source-software-as-organised-cooperation.html">087. Open Source Cooperation</a>
+          </div>
+        </div>
+      </article>
+
+      <article class="book-card domain-systems" data-domain="Game Theory & Cooperation">
+        <div class="book-header">
+          <span class="card-topic-tag tag-systems">Game Theory</span>
+          <span class="book-era">1960</span>
+        </div>
+        <h2 class="book-title">The Strategy of Conflict</h2>
+        <div class="book-author">Thomas C. Schelling</div>
+        <blockquote class="book-quote">"The power to constrain an adversary may depend on the power to bind oneself."</blockquote>
+        <div class="book-insight">
+          Introduced focal points (Schelling points) and strategic commitment. Credible threats and promises require that a player make backing out prohibitively expensive for themselves.
+        </div>
+        <div class="connected-lenses-wrap">
+          <span class="connected-label">Anchors 2 Lenses:</span>
+          <div class="lens-pill-cloud">
+            <a class="lens-pill" href="lessons/069-the-prisoner-s-dilemma-in-everyday-life.html">069. Prisoner's Dilemma</a>
+            <a class="lens-pill" href="lessons/097-winning-without-fighting-supreme-strategy.html">097. Winning Without Fighting</a>
+          </div>
+        </div>
+      </article>
+
+      <article class="book-card domain-systems" data-domain="Game Theory & Cooperation">
+        <div class="book-header">
+          <span class="card-topic-tag tag-systems">Game Theory</span>
+          <span class="book-era">1990</span>
+        </div>
+        <h2 class="book-title">Governing the Commons</h2>
+        <div class="book-author">Elinor Ostrom</div>
+        <blockquote class="book-quote">"There is no reason to believe that bureaucrats and politicians are more capable than local resource users of finding solutions."</blockquote>
+        <div class="book-insight">
+          Ostrom won the Nobel Prize by proving that the Tragedy of the Commons is not an inescapable fate. Local communities develop decentralized, robust, self-enforcing institutional rules that protect shared resources without top-down tyranny.
+        </div>
+        <div class="connected-lenses-wrap">
+          <span class="connected-label">Anchors 2 Lenses:</span>
+          <div class="lens-pill-cloud">
+            <a class="lens-pill" href="lessons/062-the-tragedy-of-the-commons-and-its-alternatives.html">062. Commons Governance</a>
+            <a class="lens-pill" href="lessons/101-public-goods-and-the-free-rider-problem.html">101. Public Goods</a>
+          </div>
+        </div>
+      </article>
+
+      <article class="book-card domain-systems" data-domain="Game Theory & Cooperation">
+        <div class="book-header">
+          <span class="card-topic-tag tag-systems">Game Theory</span>
+          <span class="book-era">1981</span>
+        </div>
+        <h2 class="book-title">Getting to Yes</h2>
+        <div class="book-author">Roger Fisher &amp; William Ury</div>
+        <blockquote class="book-quote">"Separate the people from the problem. Focus on interests, not positions."</blockquote>
+        <div class="book-insight">
+          The bible of principled negotiation. Knowing your BATNA (Best Alternative to a Negotiated Agreement) gives you genuine leverage without needing to bluff or posture.
+        </div>
+        <div class="connected-lenses-wrap">
+          <span class="connected-label">Anchors 2 Lenses:</span>
+          <div class="lens-pill-cloud">
+            <a class="lens-pill" href="lessons/076-how-to-negotiate-without-treating-everything-as-a-contest.html">076. Principled Negotiation</a>
+            <a class="lens-pill" href="lessons/092-batna-know-your-alternative.html">092. BATNA</a>
+          </div>
+        </div>
+      </article>
+
+      <!-- ================= 6. ECONOMICS, MARKETS & INCENTIVES ================= -->
+      <article class="book-card domain-systems" data-domain="Economics, Markets & Incentives">
+        <div class="book-header">
+          <span class="card-topic-tag tag-systems">Economics</span>
+          <span class="book-era">2020</span>
+        </div>
+        <h2 class="book-title">The Psychology of Money</h2>
+        <div class="book-author">Morgan Housel</div>
+        <blockquote class="book-quote">"Spending money to show people how much money you have is the fastest way to have less money."</blockquote>
+        <div class="book-insight">
+          Distinguishes between high income (a flow) and durable wealth (a stock of unexercised freedom). Financial peace is driven far more by ego management and compounding than by financial genius.
+        </div>
+        <div class="connected-lenses-wrap">
+          <span class="connected-label">Anchors 4 Lenses:</span>
+          <div class="lens-pill-cloud">
+            <a class="lens-pill" href="lessons/023-why-compound-growth-is-powerful.html">023. Compound Growth</a>
+            <a class="lens-pill" href="lessons/048-the-difference-between-wealth-and-income.html">048. Wealth vs Income</a>
+            <a class="lens-pill" href="lessons/085-the-sunk-cost-trap.html">085. Sunk Costs</a>
+            <a class="lens-pill" href="lessons/098-what-money-actually-does.html">098. Functions of Money</a>
+          </div>
+        </div>
+      </article>
+
+      <article class="book-card domain-systems" data-domain="Economics, Markets & Incentives">
+        <div class="book-header">
+          <span class="card-topic-tag tag-systems">Economics</span>
+          <span class="book-era">2012</span>
+        </div>
+        <h2 class="book-title">Why Nations Fail</h2>
+        <div class="book-author">Daron Acemoglu &amp; James A. Robinson</div>
+        <blockquote class="book-quote">"Inclusive economic institutions create inclusive markets, which not only give people freedom to pursue the vocations in life that best fit their talents but also provide a level playing field."</blockquote>
+        <div class="book-insight">
+          Nations prosper or decay because of the quality of their political and economic institutions. Extractive institutions enrich a narrow elite while stifling innovation; inclusive institutions foster compounding growth.
+        </div>
+        <div class="connected-lenses-wrap">
+          <span class="connected-label">Anchors 3 Lenses:</span>
+          <div class="lens-pill-cloud">
+            <a class="lens-pill" href="lessons/004-the-role-of-state-capacity.html">004. State Capacity</a>
+            <a class="lens-pill" href="lessons/020-what-makes-an-institution-strong.html">020. Strong Institutions</a>
+            <a class="lens-pill" href="lessons/044-why-some-countries-become-wealthy.html">044. National Wealth</a>
+          </div>
+        </div>
+      </article>
+
+      <article class="book-card domain-systems" data-domain="Economics, Markets & Incentives">
+        <div class="book-header">
+          <span class="card-topic-tag tag-systems">Economics</span>
+          <span class="book-era">2000</span>
+        </div>
+        <h2 class="book-title">Basic Economics</h2>
+        <div class="book-author">Thomas Sowell</div>
+        <blockquote class="book-quote">"There are no solutions, there are only trade-offs; and you can try to get the best trade-off you can get, that’s all you can hope for."</blockquote>
+        <div class="book-insight">
+          Economics is the study of the use of scarce resources that have alternative uses. People respond to prices and incentives rather than intentions. Failing to calculate trade-offs is the root of institutional failure.
+        </div>
+        <div class="connected-lenses-wrap">
+          <span class="connected-label">Anchors 4 Lenses:</span>
+          <div class="lens-pill-cloud">
+            <a class="lens-pill" href="lessons/008-inflation-why-rising-prices-matter-differently-to-different-people.html">008. Inflation</a>
+            <a class="lens-pill" href="lessons/060-trade-creates-gains-and-difficult-adjustments.html">060. Trade Gains</a>
+            <a class="lens-pill" href="lessons/091-productivity-is-more-than-working-harder.html">091. Productivity</a>
+            <a class="lens-pill" href="lessons/114-how-incentives-shape-behaviour.html">114. Incentives</a>
+          </div>
+        </div>
+      </article>
+
+      <article class="book-card domain-systems" data-domain="Economics, Markets & Incentives">
+        <div class="book-header">
+          <span class="card-topic-tag tag-systems">Economics</span>
+          <span class="book-era">1776</span>
+        </div>
+        <h2 class="book-title">The Wealth of Nations</h2>
+        <div class="book-author">Adam Smith</div>
+        <blockquote class="book-quote">"It is not from the benevolence of the butcher, the brewer, or the baker that we expect our dinner, but from their regard to their own self-interest."</blockquote>
+        <div class="book-insight">
+          Specialization and trade expand societal capacity. Effective systems do not require saintly actors; they align private incentives with public utility.
+        </div>
+        <div class="connected-lenses-wrap">
+          <span class="connected-label">Anchors 3 Lenses:</span>
+          <div class="lens-pill-cloud">
+            <a class="lens-pill" href="lessons/042-the-network-effect.html">042. Network Effects</a>
+            <a class="lens-pill" href="lessons/060-trade-creates-gains-and-difficult-adjustments.html">060. Trade Gains</a>
+            <a class="lens-pill" href="lessons/114-how-incentives-shape-behaviour.html">114. Incentives</a>
+          </div>
+        </div>
+      </article>
+
+      <!-- ================= 7. SCIENTIFIC EPISTEMOLOGY & REASONING ================= -->
+      <article class="book-card domain-science" data-domain="Scientific Reasoning & Epistemology">
+        <div class="book-header">
+          <span class="card-topic-tag tag-science">Epistemology</span>
+          <span class="book-era">1934</span>
+        </div>
+        <h2 class="book-title">The Logic of Scientific Discovery</h2>
+        <div class="book-author">Karl Popper</div>
+        <blockquote class="book-quote">"A theory which is not refutable by any conceivable event is non-scientific."</blockquote>
+        <div class="book-insight">
+          Falsificationism is the bedrock of scientific integrity. We can never conclusively prove a model true; we can only eliminate flawed theories through rigorous attempts at refutation.
+        </div>
+        <div class="connected-lenses-wrap">
+          <span class="connected-label">Anchors 4 Lenses:</span>
+          <div class="lens-pill-cloud">
+            <a class="lens-pill" href="lessons/007-the-difference-between-a-model-and-reality.html">007. Model vs Reality</a>
+            <a class="lens-pill" href="lessons/024-correlation-is-not-causation.html">024. Correlation vs Causation</a>
+            <a class="lens-pill" href="lessons/041-the-scientific-method-as-a-way-of-living.html">041. Scientific Living</a>
+            <a class="lens-pill" href="lessons/113-what-makes-evidence-strong.html">113. Evidence Quality</a>
+          </div>
+        </div>
+      </article>
+
+      <article class="book-card domain-science" data-domain="Scientific Reasoning & Epistemology">
+        <div class="book-header">
+          <span class="card-topic-tag tag-science">Epistemology</span>
+          <span class="book-era">1962</span>
+        </div>
+        <h2 class="book-title">The Structure of Scientific Revolutions</h2>
+        <div class="book-author">Thomas S. Kuhn</div>
+        <blockquote class="book-quote">"When the paradigm shifts, the very world seems to transform."</blockquote>
+        <div class="book-insight">
+          Science does not progress by smooth accumulation alone; it endures long periods of normal puzzle-solving punctuated by disruptive paradigm shifts when accumulated anomalies collapse the prevailing worldview.
+        </div>
+        <div class="connected-lenses-wrap">
+          <span class="connected-label">Anchors 3 Lenses:</span>
+          <div class="lens-pill-cloud">
+            <a class="lens-pill" href="lessons/007-the-difference-between-a-model-and-reality.html">007. Model vs Reality</a>
+            <a class="lens-pill" href="lessons/031-the-scientific-creed-of-ignorance.html">031. Admitting Ignorance</a>
+            <a class="lens-pill" href="lessons/033-the-value-of-changing-your-mind.html">033. Changing Your Mind</a>
+          </div>
+        </div>
+      </article>
+
+      <article class="book-card domain-science" data-domain="Scientific Reasoning & Epistemology">
+        <div class="book-header">
+          <span class="card-topic-tag tag-science">Epistemology</span>
+          <span class="book-era">2011</span>
+        </div>
+        <h2 class="book-title">The Beginning of Infinity</h2>
+        <div class="book-author">David Deutsch</div>
+        <blockquote class="book-quote">"All evils are due to lack of knowledge."</blockquote>
+        <div class="book-insight">
+          A profound defense of good explanations. Deutsch demonstrates that human progress is bound by no upper limit so long as institutions foster error correction, critical debate, and beginner's receptivity.
+        </div>
+        <div class="connected-lenses-wrap">
+          <span class="connected-label">Anchors 3 Lenses:</span>
+          <div class="lens-pill-cloud">
+            <a class="lens-pill" href="lessons/018-the-power-of-asking-better-questions.html">018. Better Questions</a>
+            <a class="lens-pill" href="lessons/021-the-beginner-s-mind.html">021. Beginner's Mind</a>
+            <a class="lens-pill" href="lessons/056-why-experts-can-be-wrong.html">056. Fallible Experts</a>
+          </div>
+        </div>
+      </article>
+
+      <article class="book-card domain-science" data-domain="Scientific Reasoning & Epistemology">
+        <div class="book-header">
+          <span class="card-topic-tag tag-science">Cognitive Science</span>
+          <span class="book-era">2014</span>
+        </div>
+        <h2 class="book-title">Make It Stick</h2>
+        <div class="book-author">Peter C. Brown, Henry L. Roediger III, Mark A. McDaniel</div>
+        <blockquote class="book-quote">"Learning that's easy is like writing in sand, here today and gone tomorrow."</blockquote>
+        <div class="book-insight">
+          Passive re-reading creates an illusion of competence. Durable mastery requires effortful retrieval, spaced practice, and interleaving concepts across domains.
+        </div>
+        <div class="connected-lenses-wrap">
+          <span class="connected-label">Anchors 1 Lens:</span>
+          <div class="lens-pill-cloud">
+            <a class="lens-pill" href="lessons/035-learning-how-to-learn.html">035. Learning How to Learn</a>
+          </div>
+        </div>
+      </article>
+
+      <!-- ================= 8. PHILOSOPHY, ETHICS & MIND ================= -->
+      <article class="book-card domain-philosophy" data-domain="Philosophy, Ethics & Mind">
+        <div class="book-header">
+          <span class="card-topic-tag tag-philosophy">Stoicism</span>
+          <span class="book-era">c. 180 CE</span>
+        </div>
+        <h2 class="book-title">Meditations</h2>
+        <div class="book-author">Marcus Aurelius</div>
+        <blockquote class="book-quote">"You have power over your mind - not outside events. Realize this, and you will find strength."</blockquote>
+        <div class="book-insight">
+          The personal diary of Rome’s philosopher-emperor. It hinges on the Stoic dichotomy of control: distinguishing between what is up to us (*prohairesis*) and external outcomes (*ta ouk eph' hemin*).
+        </div>
+        <div class="connected-lenses-wrap">
+          <span class="connected-label">Anchors 3 Lenses:</span>
+          <div class="lens-pill-cloud">
+            <a class="lens-pill" href="lessons/009-the-difference-between-empathy-and-agreement.html">009. Empathy vs Agreement</a>
+            <a class="lens-pill" href="lessons/036-stoicism-focus-on-what-is-within-your-control.html">036. Stoic Control</a>
+            <a class="lens-pill" href="lessons/081-free-will-choice-and-responsibility.html">081. Free Will &amp; Agency</a>
+          </div>
+        </div>
+      </article>
+
+      <article class="book-card domain-philosophy" data-domain="Philosophy, Ethics & Mind">
+        <div class="book-header">
+          <span class="card-topic-tag tag-philosophy">Ethics &amp; Justice</span>
+          <span class="book-era">1971</span>
+        </div>
+        <h2 class="book-title">A Theory of Justice</h2>
+        <div class="book-author">John Rawls</div>
+        <blockquote class="book-quote">"Justice is the first virtue of social institutions, as truth is of systems of thought."</blockquote>
+        <div class="book-insight">
+          The "Veil of Ignorance" thought experiment is one of the most powerful debiasing tools ever conceived: evaluate the fairness of rules from a position where you do not know your eventual position in the hierarchy.
+        </div>
+        <div class="connected-lenses-wrap">
+          <span class="connected-label">Anchors 2 Lenses:</span>
+          <div class="lens-pill-cloud">
+            <a class="lens-pill" href="lessons/046-the-veil-of-ignorance.html">046. Veil of Ignorance</a>
+            <a class="lens-pill" href="lessons/065-what-is-justice.html">065. What is Justice?</a>
+          </div>
+        </div>
+      </article>
+
+      <article class="book-card domain-philosophy" data-domain="Philosophy, Ethics & Mind">
+        <div class="book-header">
+          <span class="card-topic-tag tag-philosophy">Philosophy of Mind</span>
+          <span class="book-era">1996</span>
+        </div>
+        <h2 class="book-title">The Conscious Mind</h2>
+        <div class="book-author">David J. Chalmers</div>
+        <blockquote class="book-quote">"Why should physical processing give rise to a rich inner life at all?"</blockquote>
+        <div class="book-insight">
+          Formulated the famous "Hard Problem of Consciousness." Functional neural correlates explain behavioral responses, but why physical signals are accompanied by subjective phenomenal experience remains an unsolved mystery.
+        </div>
+        <div class="connected-lenses-wrap">
+          <span class="connected-label">Anchors 2 Lenses:</span>
+          <div class="lens-pill-cloud">
+            <a class="lens-pill" href="lessons/017-the-hard-problem-of-consciousness.html">017. Hard Problem</a>
+            <a class="lens-pill" href="lessons/111-the-many-meanings-of-consciousness.html">111. Meanings of Consciousness</a>
+          </div>
+        </div>
+      </article>
+
+      <article class="book-card domain-philosophy" data-domain="Philosophy, Ethics & Mind">
+        <div class="book-header">
+          <span class="card-topic-tag tag-philosophy">Existentialism</span>
+          <span class="book-era">1946</span>
+        </div>
+        <h2 class="book-title">Existentialism Is a Humanism</h2>
+        <div class="book-author">Jean-Paul Sartre</div>
+        <blockquote class="book-quote">"Man is condemned to be free; because once thrown into the world, he is responsible for everything he does."</blockquote>
+        <div class="book-insight">
+          Existence precedes essence. There is no pre-scripted manual or cosmic excuse. Authentic life requires bearing the weight of radical personal responsibility.
+        </div>
+        <div class="connected-lenses-wrap">
+          <span class="connected-label">Anchors 2 Lenses:</span>
+          <div class="lens-pill-cloud">
+            <a class="lens-pill" href="lessons/067-scepticism-how-much-can-we-really-know.html">067. Philosophical Scepticism</a>
+            <a class="lens-pill" href="lessons/071-existentialism-and-responsibility.html">071. Existential Responsibility</a>
+          </div>
+        </div>
+      </article>
+
+      <article class="book-card domain-philosophy" data-domain="Philosophy, Ethics & Mind">
+        <div class="book-header">
+          <span class="card-topic-tag tag-philosophy">Classical Philosophy</span>
+          <span class="book-era">c. 375 BCE</span>
+        </div>
+        <h2 class="book-title">The Republic &amp; Apology</h2>
+        <div class="book-author">Plato</div>
+        <blockquote class="book-quote">"The unexamined life is not worth living."</blockquote>
+        <div class="book-insight">
+          Socratic elenchus: relentlessly testing definitions and surfacing latent contradictions. Truth is not possessed as static dogma, but uncovered through patient dialectic inquiry.
+        </div>
+        <div class="connected-lenses-wrap">
+          <span class="connected-label">Anchors 2 Lenses:</span>
+          <div class="lens-pill-cloud">
+            <a class="lens-pill" href="lessons/012-why-humans-make-art.html">012. Why Humans Make Art</a>
+            <a class="lens-pill" href="lessons/074-socrates-and-the-examined-life.html">074. The Examined Life</a>
+          </div>
+        </div>
+      </article>
+
+      <!-- ================= 9. INSTITUTIONS, HISTORY & ANTHROPOLOGY ================= -->
+      <article class="book-card domain-society" data-domain="Institutions, History & Anthropology">
+        <div class="book-header">
+          <span class="card-topic-tag tag-society">Anthropology</span>
+          <span class="book-era">2014</span>
+        </div>
+        <h2 class="book-title">Sapiens</h2>
+        <div class="book-author">Yuval Noah Harari</div>
+        <blockquote class="book-quote">"You could never convince a monkey to give you a banana by promising him limitless bananas after death in monkey heaven."</blockquote>
+        <div class="book-insight">
+          The Cognitive Revolution enabled Homo sapiens to cooperate flexibly at scale through shared fictions: money, gods, nations, and limited liability corporations. Human reality is largely intersubjective.
+        </div>
+        <div class="connected-lenses-wrap">
+          <span class="connected-label">Anchors 4 Lenses:</span>
+          <div class="lens-pill-cloud">
+            <a class="lens-pill" href="lessons/010-the-intersubjective-reality.html">010. Intersubjective Reality</a>
+            <a class="lens-pill" href="lessons/028-the-luxury-trap-the-agricultural-con.html">028. The Luxury Trap</a>
+            <a class="lens-pill" href="lessons/052-the-cognitive-revolution.html">052. Cognitive Revolution</a>
+            <a class="lens-pill" href="lessons/075-the-unification-of-humankind.html">075. Unifiers of Humankind</a>
+          </div>
+        </div>
+      </article>
+
+      <article class="book-card domain-society" data-domain="Institutions, History & Anthropology">
+        <div class="book-header">
+          <span class="card-topic-tag tag-society">History</span>
+          <span class="book-era">1997</span>
+        </div>
+        <h2 class="book-title">Guns, Germs, and Steel</h2>
+        <div class="book-author">Jared Diamond</div>
+        <blockquote class="book-quote">"History followed different courses for different peoples because of differences among peoples' environments, not because of biological differences among peoples themselves."</blockquote>
+        <div class="book-insight">
+          Geographic axes, domesticable flora and fauna, and disease ecology shaped the structural possibilities of human civilizations for millennia before individual choices were made.
+        </div>
+        <div class="connected-lenses-wrap">
+          <span class="connected-label">Anchors 1 Lens:</span>
+          <div class="lens-pill-cloud">
+            <a class="lens-pill" href="lessons/064-why-geography-influences-history.html">064. Geography &amp; History</a>
+          </div>
+        </div>
+      </article>
+
+      <article class="book-card domain-society" data-domain="Institutions, History & Anthropology">
+        <div class="book-header">
+          <span class="card-topic-tag tag-society">Institutions</span>
+          <span class="book-era">2011</span>
+        </div>
+        <h2 class="book-title">The Origins of Political Order</h2>
+        <div class="book-author">Francis Fukuyama</div>
+        <blockquote class="book-quote">"The problem of creating a modern state is often described as getting to Denmark."</blockquote>
+        <div class="book-insight">
+          Examines the tripartite foundation of modern political durability: a strong state, the rule of law, and democratic accountability. A state lacking administrative capacity collapses into patronage.
+        </div>
+        <div class="connected-lenses-wrap">
+          <span class="connected-label">Anchors 3 Lenses:</span>
+          <div class="lens-pill-cloud">
+            <a class="lens-pill" href="lessons/002-why-the-roman-empire-transformed-and-fragmented.html">002. Roman Fragmentation</a>
+            <a class="lens-pill" href="lessons/004-the-role-of-state-capacity.html">004. State Capacity</a>
+            <a class="lens-pill" href="lessons/020-what-makes-an-institution-strong.html">020. Strong Institutions</a>
+          </div>
+        </div>
+      </article>
+
+      <article class="book-card domain-society" data-domain="Institutions, History & Anthropology">
+        <div class="book-header">
+          <span class="card-topic-tag tag-society">Institutions</span>
+          <span class="book-era">c. 3rd C. BCE</span>
+        </div>
+        <h2 class="book-title">Han Feizi: Basic Writings</h2>
+        <div class="book-author">Han Feizi (Translation by Burton Watson)</div>
+        <blockquote class="book-quote">"The ruler does not try to cultivate virtue; he establishes laws and methods so that people cannot do evil."</blockquote>
+        <div class="book-insight">
+          The classical engine of institutional Legalism. Systems cannot endure by relying on the benevolence of moral saints. They survive through objective laws (*Fa*), administrative audits (*Shu*), and structural leverage (*Shi*).
+        </div>
+        <div class="connected-lenses-wrap">
+          <span class="connected-label">Anchors 1 Lens:</span>
+          <div class="lens-pill-cloud">
+            <a class="lens-pill" href="lessons/108-shi-shu-fa-the-mechanics-of-institutional-power.html">108. Shi, Shu, and Fa</a>
+          </div>
+        </div>
+      </article>
+
+      <article class="book-card domain-society" data-domain="Institutions, History & Anthropology">
+        <div class="book-header">
+          <span class="card-topic-tag tag-society">Anthropology</span>
+          <span class="book-era">2011</span>
+        </div>
+        <h2 class="book-title">Triumph of the City</h2>
+        <div class="book-author">Edward Glaeser</div>
+        <blockquote class="book-quote">"Cities are the absence of physical space between people and companies. They are proximate, density, closeness."</blockquote>
+        <div class="book-insight">
+          Dense geographic concentration accelerates innovation, idea cross-pollination, and wealth creation, while simultaneously magnifying congestion and spatial inequality.
+        </div>
+        <div class="connected-lenses-wrap">
+          <span class="connected-label">Anchors 3 Lenses:</span>
+          <div class="lens-pill-cloud">
+            <a class="lens-pill" href="lessons/038-rituals-why-repeated-actions-matter.html">038. Rituals</a>
+            <a class="lens-pill" href="lessons/061-why-cities-create-opportunity-and-inequality.html">061. Cities &amp; Inequality</a>
+            <a class="lens-pill" href="lessons/072-how-stories-shape-what-societies-remember.html">072. Collective Memory</a>
+          </div>
+        </div>
+      </article>
+
+      <!-- ================= 10. TECHNOLOGY, AI & MEDIA ECOLOGY ================= -->
+      <article class="book-card domain-science" data-domain="Technology, AI & Media Ecology">
+        <div class="book-header">
+          <span class="card-topic-tag tag-science">Media Ecology</span>
+          <span class="book-era">1985</span>
+        </div>
+        <h2 class="book-title">Amusing Ourselves to Death</h2>
+        <div class="book-author">Neil Postman</div>
+        <blockquote class="book-quote">"What Orwell feared were those who would ban books. What Huxley feared was that there would be no reason to ban a book, for there would be no one who wanted to read one."</blockquote>
+        <div class="book-insight">
+          The medium determines the shape of public discourse. When serious political and epistemological issues are converted into entertainment spectacles, rational debate collapses into emotional soundbites.
+        </div>
+        <div class="connected-lenses-wrap">
+          <span class="connected-label">Anchors 4 Lenses:</span>
+          <div class="lens-pill-cloud">
+            <a class="lens-pill" href="lessons/003-media-literacy-follow-the-source.html">003. Media Literacy</a>
+            <a class="lens-pill" href="lessons/011-the-power-and-limits-of-narratives.html">011. Narrative Power</a>
+            <a class="lens-pill" href="lessons/073-how-propaganda-simplifies-the-world.html">073. Propaganda</a>
+            <a class="lens-pill" href="lessons/102-the-ethics-of-attention.html">102. Ethics of Attention</a>
+          </div>
+        </div>
+      </article>
+
+      <article class="book-card domain-science" data-domain="Technology, AI & Media Ecology">
+        <div class="book-header">
+          <span class="card-topic-tag tag-science">Technology &amp; AI</span>
+          <span class="book-era">2020</span>
+        </div>
+        <h2 class="book-title">The Alignment Problem</h2>
+        <div class="book-author">Brian Christian</div>
+        <blockquote class="book-quote">"We have taught machines to learn, and now we must teach them what matters."</blockquote>
+        <div class="book-insight">
+          AI systems optimize strictly for the loss functions and proxy rewards they are given. When proxies diverge from complex, contextual human ethics, catastrophic misalignments occur.
+        </div>
+        <div class="connected-lenses-wrap">
+          <span class="connected-label">Anchors 3 Lenses:</span>
+          <div class="lens-pill-cloud">
+            <a class="lens-pill" href="lessons/005-artificial-intelligence-capability-limits-and-accountability.html">005. AI Limits</a>
+            <a class="lens-pill" href="lessons/057-the-alignment-problem-whose-goals-are-being-optimised.html">057. Alignment Problem</a>
+            <a class="lens-pill" href="lessons/116-the-problem-of-irrelevant-humans.html">116. Human Irrelevance</a>
+          </div>
+        </div>
+      </article>
+
+      <article class="book-card domain-science" data-domain="Technology, AI & Media Ecology">
+        <div class="book-header">
+          <span class="card-topic-tag tag-science">Technology &amp; AI</span>
+          <span class="book-era">2016</span>
+        </div>
+        <h2 class="book-title">Homo Deus</h2>
+        <div class="book-author">Yuval Noah Harari</div>
+        <blockquote class="book-quote">"In the 21st century, the most important products will not be textiles, vehicles and weapons, but bodies, brains and minds."</blockquote>
+        <div class="book-insight">
+          Traces the shift from Humanism (trusting inner human feelings) to Dataism (trusting algorithmic processing of biochemical data). Highlights the danger of human economic irrelevance.
+        </div>
+        <div class="connected-lenses-wrap">
+          <span class="connected-label">Anchors 2 Lenses:</span>
+          <div class="lens-pill-cloud">
+            <a class="lens-pill" href="lessons/100-dataism-and-the-algorithmic-self.html">100. Dataism</a>
+            <a class="lens-pill" href="lessons/116-the-problem-of-irrelevant-humans.html">116. Human Irrelevance</a>
+          </div>
+        </div>
+      </article>
+
+      <article class="book-card domain-science" data-domain="Technology, AI & Media Ecology">
+        <div class="book-header">
+          <span class="card-topic-tag tag-science">Technology &amp; Society</span>
+          <span class="book-era">2019</span>
+        </div>
+        <h2 class="book-title">The Age of Surveillance Capitalism</h2>
+        <div class="book-author">Shoshana Zuboff</div>
+        <blockquote class="book-quote">"Surveillance capitalism unilaterally claims human experience as free raw material for translation into behavioral data."</blockquote>
+        <div class="book-insight">
+          Attention is the finite currency of human presence. When digital architectures optimize for engagement, surveillance becomes the extraction engine and privacy is dismantled.
+        </div>
+        <div class="connected-lenses-wrap">
+          <span class="connected-label">Anchors 3 Lenses:</span>
+          <div class="lens-pill-cloud">
+            <a class="lens-pill" href="lessons/049-the-difference-between-persuasion-and-manipulation.html">049. Persuasion vs Manipulation</a>
+            <a class="lens-pill" href="lessons/054-why-privacy-is-a-condition-for-freedom.html">054. Privacy &amp; Freedom</a>
+            <a class="lens-pill" href="lessons/102-the-ethics-of-attention.html">102. Ethics of Attention</a>
+          </div>
+        </div>
+      </article>
+
+      <article class="book-card domain-science" data-domain="Technology, AI & Media Ecology">
+        <div class="book-header">
+          <span class="card-topic-tag tag-science">Technology &amp; Media</span>
+          <span class="book-era">1964</span>
+        </div>
+        <h2 class="book-title">Understanding Media</h2>
+        <div class="book-author">Marshall McLuhan</div>
+        <blockquote class="book-quote">"The medium is the message."</blockquote>
+        <div class="book-insight">
+          The personal and social consequences of any medium result from the new scale that is introduced into our affairs by each extension of ourselves. Tools do not automatically create progress.
+        </div>
+        <div class="connected-lenses-wrap">
+          <span class="connected-label">Anchors 3 Lenses:</span>
+          <div class="lens-pill-cloud">
+            <a class="lens-pill" href="lessons/003-media-literacy-follow-the-source.html">003. Media Literacy</a>
+            <a class="lens-pill" href="lessons/047-why-technology-does-not-automatically-create-progress.html">047. Technology &amp; Progress</a>
+            <a class="lens-pill" href="lessons/051-the-commons-of-knowledge-why-open-knowledge-matters.html">051. Commons of Knowledge</a>
+          </div>
+        </div>
+      </article>
+
+    </div>
+  </main>
+
+  <!-- Site Footer -->
+  <footer class="site-footer">
+    © Dr. Aniket Pingley · The 123 Lenses Foundational Canon · Shared for public learning.
+  </footer>
+
+  <script>
+    // Bookshelf Search & Filter Script
+    const searchInput = document.getElementById('bookshelf-search');
+    const chips = document.querySelectorAll('.chip');
+    const bookCards = document.querySelectorAll('.book-card');
+    const bookTotal = document.getElementById('book-total');
+    let activeTopic = 'All';
+
+    function filterBooks() {
+      const query = searchInput.value.toLowerCase().trim();
+      let visibleCount = 0;
+
+      bookCards.forEach(card => {
+        const domain = card.getAttribute('data-domain');
+        const text = card.innerText.toLowerCase();
+        const matchesTopic = (activeTopic === 'All' || domain === activeTopic);
+        const matchesQuery = (!query || text.includes(query));
+
+        if (matchesTopic && matchesQuery) {
+          card.style.display = 'flex';
+          visibleCount++;
+        } else {
+          card.style.display = 'none';
+        }
+      });
+
+      if (bookTotal) {
+        bookTotal.innerText = visibleCount;
+      }
+    }
+
+    chips.forEach(chip => {
+      chip.addEventListener('click', () => {
+        chips.forEach(c => {
+          c.classList.remove('active');
+          c.setAttribute('aria-checked', 'false');
+        });
+        chip.classList.add('active');
+        chip.setAttribute('aria-checked', 'true');
+        activeTopic = chip.getAttribute('data-topic');
+        filterBooks();
+      });
+    });
+
+    searchInput.addEventListener('input', filterBooks);
+
+    // Keyboard shortcut '/' to search
+    window.addEventListener('keydown', e => {
+      if (e.key === '/' && document.activeElement !== searchInput) {
+        e.preventDefault();
+        searchInput.focus();
+      }
+    });
+  </script>
+</body>
+</html>

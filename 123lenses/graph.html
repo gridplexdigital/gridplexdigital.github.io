@@ -1,0 +1,951 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Interactive knowledge graph visualizer exploring the conceptual network, systemic feedback loops, and cross-disciplinary synergies across all 123 Lenses.">
+  <meta name="theme-color" content="#243665">
+  <title>Knowledge Graph Visualizer: 123 Cross-Disciplinary Lenses | Dr. Aniket Pingley</title>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/styles.css">
+  <link rel="canonical" href="https://gridplexdigital.github.io/123lenses/graph.html">
+  <link rel="icon" href="https://gridplexdigital.github.io/logo.png" type="image/png">
+  <link rel="apple-touch-icon" href="https://gridplexdigital.github.io/logo.png">
+  
+  <!-- Open Graph -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://gridplexdigital.github.io/123lenses/graph.html">
+  <meta property="og:title" content="Interactive Knowledge Graph: 123 Cross-Disciplinary Lenses">
+  <meta property="og:description" content="Explore the interconnected conceptual network and systemic relationships between Hindu philosophy, game theory, systems thinking, and decision science.">
+  <meta property="og:image" content="https://gridplexdigital.github.io/logo.png">
+  <meta property="og:site_name" content="123 Lenses">
+
+  <style>
+    /* Full-height App Layout for Graph Visualizer */
+    html, body {
+      height: 100%;
+      margin: 0;
+      overflow: hidden;
+      background-color: var(--navy-deep);
+    }
+    .graph-page-wrap {
+      display: flex;
+      flex-direction: column;
+      height: 100vh;
+      width: 100vw;
+      position: relative;
+    }
+    .graph-controls-bar {
+      background: rgba(27, 42, 80, 0.98);
+      border-bottom: 1px solid var(--navy-border);
+      padding: 10px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+      flex-wrap: wrap;
+      z-index: 50;
+      flex-shrink: 0;
+    }
+    .graph-search-box {
+      position: relative;
+      width: 280px;
+      display: flex;
+      align-items: center;
+    }
+    .graph-search-box input {
+      width: 100%;
+      height: 38px;
+      padding-left: 36px;
+      padding-right: 14px;
+      background: var(--navy);
+      border: 1px solid var(--navy-border);
+      border-radius: 8px;
+      color: var(--white);
+      font-family: var(--font-body);
+      font-size: 0.88rem;
+      outline: none;
+      transition: all 0.15s;
+    }
+    .graph-search-box input:focus {
+      border-color: var(--mint);
+      box-shadow: 0 0 0 2px var(--mint-faint);
+    }
+    .graph-search-icon {
+      position: absolute;
+      left: 12px;
+      color: var(--mint);
+      display: flex;
+      pointer-events: none;
+    }
+    .graph-btn-group {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .graph-btn {
+      background: var(--navy-surface);
+      border: 1px solid var(--navy-border);
+      color: var(--white-soft);
+      padding: 7px 12px;
+      border-radius: 6px;
+      font-family: var(--font-mono);
+      font-size: 0.82rem;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.15s;
+    }
+    .graph-btn:hover {
+      background: var(--navy-hover);
+      border-color: var(--mint);
+      color: var(--white);
+    }
+
+    /* Canvas Container */
+    .canvas-container {
+      flex: 1;
+      width: 100%;
+      height: 100%;
+      position: relative;
+      cursor: grab;
+      overflow: hidden;
+      background: radial-gradient(circle at center, #243665 0%, #152243 100%);
+    }
+    .canvas-container:active {
+      cursor: grabbing;
+    }
+    #graph-canvas {
+      display: block;
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+    }
+
+    /* Floating Domain Filter Pill Bar */
+    .domain-floating-bar {
+      position: absolute;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 14px;
+      background: rgba(27, 42, 80, 0.92);
+      backdrop-filter: blur(12px);
+      border: 1px solid var(--navy-border);
+      border-radius: 99px;
+      max-width: 90vw;
+      overflow-x: auto;
+      z-index: 40;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.4);
+    }
+    .domain-pill {
+      background: transparent;
+      border: 1px solid transparent;
+      color: var(--white-soft);
+      font-size: 0.74rem;
+      font-family: var(--font-body);
+      font-weight: 600;
+      padding: 5px 12px;
+      border-radius: 99px;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: all 0.15s;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .domain-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+    }
+    .domain-pill:hover {
+      background: var(--navy-surface);
+      color: var(--white);
+    }
+    .domain-pill.active {
+      background: var(--navy);
+      border-color: var(--mint);
+      color: var(--white);
+    }
+
+    /* Side Detail Inspector Panel */
+    .graph-inspector {
+      position: absolute;
+      top: 60px;
+      right: -420px;
+      width: 390px;
+      max-width: 90vw;
+      height: calc(100vh - 80px);
+      background: rgba(27, 42, 80, 0.96);
+      backdrop-filter: blur(16px);
+      border: 1px solid var(--navy-border);
+      border-radius: 14px;
+      padding: 24px;
+      box-shadow: -10px 0 35px rgba(0,0,0,0.5);
+      transition: right 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+      z-index: 60;
+      display: flex;
+      flex-direction: column;
+      overflow-y: auto;
+    }
+    .graph-inspector.open {
+      right: 20px;
+    }
+    .inspector-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 14px;
+    }
+    .inspector-close-btn {
+      background: transparent;
+      border: none;
+      color: var(--white-muted);
+      cursor: pointer;
+      font-size: 1.2rem;
+      padding: 4px 8px;
+      border-radius: 6px;
+    }
+    .inspector-close-btn:hover {
+      color: var(--white);
+      background: var(--navy-surface);
+    }
+    .inspector-topic-tag {
+      font-size: 0.72rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      padding: 4px 10px;
+      border-radius: 99px;
+    }
+    .inspector-title {
+      font-family: var(--font-display);
+      font-size: 1.3rem;
+      line-height: 1.25;
+      color: var(--white);
+      margin: 8px 0 8px;
+    }
+    .inspector-meta {
+      font-family: var(--font-mono);
+      font-size: 0.78rem;
+      color: var(--mint);
+      margin-bottom: 16px;
+    }
+    .inspector-summary {
+      color: var(--white-soft);
+      font-size: 0.92rem;
+      line-height: 1.65;
+      margin: 0 0 24px;
+      padding: 14px;
+      background: rgba(0, 0, 0, 0.25);
+      border-radius: 8px;
+      border-left: 3px solid var(--mint);
+    }
+    .inspector-actions {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 24px;
+    }
+    .inspector-btn {
+      flex: 1;
+      padding: 9px 12px;
+      border-radius: 8px;
+      font-size: 0.82rem;
+      font-weight: 600;
+      text-align: center;
+      text-decoration: none;
+      transition: all 0.15s;
+    }
+    .inspector-btn-primary {
+      background: var(--mint);
+      color: var(--navy-deep);
+      font-weight: 700;
+    }
+    .inspector-btn-primary:hover {
+      background: var(--white);
+    }
+    .inspector-btn-secondary {
+      background: var(--navy-surface);
+      border: 1px solid var(--navy-border);
+      color: var(--white);
+    }
+    .inspector-btn-secondary:hover {
+      border-color: var(--mint);
+      color: var(--mint);
+    }
+    .inspector-section-label {
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      color: var(--white-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-bottom: 10px;
+      display: block;
+    }
+    .inspector-connections {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .connection-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 8px 12px;
+      background: var(--navy-surface);
+      border: 1px solid var(--navy-border);
+      border-radius: 6px;
+      color: var(--white-soft);
+      text-decoration: none;
+      font-size: 0.84rem;
+      transition: all 0.15s;
+      cursor: pointer;
+    }
+    .connection-item:hover {
+      border-color: var(--mint);
+      color: var(--mint);
+      background: var(--navy-hover);
+    }
+
+    /* Floating Legend Overlay */
+    .graph-legend-box {
+      position: absolute;
+      top: 20px;
+      left: 20px;
+      background: rgba(27, 42, 80, 0.88);
+      backdrop-filter: blur(10px);
+      border: 1px solid var(--navy-border);
+      border-radius: 8px;
+      padding: 10px 14px;
+      font-size: 0.76rem;
+      color: var(--white-muted);
+      z-index: 40;
+      pointer-events: none;
+    }
+    .legend-row {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      margin-bottom: 4px;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="graph-page-wrap">
+    
+    <!-- Top Site Navigation -->
+    <header class="site-header" style="position:relative;flex-shrink:0;">
+      <a class="brand" href="index.html">123 <span>Lenses</span></a>
+      <div class="header-right">
+        <a class="header-link" href="index.html">All 123 Lenses</a>
+        <a class="header-link" href="graph.html" style="border-color:var(--slate);color:var(--slate);">Knowledge Graph ✦</a>
+        <a class="header-link" href="bookshelf.html" style="color:var(--mint);">The Bookshelf</a>
+        <a class="header-link" href="orakl.html" style="color:var(--clay);">Orakl AI ↗</a>
+      </div>
+    </header>
+
+    <!-- Graph Interaction Toolbar -->
+    <div class="graph-controls-bar">
+      <div class="graph-search-box">
+        <span class="graph-search-icon">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+        </span>
+        <input type="search" id="graph-search-input" placeholder="Search 123 lenses or models..." autocomplete="off">
+      </div>
+
+      <div class="graph-btn-group">
+        <button class="graph-btn" id="btn-zoom-in" title="Zoom in">+</button>
+        <button class="graph-btn" id="btn-zoom-out" title="Zoom out">-</button>
+        <button class="graph-btn" id="btn-reset-view" title="Reset Camera">⟲ Reset</button>
+        <button class="graph-btn" id="btn-toggle-relax" title="Re-settle Simulation">⚡ Re-center</button>
+      </div>
+    </div>
+
+    <!-- Graph Canvas Viewport -->
+    <div class="canvas-container" id="canvas-container">
+      <canvas id="graph-canvas"></canvas>
+
+      <!-- Floating Legend Overlay -->
+      <div class="graph-legend-box">
+        <div class="legend-row"><span>●</span> Large Nodes: Keystone Mental Models</div>
+        <div class="legend-row"><span>—</span> Lines: Semantic Cross-Disciplinary Synergies</div>
+        <div style="margin-top:4px;color:var(--mint);">✦ Drag node to move · Wheel to zoom · Click to inspect</div>
+      </div>
+
+      <!-- Floating Domain Filter Bar -->
+      <div class="domain-floating-bar" id="domain-bar">
+        <button class="domain-pill active" data-domain="All">
+          <span class="domain-dot" style="background:#ffffff;"></span> All 123 Lenses
+        </button>
+        <button class="domain-pill" data-domain="Hindu Philosophy & Classical Strategy">
+          <span class="domain-dot" style="background:#e5c17b;"></span> Hindu Philosophy
+        </button>
+        <button class="domain-pill" data-domain="Systems Thinking & Complexity">
+          <span class="domain-dot" style="background:#5cc5ce;"></span> Systems Thinking
+        </button>
+        <button class="domain-pill" data-domain="Decision Science & Cognitive Biases">
+          <span class="domain-dot" style="background:#8bd8bd;"></span> Decision Science
+        </button>
+        <button class="domain-pill" data-domain="Social Psychology & Human Nature">
+          <span class="domain-dot" style="background:#72cfaf;"></span> Social Psychology
+        </button>
+        <button class="domain-pill" data-domain="Game Theory & Cooperation">
+          <span class="domain-dot" style="background:#7cc9e2;"></span> Game Theory
+        </button>
+        <button class="domain-pill" data-domain="Economics, Markets & Incentives">
+          <span class="domain-dot" style="background:#60b0f4;"></span> Economics
+        </button>
+        <button class="domain-pill" data-domain="Scientific Reasoning & Epistemology">
+          <span class="domain-dot" style="background:#b2a1e8;"></span> Epistemology
+        </button>
+        <button class="domain-pill" data-domain="Philosophy, Ethics & Mind">
+          <span class="domain-dot" style="background:#cf9ee6;"></span> Philosophy &amp; Mind
+        </button>
+        <button class="domain-pill" data-domain="Institutions, History & Anthropology">
+          <span class="domain-dot" style="background:#e89282;"></span> Institutions
+        </button>
+        <button class="domain-pill" data-domain="Technology, AI & Media Ecology">
+          <span class="domain-dot" style="background:#a38bf5;"></span> Technology &amp; AI
+        </button>
+      </div>
+
+      <!-- Slide-Out Inspector Drawer -->
+      <aside class="graph-inspector" id="graph-inspector">
+        <div class="inspector-header">
+          <span class="inspector-topic-tag" id="inspect-topic-tag">Domain</span>
+          <button class="inspector-close-btn" id="inspect-close-btn" aria-label="Close details">✕</button>
+        </div>
+        <h2 class="inspector-title" id="inspect-title">Lens Title</h2>
+        <div class="inspector-meta" id="inspect-meta">12 min read · 2,400 words</div>
+        <div class="inspector-summary" id="inspect-summary">Summary text goes here.</div>
+        
+        <div class="inspector-actions">
+          <a class="inspector-btn inspector-btn-secondary" id="inspect-field-btn" href="#">2-Min Field Note</a>
+          <a class="inspector-btn inspector-btn-primary" id="inspect-deep-btn" href="#">12-Min Deep Read →</a>
+        </div>
+
+        <span class="inspector-section-label">Cross-Disciplinary Connections:</span>
+        <div class="inspector-connections" id="inspect-connections">
+          <!-- Dynamic connection pills injected here -->
+        </div>
+      </aside>
+
+    </div>
+
+  </div>
+
+  <!-- Graph Data Specification -->
+  <script src="assets/graph-data.js"></script>
+
+  <!-- High-Performance Stable Graph Engine -->
+  <script>
+    (function() {
+      const canvas = document.getElementById('graph-canvas');
+      const ctx = canvas.getContext('2d');
+      const container = document.getElementById('canvas-container');
+      const inspector = document.getElementById('graph-inspector');
+      const searchInput = document.getElementById('graph-search-input');
+      const domainButtons = document.querySelectorAll('.domain-pill');
+
+      // Inspector Elements
+      const inspectTag = document.getElementById('inspect-topic-tag');
+      const inspectTitle = document.getElementById('inspect-title');
+      const inspectMeta = document.getElementById('inspect-meta');
+      const inspectSummary = document.getElementById('inspect-summary');
+      const inspectFieldBtn = document.getElementById('inspect-field-btn');
+      const inspectDeepBtn = document.getElementById('inspect-deep-btn');
+      const inspectConnections = document.getElementById('inspect-connections');
+      const inspectCloseBtn = document.getElementById('inspect-close-btn');
+
+      // Viewport State
+      let width = window.innerWidth;
+      let height = window.innerHeight;
+      let transform = { x: width / 2, y: height / 2, k: 0.9 };
+      let isDraggingCanvas = false;
+      let dragStart = { x: 0, y: 0 };
+      let draggedNode = null;
+      let hoveredNode = null;
+      let selectedNode = null;
+      let activeFilterDomain = 'All';
+      let searchQuery = '';
+
+      // High-DPI canvas handling
+      function resize() {
+        const rect = container.getBoundingClientRect();
+        width = rect.width || window.innerWidth;
+        height = rect.height || (window.innerHeight - 100);
+        const dpr = window.devicePixelRatio || 1;
+        canvas.width = Math.floor(width * dpr);
+        canvas.height = Math.floor(height * dpr);
+        canvas.style.width = width + 'px';
+        canvas.style.height = height + 'px';
+      }
+      window.addEventListener('resize', () => {
+        resize();
+        draw();
+      });
+      resize();
+
+      // Set initial transform centered with proper scale
+      function resetCamera() {
+        const scale = Math.min(width, height) / 780;
+        transform = {
+          x: width / 2,
+          y: height / 2,
+          k: Math.max(Math.min(scale, 1.2), 0.75)
+        };
+      }
+      resetCamera();
+
+      // Domain Sector Angles for Clean Clustering
+      const DOMAINS_LIST = [
+        "Hindu Philosophy & Classical Strategy",
+        "Systems Thinking & Complexity",
+        "Decision Science & Cognitive Biases",
+        "Social Psychology & Human Nature",
+        "Game Theory & Cooperation",
+        "Economics, Markets & Incentives",
+        "Scientific Reasoning & Epistemology",
+        "Philosophy, Ethics & Mind",
+        "Institutions, History & Anthropology",
+        "Technology, AI & Media Ecology"
+      ];
+
+      const clusterAngles = {};
+      DOMAINS_LIST.forEach((d, i) => {
+        clusterAngles[d] = (i / DOMAINS_LIST.length) * Math.PI * 2;
+      });
+
+      // Group nodes by domain to lay them out in clean initial arcs
+      const domainGroups = {};
+      GRAPH_DATA.nodes.forEach(n => {
+        if (!domainGroups[n.topic]) domainGroups[n.topic] = [];
+        domainGroups[n.topic].push(n);
+      });
+
+      // Pre-position nodes organically within their domain sectors
+      const nodeMap = new Map();
+      const nodes = [];
+
+      Object.entries(domainGroups).forEach(([topic, group]) => {
+        const baseAngle = clusterAngles[topic] || 0;
+        const count = group.length;
+        group.forEach((rawNode, idx) => {
+          const offsetAngle = baseAngle + ((idx - count / 2) / count) * 0.42;
+          const dist = 210 + (idx % 3) * 45;
+          const node = {
+            ...rawNode,
+            x: Math.cos(offsetAngle) * dist,
+            y: Math.sin(offsetAngle) * dist,
+            vx: 0,
+            vy: 0,
+            targetX: Math.cos(baseAngle) * 240,
+            targetY: Math.sin(baseAngle) * 240
+          };
+          nodeMap.set(node.id, node);
+          nodes.push(node);
+        });
+      });
+
+      // Prepare Edges
+      const edges = GRAPH_DATA.edges.map(e => ({
+        source: nodeMap.get(e.source),
+        target: nodeMap.get(e.target),
+        type: e.type,
+        strength: e.strength
+      })).filter(e => e.source && e.target);
+
+      // Adjacency map
+      const adj = new Map();
+      nodes.forEach(n => adj.set(n.id, new Set()));
+      edges.forEach(e => {
+        adj.get(e.source.id).add(e.target.id);
+        adj.get(e.target.id).add(e.source.id);
+      });
+
+      // Stable, Damped Physics Simulation
+      let alpha = 1.0;
+      let isSimulating = true;
+
+      function tickPhysics() {
+        if (!isSimulating) return;
+
+        alpha *= 0.975;
+        if (alpha < 0.005) {
+          isSimulating = false;
+          alpha = 0;
+          return;
+        }
+
+        // 1. Cluster & Center Gravity
+        for (let i = 0; i < nodes.length; i++) {
+          const n = nodes[i];
+          if (n === draggedNode) continue;
+          n.vx += (n.targetX - n.x) * 0.015 * alpha;
+          n.vy += (n.targetY - n.y) * 0.015 * alpha;
+          n.vx -= n.x * 0.003 * alpha;
+          n.vy -= n.y * 0.003 * alpha;
+        }
+
+        // 2. Soft, Bounded Repulsion
+        for (let i = 0; i < nodes.length; i++) {
+          const n1 = nodes[i];
+          for (let j = i + 1; j < nodes.length; j++) {
+            const n2 = nodes[j];
+            const dx = n2.x - n1.x;
+            const dy = n2.y - n1.y;
+            const distSq = dx * dx + dy * dy + 150; // smooth softening
+            const dist = Math.sqrt(distSq);
+            if (dist < 160) {
+              const force = Math.min(450 / distSq, 2.2) * alpha;
+              const fx = (dx / dist) * force;
+              const fy = (dy / dist) * force;
+              if (n1 !== draggedNode) { n1.vx -= fx; n1.vy -= fy; }
+              if (n2 !== draggedNode) { n2.vx += fx; n2.vy += fy; }
+            }
+          }
+        }
+
+        // 3. Spring Link Attraction
+        for (let i = 0; i < edges.length; i++) {
+          const e = edges[i];
+          const n1 = e.source;
+          const n2 = e.target;
+          const dx = n2.x - n1.x;
+          const dy = n2.y - n1.y;
+          const dist = Math.sqrt(dx * dx + dy * dy) || 1;
+          const ideal = e.type === 'cross' ? 110 : 45;
+          const force = (dist - ideal) * 0.025 * e.strength * alpha;
+          const fx = (dx / dist) * force;
+          const fy = (dy / dist) * force;
+
+          if (n1 !== draggedNode) { n1.vx += fx; n1.vy += fy; }
+          if (n2 !== draggedNode) { n2.vx -= fx; n2.vy -= fy; }
+        }
+
+        // 4. Clamping & Integration
+        const maxSpeed = 3.5;
+        const damping = 0.82;
+
+        for (let i = 0; i < nodes.length; i++) {
+          const n = nodes[i];
+          if (n === draggedNode) continue;
+
+          const speed = Math.hypot(n.vx, n.vy);
+          if (speed > maxSpeed) {
+            n.vx = (n.vx / speed) * maxSpeed;
+            n.vy = (n.vy / speed) * maxSpeed;
+          }
+
+          n.vx *= damping;
+          n.vy *= damping;
+          n.x += n.vx;
+          n.y += n.vy;
+
+          // Boundary constraint: keep nodes strictly within radius 420
+          const distCenter = Math.hypot(n.x, n.y);
+          if (distCenter > 400) {
+            n.x = (n.x / distCenter) * 400;
+            n.vx *= -0.2;
+            n.vy *= -0.2;
+          }
+        }
+      }
+
+      function wakeSimulation() {
+        alpha = 0.7;
+        isSimulating = true;
+      }
+
+      function nodeMatches(n) {
+        const matchesDomain = (activeFilterDomain === 'All' || n.topic === activeFilterDomain);
+        const matchesQuery = (!searchQuery || n.title.toLowerCase().includes(searchQuery) || n.label.toLowerCase().includes(searchQuery));
+        return matchesDomain && matchesQuery;
+      }
+
+      // Main Draw Method (Guaranteed Rendering)
+      function draw() {
+        const dpr = window.devicePixelRatio || 1;
+        ctx.save();
+        ctx.setTransform(1, 0, 0, 1, 0, 0);
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        ctx.scale(dpr, dpr);
+
+        ctx.translate(transform.x, transform.y);
+        ctx.scale(transform.k, transform.k);
+
+        const isFiltered = (activeFilterDomain !== 'All') || (searchQuery.length > 0);
+        const focusedNode = hoveredNode || selectedNode;
+
+        // Draw Connecting Edges
+        for (let i = 0; i < edges.length; i++) {
+          const e = edges[i];
+          const isConnectedToFocus = focusedNode && (e.source.id === focusedNode.id || e.target.id === focusedNode.id);
+
+          let strokeAlpha = 0.14;
+          let lineWidth = 1.0;
+
+          if (focusedNode) {
+            strokeAlpha = isConnectedToFocus ? 0.85 : 0.03;
+            lineWidth = isConnectedToFocus ? 2.2 : 0.8;
+          } else if (isFiltered) {
+            const sMatch = nodeMatches(e.source);
+            const tMatch = nodeMatches(e.target);
+            strokeAlpha = (sMatch && tMatch) ? 0.35 : 0.03;
+          }
+
+          ctx.beginPath();
+          ctx.moveTo(e.source.x, e.source.y);
+          ctx.lineTo(e.target.x, e.target.y);
+          ctx.strokeStyle = isConnectedToFocus ? (focusedNode.color || '#8bd8bd') : `rgba(255, 255, 255, ${strokeAlpha})`;
+          ctx.lineWidth = lineWidth;
+          ctx.stroke();
+        }
+
+        // Draw Nodes
+        for (let i = 0; i < nodes.length; i++) {
+          const n = nodes[i];
+          const isMatch = nodeMatches(n);
+          const isSelected = selectedNode && selectedNode.id === n.id;
+          const isHovered = hoveredNode && hoveredNode.id === n.id;
+          const isConnected = focusedNode && adj.get(focusedNode.id).has(n.id);
+
+          let nodeAlpha = 1.0;
+          if (focusedNode) {
+            nodeAlpha = (isSelected || isHovered || isConnected) ? 1.0 : 0.15;
+          } else if (isFiltered) {
+            nodeAlpha = isMatch ? 1.0 : 0.18;
+          }
+
+          const r = n.radius * (isHovered || isSelected ? 1.4 : 1.0);
+
+          // Glow Halo for active/hovered node
+          if (isSelected || isHovered) {
+            ctx.beginPath();
+            ctx.arc(n.x, n.y, r + 7, 0, Math.PI * 2);
+            ctx.fillStyle = n.color + '40';
+            ctx.fill();
+          }
+
+          // Node Circle
+          ctx.beginPath();
+          ctx.arc(n.x, n.y, r, 0, Math.PI * 2);
+          ctx.fillStyle = n.color;
+          ctx.globalAlpha = nodeAlpha;
+          ctx.fill();
+
+          // Border for Keystone nodes
+          if (n.isKeystone) {
+            ctx.strokeStyle = '#ffffff';
+            ctx.lineWidth = 1.8;
+            ctx.stroke();
+          }
+          ctx.globalAlpha = 1.0;
+
+          // Node Text Labels
+          const showLabel = isHovered || isSelected || isConnected || (transform.k > 1.1 && isMatch) || (n.isKeystone && transform.k > 0.65);
+          if (showLabel && nodeAlpha > 0.3) {
+            ctx.font = (isHovered || isSelected ? 'bold 12px' : '10px') + ' "IBM Plex Sans", sans-serif';
+            ctx.fillStyle = isHovered || isSelected ? '#ffffff' : 'rgba(255, 255, 255, 0.85)';
+            ctx.textAlign = 'center';
+            ctx.fillText(n.label, n.x, n.y + r + 13);
+          }
+        }
+
+        ctx.restore();
+      }
+
+      // Animation Loop (Runs 60fps, ticks physics when active, always draws)
+      function loop() {
+        if (isSimulating) {
+          tickPhysics();
+        }
+        draw();
+        requestAnimationFrame(loop);
+      }
+      requestAnimationFrame(loop);
+
+      // Coordinate Transform Helpers
+      function screenToWorld(sx, sy) {
+        return {
+          x: (sx - transform.x) / transform.k,
+          y: (sy - transform.y) / transform.k
+        };
+      }
+
+      function getNodeAt(sx, sy) {
+        const pos = screenToWorld(sx, sy);
+        for (let i = nodes.length - 1; i >= 0; i--) {
+          const n = nodes[i];
+          const dx = n.x - pos.x;
+          const dy = n.y - pos.y;
+          const hitRadius = (n.radius + 6);
+          if (dx * dx + dy * dy <= hitRadius * hitRadius) {
+            return n;
+          }
+        }
+        return null;
+      }
+
+      // Mouse & Touch Interaction
+      canvas.addEventListener('mousedown', e => {
+        const rect = canvas.getBoundingClientRect();
+        const sx = e.clientX - rect.left;
+        const sy = e.clientY - rect.top;
+        const clickedNode = getNodeAt(sx, sy);
+
+        if (clickedNode) {
+          draggedNode = clickedNode;
+          selectedNode = clickedNode;
+          openInspector(clickedNode);
+          wakeSimulation();
+        } else {
+          isDraggingCanvas = true;
+          dragStart = { x: e.clientX - transform.x, y: e.clientY - transform.y };
+        }
+      });
+
+      window.addEventListener('mousemove', e => {
+        const rect = canvas.getBoundingClientRect();
+        const sx = e.clientX - rect.left;
+        const sy = e.clientY - rect.top;
+
+        if (draggedNode) {
+          const pos = screenToWorld(sx, sy);
+          draggedNode.x = pos.x;
+          draggedNode.y = pos.y;
+          draggedNode.vx = 0;
+          draggedNode.vy = 0;
+          wakeSimulation();
+        } else if (isDraggingCanvas) {
+          transform.x = e.clientX - dragStart.x;
+          transform.y = e.clientY - dragStart.y;
+        } else {
+          const node = getNodeAt(sx, sy);
+          if (node !== hoveredNode) {
+            hoveredNode = node;
+            canvas.style.cursor = node ? 'pointer' : 'grab';
+          }
+        }
+      });
+
+      window.addEventListener('mouseup', () => {
+        draggedNode = null;
+        isDraggingCanvas = false;
+      });
+
+      // Mouse Wheel Zoom
+      canvas.addEventListener('wheel', e => {
+        e.preventDefault();
+        const rect = canvas.getBoundingClientRect();
+        const sx = e.clientX - rect.left;
+        const sy = e.clientY - rect.top;
+
+        const zoomFactor = e.deltaY < 0 ? 1.15 : 0.87;
+        const newK = Math.min(Math.max(transform.k * zoomFactor, 0.3), 3.5);
+
+        // Zoom centered on cursor
+        transform.x = sx - (sx - transform.x) * (newK / transform.k);
+        transform.y = sy - (sy - transform.y) * (newK / transform.k);
+        transform.k = newK;
+      }, { passive: false });
+
+      // Inspector Details Panel
+      function openInspector(node) {
+        inspectTag.innerText = node.topic;
+        inspectTag.style.background = node.color + '26';
+        inspectTag.style.color = node.color;
+        inspectTag.style.border = '1px solid ' + node.color + '60';
+
+        inspectTitle.innerText = node.title;
+        inspectMeta.innerText = `${node.deepMins} min deep read · ${node.deepWords.toLocaleString()} words`;
+        inspectSummary.innerText = node.summary;
+        inspectFieldBtn.href = node.url;
+        inspectDeepBtn.href = node.deepUrl;
+
+        // Render Connections
+        inspectConnections.innerHTML = '';
+        const neighborIds = adj.get(node.id) || new Set();
+        neighborIds.forEach(id => {
+          const neighbor = nodeMap.get(id);
+          if (!neighbor) return;
+
+          const item = document.createElement('div');
+          item.className = 'connection-item';
+          item.innerHTML = `
+            <span><strong>#${neighbor.id < 10 ? '00' : (neighbor.id < 100 ? '0' : '')}${neighbor.id}</strong> ${neighbor.title.split(':')[0]}</span>
+            <span style="font-size:0.7rem;color:${neighbor.color};">●</span>
+          `;
+          item.addEventListener('click', () => {
+            selectedNode = neighbor;
+            openInspector(neighbor);
+            panToNode(neighbor);
+          });
+          inspectConnections.appendChild(item);
+        });
+
+        inspector.classList.add('open');
+      }
+
+      function panToNode(node) {
+        transform.x = width / 2 - node.x * transform.k;
+        transform.y = height / 2 - node.y * transform.k;
+        wakeSimulation();
+      }
+
+      inspectCloseBtn.addEventListener('click', () => {
+        inspector.classList.remove('open');
+        selectedNode = null;
+      });
+
+      // Search & Filters
+      searchInput.addEventListener('input', e => {
+        searchQuery = e.target.value.toLowerCase().trim();
+        if (searchQuery) {
+          const match = nodes.find(n => n.title.toLowerCase().includes(searchQuery));
+          if (match) panToNode(match);
+        }
+      });
+
+      domainButtons.forEach(btn => {
+        btn.addEventListener('click', () => {
+          domainButtons.forEach(b => b.classList.remove('active'));
+          btn.classList.add('active');
+          activeFilterDomain = btn.getAttribute('data-domain');
+        });
+      });
+
+      // Control Buttons
+      document.getElementById('btn-zoom-in').addEventListener('click', () => {
+        transform.k = Math.min(transform.k * 1.25, 3.5);
+      });
+      document.getElementById('btn-zoom-out').addEventListener('click', () => {
+        transform.k = Math.max(transform.k * 0.8, 0.3);
+      });
+      document.getElementById('btn-reset-view').addEventListener('click', () => {
+        resetCamera();
+        selectedNode = null;
+        inspector.classList.remove('open');
+        wakeSimulation();
+      });
+      document.getElementById('btn-toggle-relax').addEventListener('click', () => {
+        wakeSimulation();
+      });
+
+      // Initial kickoff
+      wakeSimulation();
+    })();
+  </script>
+</body>
+</html>
